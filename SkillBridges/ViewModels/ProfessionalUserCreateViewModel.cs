@@ -1,0 +1,23 @@
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SkillBridges.Models;
+
+namespace SkillBridges.ViewModels
+{
+    public enum UserRole
+    {
+        Client = 1,
+        Professional = 2,
+        Admin = 3
+    }
+    public class ProfessionalUserCreateViewModel
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string PasswordHash { get; set; }
+        public string PhoneNumber { get; set; }
+        public UserRole Role { get; set; }
+        [BindNever]
+        public IEnumerable<SelectListItem>? Roles { get; set; } = new List<SelectListItem>();
+    }
+}
