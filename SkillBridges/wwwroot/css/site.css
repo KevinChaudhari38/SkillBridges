@@ -16,6 +16,9 @@ html {
   position: relative;
   min-height: 100%;
 }
+dd {
+    margin-left: 1px;
+}
 
 body {
   margin-bottom: 60px;

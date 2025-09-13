@@ -1,16 +1,32 @@
-﻿namespace SkillBridges.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SkillBridges.Models
 {
     public class ProfessionalProfile
     {
-        public int ProfessionalProfileId { get; set; }
-        public string Bio {  get; set; }
-        public string Location {  get; set; }
-        public string Languages {  get; set; }
-        public bool IsAvailable {  get; set; }
-        public int UserId {  get; set; }
+        [Key]
+        public string ProfessionalProfileId { get; set; }
+
+        [Required(ErrorMessage = "Bio is required")]
+        public string Bio { get; set; }
+
+        [Required(ErrorMessage = "Location is required")]
+        public string Location { get; set; }
+
+        [Required(ErrorMessage = "Languages are required")]
+        public string Languages { get; set; }
+
+        public bool IsAvailable { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+
         public User User { get; set; }
+
+        
+
         //public ICollection<ProfessionalSkill> Skills { get; set; }
         //public ICollection<TaskApplication> TaskApplications { get; set; }
-       // public ICollection<Task> Tasks { get; set; }
+        // public ICollection<Task> Tasks { get; set; }
     }
 }

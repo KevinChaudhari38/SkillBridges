@@ -4,7 +4,8 @@ namespace SkillBridges.Models
 {
     public interface IClientRepository
     {
-        ClientProfile GetById(int id);
+        ClientProfile GetById(String id);
+        ClientProfile GetByUserId(String userId);
         List<ClientProfile> GetAll();
         void insert(ClientProfile clientProfile);
         void update(ClientProfile clientProfile);

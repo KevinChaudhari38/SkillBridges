@@ -12,6 +12,8 @@ namespace SkillBridges.Data
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ClientProfile>().HasOne(c => c.User).WithOne(u => u.ClientProfile).HasForeignKey<ClientProfile>(c => c.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ProfessionalProfile>().HasOne(c => c.User).WithOne(u => u.ProfessionalProfile).HasForeignKey<ProfessionalProfile>(c => c.UserId).OnDelete(DeleteBehavior.Cascade);
         }
 
     }

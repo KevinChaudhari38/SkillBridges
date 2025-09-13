@@ -1,12 +1,25 @@
-﻿namespace SkillBridges.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SkillBridges.Models
 {
     public class ClientProfile
     {
-        public int ClientProfileId {  get; set; }
-        public String OrganizationName {  get; set; }
-        public string Address {  get; set; }
-        public int UserId { get; set; }
+        [Key]
+        public string ClientProfileId { get; set; }
+
+        [Required(ErrorMessage = "Organization Name is required")]
+        public string OrganizationName { get; set; }
+
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
+
         public User User { get; set; }
-      //  public ICollection<Task> Tasks { get; set; }
+
+    
+
+        // public ICollection<Task> Tasks { get; set; }
     }
 }

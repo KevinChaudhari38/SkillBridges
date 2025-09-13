@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using SkillBridges.Data;
 
 namespace SkillBridges.Models
@@ -12,14 +14,25 @@ namespace SkillBridges.Models
             _context = context;
         }
 
-        public User GetById(int id)
+        public User GetById(String id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.ClientProfile).Include(p => p.ProfessionalProfile).FirstOrDefault(u => u.Id == id);
         }
 
         public void insert(User user)
         {
+            user.Id = Guid.NewGuid().ToString();
             _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+        public void update(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+        public void delete(User user)
+        {
+            _context.Users.Remove(user);
             _context.SaveChanges();
         }
 

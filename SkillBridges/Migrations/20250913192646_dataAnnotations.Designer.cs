@@ -12,8 +12,8 @@ using SkillBridges.Data;
 namespace SkillBridges.Migrations
 {
     [DbContext(typeof(SkillBridgeContext))]
-    [Migration("20250907162652_init3")]
-    partial class init3
+    [Migration("20250913192646_dataAnnotations")]
+    partial class dataAnnotations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,8 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.ClientProfile", b =>
                 {
-                    b.Property<int>("ClientProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientProfileId"));
+                    b.Property<string>("ClientProfileId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -41,8 +38,9 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ClientProfileId");
 
@@ -54,11 +52,8 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.ProfessionalProfile", b =>
                 {
-                    b.Property<int>("ProfessionalProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessionalProfileId"));
+                    b.Property<string>("ProfessionalProfileId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Bio")
                         .IsRequired()
@@ -75,8 +70,9 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ProfessionalProfileId");
 
@@ -88,18 +84,15 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -117,6 +110,9 @@ namespace SkillBridges.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -145,9 +141,11 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.User", b =>
                 {
-                    b.Navigation("ClientProfile");
+                    b.Navigation("ClientProfile")
+                        .IsRequired();
 
-                    b.Navigation("ProfessionalProfile");
+                    b.Navigation("ProfessionalProfile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

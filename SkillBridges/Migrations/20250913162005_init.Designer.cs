@@ -12,8 +12,8 @@ using SkillBridges.Data;
 namespace SkillBridges.Migrations
 {
     [DbContext(typeof(SkillBridgeContext))]
-    [Migration("20250907160842_init1")]
-    partial class init1
+    [Migration("20250913162005_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,8 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.ClientProfile", b =>
                 {
-                    b.Property<int>("ClientProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientProfileId"));
+                    b.Property<string>("ClientProfileId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -41,8 +38,9 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ClientProfileId");
 
@@ -54,11 +52,8 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.ProfessionalProfile", b =>
                 {
-                    b.Property<int>("ProfessionalProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessionalProfileId"));
+                    b.Property<string>("ProfessionalProfileId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Bio")
                         .IsRequired()
@@ -75,8 +70,9 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ProfessionalProfileId");
 
@@ -88,11 +84,8 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -113,7 +106,7 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Role")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

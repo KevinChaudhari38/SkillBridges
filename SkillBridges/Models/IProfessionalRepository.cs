@@ -2,7 +2,8 @@
 {
     public interface IProfessionalRepository
     {
-        ProfessionalProfile GetById(int id);
+        ProfessionalProfile GetById(String id);
+        ProfessionalProfile GetByUserId(String userId);
         List<ProfessionalProfile> GetAll();
         void insert(ProfessionalProfile profile);
         void update(ProfessionalProfile profile);

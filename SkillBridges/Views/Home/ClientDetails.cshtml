@@ -1,0 +1,63 @@
+﻿@model SkillBridges.ViewModels.ClientDetailsViewModel
+
+@{
+    ViewData["Title"] = "ClientDetails";
+}
+
+<h1>Client Details</h1>
+
+<div>
+    <h4>Client Profile</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ClientProfileId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClientProfileId)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrganizationName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrganizationName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.User.Id">Edit</a>
+    <a asp-action="Delete" asp-route-id="@Model.User.Id">Delete</a>
+    <a asp-controller="Client" asp-action="Edit" asp-route-id="@Model.User.Id">Edit Bio</a>
+    |
+    
+</div>

@@ -20,13 +20,13 @@ namespace SkillBridges.Controllers
             var profiles=_professionalRepository.GetAll();
             return View(profiles);
         }
-        public IActionResult Details(int id)
+        public IActionResult Details(string id)
         {
             var model=_professionalRepository.GetById(id);
             return View(model);
         }
         [HttpGet]
-        public IActionResult Create(int userId)
+        public IActionResult Create(string userId)
         {
             var professionalProfile=new ProfessionalProfile { UserId=userId};
             return View(professionalProfile);
@@ -35,13 +35,31 @@ namespace SkillBridges.Controllers
         public IActionResult Create(ProfessionalProfile profile)
         {
             _professionalRepository.insert(profile);
-            return RedirectToAction("Details", new {id=profile.UserId});
+            return RedirectToAction("Details", "Home", new {id=profile.UserId});
         }
         [HttpGet]
-        public IActionResult Edit(int id) {
-            var model = _professionalRepository.GetById(id);
-            var vm=_mapper.Map<UserViewModel>(model);
-            return View(vm);
+        public IActionResult Edit(string id)
+        {
+            var user = _professionalRepository.GetByUserId(id);
+            if (user == null)
+            {
+                return RedirectToAction("Create", new { userId = id });
+            }
+            var model=_mapper.Map<ProfessionalEditViewModel>(user);
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Edit(ProfessionalEditViewModel profile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(profile);
+            }
+             var existing= _professionalRepository.GetById(profile.ProfessionalProfileId);
+            _mapper.Map(profile, existing);
+            _professionalRepository.update(existing);
+            return RedirectToAction("Home","Details",new {id=existing.UserId});
+
         }
     }
 }

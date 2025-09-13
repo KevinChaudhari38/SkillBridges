@@ -10,7 +10,7 @@ namespace SkillBridges.ViewModels
         Professional = 2,
         Admin = 3
     }
-    public class ProfessionalUserCreateViewModel
+    public class UserCreateViewModel
     {
         public string Name { get; set; }
         public string Email { get; set; }
