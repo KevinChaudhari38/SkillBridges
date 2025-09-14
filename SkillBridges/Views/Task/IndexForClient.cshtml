@@ -1,0 +1,48 @@
+﻿@model SkillBridges.ViewModels.ProfessionalTasksViewModel
+
+@{
+    ViewData["Title"] = "Tasks for Professional";
+}
+
+<h1>Tasks</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().TaskId)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().Budjet)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().CreatedAt)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().Deadline)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().ClientProfileId)</th>
+            <th>@Html.DisplayNameFor(model => model.Tasks.First().CategoryId)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tasks)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Budjet)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
+                <td>@Html.DisplayFor(modelItem => item.ClientProfileId)</td>
+                <td>@Html.DisplayFor(modelItem => item.CategoryId)</td>
+                <td>
+                    <a asp-controller="TaskApplication"
+                       asp-action="Create"
+                       asp-route-taskId="@item.TaskId"
+                       asp-route-clientId="@item.ClientProfileId"
+                       asp-route-professionalId="@Model.ProfessionalProfileId"
+                       class="btn btn-primary">
+                        Request
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

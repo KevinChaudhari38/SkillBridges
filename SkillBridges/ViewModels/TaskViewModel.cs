@@ -11,6 +11,7 @@ namespace SkillBridges.ViewModels
         public DateTime? Deadline { get; set; }
         public string ClientProfileId { get; set; }
         public string? ProfessionalProfileId { get; set; }
+        public TaskStatus Status { get; set; }
         public string CategoryId { get; set; }
     }
 }

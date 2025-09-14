@@ -37,6 +37,9 @@
                 @Html.DisplayNameFor(model => model.ProfessionalProfileId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CategoryId)
             </th>
             <th></th>
@@ -69,6 +72,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ProfessionalProfileId)
             </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Status)
+             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryId)
             </td>
@@ -76,6 +82,7 @@
                 @Html.ActionLink("Edit", "Edit", new {  id=item.TaskId }) 
                 @Html.ActionLink("Details", "Details", new { id=item.TaskId }) 
                 @Html.ActionLink("Delete", "Delete", new {id=item.TaskId})
+                <a asp-controller="TaskApplication" asp-action="ClientRequests" asp-route-taskId="@item.TaskId">View Requests</a>
             </td>
         </tr>
 }

@@ -17,6 +17,14 @@ namespace SkillBridges.Models
         public List<Task> GetByClientId(string clientId) {
             return _context.Tasks.Include(t => t.TaskApplications).Where(t => t.ClientProfileId == clientId).ToList();
         }
+        public List<Task> GetAll()
+        {
+            return _context.Tasks.ToList();
+        }
+        public List<Task> GetByCategoryId(int id)
+        {
+            return _context.Tasks.Where(t=>t.CategoryId == id).ToList();
+        }
         public void Insert(Task task)
         {
          

@@ -22,6 +22,17 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<TaskViewModel>>(model);
             return View(vm);
         }
+        public IActionResult IndexForClient(string professionalProfileId)
+        {
+            var model = _unitOfWork.Tasks.GetAll();
+            var result=_mapper.Map<List<TaskViewModel>>(model);
+            var vm = new ProfessionalTasksViewModel
+            {
+                ProfessionalProfileId = professionalProfileId,
+                Tasks = result
+            };
+            return View(vm);
+        }
         public IActionResult Details(string id)
         {
             var task = _unitOfWork.Tasks.GetById(id);

@@ -66,5 +66,6 @@
     <a asp-action="Edit" asp-route-id="@Model.User.Id">Edit</a>
     <a asp-action="Delete" asp-route-id="@Model.User.Id">Delete</a>
     <a asp-controller="Professional" asp-action="Edit" asp-route-id="@Model.User.Id">Edit Bio</a>
-    |
+    <a asp-controller="Task" asp-action="IndexForClient" asp-route-professionalProfileId="@Model.ProfessionalProfileId">View Tasks</a>
+    <a asp-controller="TaskApplication" asp-action="Index" asp-route-professionalProfileId="@Model.ProfessionalProfileId">View Applications</a>
 </div>
