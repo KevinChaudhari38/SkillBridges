@@ -10,13 +10,17 @@ namespace SkillBridges.Mappings
         {
             CreateMap< UserCreateViewModel,User>();
             CreateMap<User,UserViewModel>();
-            CreateMap<User, UserEditViewModel>();
-            CreateMap<UserEditViewModel,User>().ForMember(dest=>dest.Role,opt=>opt.Ignore());
+            CreateMap<User, UserEditViewModel>().ReverseMap();
+           
             CreateMap<ProfessionalProfile, ProfessionalEditViewModel>();
             CreateMap<ProfessionalEditViewModel, ProfessionalProfile>().ForMember(dest => dest.UserId, opt => opt.Ignore()).ForMember(dest=>dest.ProfessionalProfileId,opt=>opt.Ignore());
             CreateMap<ClientProfile,ClientEditViewModel>().ReverseMap().ForMember(dest=>dest.UserId,opt=>opt.Ignore());
             CreateMap<ClientProfile, ClientDetailsViewModel>();
             CreateMap<ProfessionalProfile,ProfessionalDetailsViewModel>();
+
+            CreateMap<Models.Task, TaskEditViewModel>().ReverseMap();
+            CreateMap<Models.Task, TaskCreateViewModel>().ReverseMap();
+            CreateMap<Models.Task, TaskViewModel>().ReverseMap();
         }  
     }
 }

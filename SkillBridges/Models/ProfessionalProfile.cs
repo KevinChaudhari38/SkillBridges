@@ -22,11 +22,9 @@ namespace SkillBridges.Models
         public string UserId { get; set; }
 
         public User User { get; set; }
-
+        public ICollection<ProfessionalSkill> Skills { get; set; }
+        public ICollection<Task> Tasks { get; set; }
+        public ICollection<TaskApplication> TaskApplications { get; set; }
         
-
-        //public ICollection<ProfessionalSkill> Skills { get; set; }
-        //public ICollection<TaskApplication> TaskApplications { get; set; }
-        // public ICollection<Task> Tasks { get; set; }
     }
 }

@@ -18,8 +18,7 @@ namespace SkillBridges.Models
 
         public User User { get; set; }
 
-    
-
-        // public ICollection<Task> Tasks { get; set; }
+        public ICollection<Task> Tasks { get; set; }
+        public ICollection<TaskApplication> TaskApplications { get; set; }
     }
 }

@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
-using System.Runtime.CompilerServices;
 
 namespace SkillBridges.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly IClientRepository _clientRepository;
-        private IMapper _mapper;
-        public ClientController(IClientRepository clientRepository, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+
+        public ClientController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-               
-            _clientRepository = clientRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -22,6 +20,7 @@ namespace SkillBridges.Controllers
         {
             return View();
         }
+
         public IActionResult Create(string userId)
         {
             ClientProfile vm = new ClientProfile
@@ -30,17 +29,19 @@ namespace SkillBridges.Controllers
             };
             return View(vm);
         }
+
         [HttpPost]
         public IActionResult Create(ClientProfile client)
         {
-            
-            _clientRepository.insert(client);
+            _unitOfWork.Clients.insert(client);
+            _unitOfWork.Save(); 
             return RedirectToAction("Details", "Home", new { id = client.UserId });
         }
+
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            var client=_clientRepository.GetByUserId(id);
+            var client = _unitOfWork.Clients.GetByUserId(id);
             if (client == null)
             {
                 return RedirectToAction("Create", new { userId = id });
@@ -48,15 +49,17 @@ namespace SkillBridges.Controllers
             var model = _mapper.Map<ClientEditViewModel>(client);
             return View(model);
         }
+
         [HttpPost]
         public IActionResult Edit(ClientEditViewModel vm)
         {
             if (!ModelState.IsValid)
                 return View(vm);
 
-            var existing = _clientRepository.GetById(vm.ClientProfileId);
+            var existing = _unitOfWork.Clients.GetById(vm.ClientProfileId);
             _mapper.Map(vm, existing);
-            _clientRepository.update(existing);
+            _unitOfWork.Clients.update(existing);
+            _unitOfWork.Save(); 
 
             return RedirectToAction("Details", "Home", new { id = existing.UserId });
         }

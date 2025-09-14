@@ -17,7 +17,7 @@ namespace SkillBridges.ViewModels
         public string PasswordHash { get; set; }
         public string PhoneNumber { get; set; }
         public UserRole Role { get; set; }
-        [BindNever]
+        
         public IEnumerable<SelectListItem>? Roles { get; set; } = new List<SelectListItem>();
     }
 }

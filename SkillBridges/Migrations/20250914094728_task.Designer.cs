@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkillBridges.Data;
 
@@ -11,9 +12,11 @@ using SkillBridges.Data;
 namespace SkillBridges.Migrations
 {
     [DbContext(typeof(SkillBridgeContext))]
-    partial class SkillBridgeContextModelSnapshot : ModelSnapshot
+    [Migration("20250914094728_task")]
+    partial class task
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,6 +176,7 @@ namespace SkillBridges.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfessionalProfileId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Status")
@@ -327,7 +331,8 @@ namespace SkillBridges.Migrations
                     b.HasOne("SkillBridges.Models.ProfessionalProfile", "ProfessionalProfile")
                         .WithMany("Tasks")
                         .HasForeignKey("ProfessionalProfileId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Category");
 
