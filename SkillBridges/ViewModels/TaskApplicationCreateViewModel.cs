@@ -11,10 +11,13 @@ namespace SkillBridges.ViewModels
         [Required]
         public string ProfessionalProfileId {  get; set; }
 
+
         [Required(ErrorMessage ="Proposal Is Required")]
         public string Proposal {  get; set; }
         [Required(ErrorMessage = "Expected budget is required")]
         [Range(0, double.MaxValue, ErrorMessage = "Expected budget should be positive")]
         public decimal ExpectedBudjet { get; set; }
+        [Required]
+        public IFormFile File { get; set; }
     }
 }

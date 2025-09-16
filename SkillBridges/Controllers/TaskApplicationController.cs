@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
+using System.Data;
 
 namespace SkillBridges.Controllers
 {
     public class TaskApplicationController : Controller
     {
-        private readonly IUnitOfWork2 _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public TaskApplicationController(IUnitOfWork2 unitOfWork, IMapper mapper)
+        public TaskApplicationController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -34,20 +35,42 @@ namespace SkillBridges.Controllers
                 ClientProfileId = clientId,
                 ProfessionalProfileId = professionalId
             };
+            
             return View(vm);
         }
         [HttpPost]
-        public IActionResult Create(TaskApplicationCreateViewModel vm)
+        public IActionResult Create(TaskApplicationCreateViewModel vm,IFormFile file)
         {
+            Console.WriteLine(vm.ProfessionalProfileId);
             if (!ModelState.IsValid)
             {
+                foreach(var state in ModelState)
+                {
+                    foreach(var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"ModelState Error :- Key: {state.Key},Error : {error.ErrorMessage}");
+                    }
+                }
                 return View(vm);
             }
             var model = _mapper.Map<TaskApplication>(vm);
+
+            if (file != null && file.Length > 0)
+            {
+                var fileName=Guid.NewGuid().ToString()+Path.GetExtension(file.FileName);
+                var filePath=Path.Combine("wwwroot/uploads/proofs", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                model.File = "/uploads/proofs/" + fileName;
+            }
+            
             model.Status = ApplicationStatus.Pending;
             _unitOfWork.TaskApplications.Insert(model);
             _unitOfWork.Save();
-            return RedirectToAction("IndexForClient", "Task", new { professionalProfileId = vm.ProfessionalProfileId });
+            return RedirectToAction("IndexForProfessional", "Task", new { professionalProfileId = vm.ProfessionalProfileId });
         }
 
         public IActionResult Accept(string id)
@@ -69,6 +92,53 @@ namespace SkillBridges.Controllers
             model.Status = ApplicationStatus.Rejected;
             _unitOfWork.Save();
             return RedirectToAction("ClientRequests", new { taskId = model.TaskId });
+        }
+
+        public IActionResult Delete(string id) { 
+            var model=_unitOfWork.TaskApplications.GetById(id);
+            if (model==null) return NotFound();
+            var vm = _mapper.Map<TaskApplicationViewModel>(model);
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult Delete(TaskApplicationViewModel model)
+        {
+            try
+            {
+                var vm = _unitOfWork.TaskApplications.GetById(model.TaskApplicationId);
+                if (vm==null) return NotFound();
+                _unitOfWork.TaskApplications.Delete(vm);
+                _unitOfWork.Save();
+                return RedirectToAction("IndexForProfessional", "Task", new { professionalProfileId = model.ProfessionalProfileId });
+                
+            }
+            catch
+            {
+                return View(model);
+            }
+        }
+        public IActionResult DeleteForClient(string id) {
+            var model = _unitOfWork.TaskApplications.GetById(id);
+            if (model == null) return NotFound();
+            var vm = _mapper.Map<TaskApplicationViewModel>(model);
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult DeleteForClient(TaskApplicationViewModel model)
+        {
+            try
+            {
+                var vm = _unitOfWork.TaskApplications.GetById(model.TaskApplicationId);
+                if (vm == null) return NotFound();
+                _unitOfWork.TaskApplications.Delete(vm);
+                _unitOfWork.Save();
+                return RedirectToAction("Index", "Task", new { clientId = model.ClientProfileId });
+
+            }
+            catch
+            {
+                return View(model);
+            }
         }
     }
 }

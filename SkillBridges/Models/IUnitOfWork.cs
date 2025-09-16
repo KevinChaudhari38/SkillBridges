@@ -5,6 +5,11 @@
         IUserRepository Users { get; }
         IClientRepository Clients { get; }
         IProfessionalRepository Professionals { get; }
+        ITaskRepository Tasks { get; }
+        ITaskApplicationRepository TaskApplications { get; }
+        ISkillRepository Skills { get; }
+        IProfessionalSkillRepository ProfessionalSkills { get; }
+        ICategoryRepository Categories { get; }
         void Save();
     }
 }

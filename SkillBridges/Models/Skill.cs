@@ -8,6 +8,7 @@ namespace SkillBridges.Models
         public string SkillId {  get; set; }
         [Required]
         public string Name {  get; set; }
+        public string Description { get; set; }
         public ICollection<ProfessionalSkill> ProfessionalSkills { get; set; }
     }
 }

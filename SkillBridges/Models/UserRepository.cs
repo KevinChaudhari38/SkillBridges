@@ -56,7 +56,7 @@ namespace SkillBridges.Models
 
         public User GetByEmailAndPassword(string Email, string Password)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == Email && u.PasswordHash == Password);
+            return _context.Users.FirstOrDefault(u => u.Email == Email && u.Password == Password);
         }
         public User GetByEmail(string email)
         {

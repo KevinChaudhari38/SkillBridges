@@ -8,9 +8,9 @@ namespace SkillBridges.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly IUnitOfWork2 _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public TaskController(IUnitOfWork2 unitOfWork, IMapper mapper)
+        public TaskController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -22,15 +22,17 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<TaskViewModel>>(model);
             return View(vm);
         }
-        public IActionResult IndexForClient(string professionalProfileId)
+        public IActionResult IndexForProfessional(string professionalProfileId)
         {
             var model = _unitOfWork.Tasks.GetAll();
+            
             var result=_mapper.Map<List<TaskViewModel>>(model);
             var vm = new ProfessionalTasksViewModel
             {
                 ProfessionalProfileId = professionalProfileId,
                 Tasks = result
             };
+           
             return View(vm);
         }
         public IActionResult Details(string id)

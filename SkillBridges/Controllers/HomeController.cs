@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace SkillBridges.Controllers
 {
@@ -22,6 +23,13 @@ namespace SkillBridges.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        public IActionResult Index()
+        {
+            var models = _unitOfWork.Users.GetAll();
+            var vm=_mapper.Map<List<UserViewModel>>(models);
+            return View(vm);
         }
 
         [HttpPost]
@@ -45,8 +53,10 @@ namespace SkillBridges.Controllers
 
             if (user.Role == Models.UserRole.Client)
                 return RedirectToAction("ClientDetails", new { id = user.Id });
+            else if(user.Role == Models.UserRole.Admin)
+                return RedirectToAction("Index");
 
-            return RedirectToAction("ProfessionalDetails", new { id = user.Id });
+           return RedirectToAction("ProfessionalDetails", new { id = user.Id });
         }
 
         public IActionResult ClientDetails(string id)
@@ -66,6 +76,7 @@ namespace SkillBridges.Controllers
                 return RedirectToAction("Create", "Professional", new { userId = id });
 
             var model = _mapper.Map<ProfessionalDetailsViewModel>(vm);
+            
             return View(model);
         }
 

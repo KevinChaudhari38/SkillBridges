@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkillBridges.Data;
 
@@ -11,9 +12,11 @@ using SkillBridges.Data;
 namespace SkillBridges.Migrations
 {
     [DbContext(typeof(SkillBridgeContext))]
-    partial class SkillBridgeContextModelSnapshot : ModelSnapshot
+    [Migration("20250915162218_pass")]
+    partial class pass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,10 +119,6 @@ namespace SkillBridges.Migrations
                     b.Property<string>("SkillId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -190,10 +189,6 @@ namespace SkillBridges.Migrations
                     b.Property<decimal>("ExpectedBudjet")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("File")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProfessionalProfileId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -253,18 +248,6 @@ namespace SkillBridges.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "admin",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "bizzconnect2000@gmail.com",
-                            Name = "SkillBridge",
-                            Password = "Skill@123",
-                            PhoneNumber = "9265983497",
-                            Role = 3
-                        });
                 });
 
             modelBuilder.Entity("SkillBridges.Models.ClientProfile", b =>

@@ -16,6 +16,8 @@ namespace SkillBridges.Models
         public string Proposal {  get; set; }
         public decimal ExpectedBudjet {  get; set; }
         [Required]
+        public string File { get; set; }
+        [Required]
         public ApplicationStatus Status {  get; set; }=ApplicationStatus.Pending;
         public string ClientProfileId {  get; set; }
         public ClientProfile ClientProfile {  get; set; }

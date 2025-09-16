@@ -16,6 +16,7 @@ namespace SkillBridges.Models
         {
             return _context.ProfessionalProfiles
                 .Include(p => p.User)
+                
                 .FirstOrDefault(p => p.ProfessionalProfileId == id);
         }
 
@@ -27,7 +28,7 @@ namespace SkillBridges.Models
 
         public List<ProfessionalProfile> GetAll()
         {
-            return _context.ProfessionalProfiles.ToList();
+            return _context.ProfessionalProfiles.Include(p => p.Skills).ToList();
         }
 
         public void insert(ProfessionalProfile profile)

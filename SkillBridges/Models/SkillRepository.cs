@@ -1,4 +1,5 @@
-﻿using SkillBridges.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SkillBridges.Data;
 
 namespace SkillBridges.Models
 {
@@ -11,6 +12,10 @@ namespace SkillBridges.Models
         public Skill GetById(string id)
         {
             return _context.Skills.FirstOrDefault(e => e.SkillId == id);
+        }
+        public List<Skill> GetByProfessionalId(string id)
+        {
+            return _context.Skills.Include(c => c.ProfessionalSkills).ThenInclude(c=>c.ProfessionalProfile).Where(s=>s.ProfessionalSkills.Any(ps=>ps.ProfessionalProfileId==id)).ToList();
         }
         public List<Skill> GetAll()
         {

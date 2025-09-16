@@ -10,12 +10,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TaskId"/>
-            <input type="hidden" asp-for="ClientProfileId"/>
+            <input type="hidden" asp-for="TaskId" />
+            <input type="hidden" asp-for="ClientProfileId" />
             <input type="hidden" asp-for="ProfessionalProfileId" />
-            
+
             <div class="form-group">
                 <label asp-for="Proposal" class="control-label"></label>
                 <input asp-for="Proposal" class="form-control" />
@@ -27,6 +27,10 @@
                 <span asp-validation-for="ExpectedBudjet" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="File">Upload Proof of Work (PDF)</label>
+                <input type="file" name="File" accept="application/pdf" class="form-control" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -34,9 +38,11 @@
 </div>
 
 <div>
-    <a asp-controller="Task" asp-action="IndexForClient" asp-route-professionalProfileId="@Model.ProfessionalProfileId">Back to List</a>
+    <a asp-controller="Task" asp-action="IndexForProfessional" asp-route-professionalProfileId="@Model.ProfessionalProfileId">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

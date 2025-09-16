@@ -33,12 +33,16 @@ namespace SkillBridges.Data
             modelBuilder.Entity<ClientProfile>().HasMany(t => t.Tasks).WithOne(t => t.ClientProfile).HasForeignKey(p => p.ClientProfileId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Category>().HasMany(t => t.Tasks).WithOne(c => c.Category).HasForeignKey(c => c.CategoryId).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Category>().HasData(
-                new Category { CategoryId = 1, Name = "Design" },
-                new Category { CategoryId = 2  , Name = "Development" },
-                new Category { CategoryId = 3, Name = "Writing" },
-                new Category { CategoryId = 4, Name = "Marketing" }
-            );
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = "admin",
+                Name = "SkillBridge",
+                Email = "bizzconnect2000@gmail.com",
+                Password = "Skill@123",
+                PhoneNumber="9265983497",
+                Role = UserRole.Admin,
+            });
+            
 
         }
 
