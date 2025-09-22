@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SkillBridges.Data;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
 
@@ -8,6 +10,7 @@ namespace SkillBridges.Mappings
     {
         public Helper()
         {
+            
             CreateMap< UserCreateViewModel,User>();
             CreateMap<User,UserViewModel>();
             CreateMap<User, UserEditViewModel>().ReverseMap();
@@ -28,6 +31,12 @@ namespace SkillBridges.Mappings
                 .ForMember(dest=>dest.ProfessionalName,opt=>opt.MapFrom(src=>src.ProfessionalProfile.User.Name))
                 .ForMember(dest=>dest.Skills,opt=>opt.MapFrom(src=>src.ProfessionalProfile.Skills.Select(s=>s.Skill.Name).ToList()));
             CreateMap<SkillViewModel, Skill>().ReverseMap();
+
+            CreateMap< TaskMessageCreateViewModel,TaskMessage>();
+            CreateMap<TaskMessage, TaskMessageViewModel>()
+                .ForMember(dest => dest.TaskTitle, opt => opt.MapFrom(src =>
+                    src.Task.Title
+                ));
 
         }  
     }

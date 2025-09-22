@@ -8,7 +8,9 @@ namespace SkillBridges.Models
         Open,
         Assigned,
         InProgress,
+        Submitted,
         Completed,
+        Rejected,
         Cancelled
     }
     public class Task

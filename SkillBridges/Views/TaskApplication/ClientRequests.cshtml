@@ -120,6 +120,7 @@
                     else
                     {
                         @Html.DisplayFor(modelItem => item.Status)
+                        <a asp-controller="Task" asp-action="Details" asp-route-id="@item.TaskId">View Task</a>
                     }
                     
             </td>

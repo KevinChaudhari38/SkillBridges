@@ -73,6 +73,7 @@
     </dl>
 </div>
 <div>
+    <a asp-controller="Message" asp-action="Create" asp-route-id="@Model.TaskId" asp-route-clientId="@Model.ClientProfileId" asp-route-professionalId="@Model.ProfessionalProfileId"></a>
     <a asp-action="Index" asp-route-clientId="@Model.ClientProfileId">Back to List</a>
     <a asp-action="Edit" asp-route-id="@Model.TaskId">Edit</a>
     <a asp-action="Delete" asp-route-id="@Model.TaskId">Delete</a>

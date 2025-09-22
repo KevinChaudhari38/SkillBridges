@@ -83,6 +83,10 @@
                 @Html.ActionLink("Details", "Details", new { id=item.TaskId }) 
                 @Html.ActionLink("Delete", "Delete", new {id=item.TaskId})
                 <a asp-controller="TaskApplication" asp-action="ClientRequests" asp-route-taskId="@item.TaskId">View Requests</a>
+                    @if ((int)item.Status == (int)SkillBridges.Models.TaskStatus.Assigned)
+                    {
+                        <a asp-controller="Message" asp-action="Create" asp-route-id="@item.TaskId" asp-route-senderId="@item.ClientProfileId" asp-route-receiverId="@item.ProfessionalProfileId">Message</a>
+                    }
             </td>
         </tr>
 }

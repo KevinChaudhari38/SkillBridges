@@ -21,7 +21,7 @@ namespace SkillBridges.Models
                            .Include(p => p.ProfessionalProfile)
                            .FirstOrDefault(u => u.Id == id);
         }
-
+        
         public void insert(User user)
         {
             user.Id = Guid.NewGuid().ToString();

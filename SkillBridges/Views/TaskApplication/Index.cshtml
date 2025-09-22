@@ -65,7 +65,15 @@
                         <span class="text-muted">No File</span>
                     }
                 </td>
-                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                    @if (item.Status == "Accepted")
+                    {
+                        <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ProfessionalProfileId">View Messages</a>
+                    }
+                </td>
+                
                 <td>
                     <a asp-action="Delete" asp-route-id="@item.TaskApplicationId">Delete</a>
                 </td>

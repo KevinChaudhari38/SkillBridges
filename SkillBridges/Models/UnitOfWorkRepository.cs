@@ -14,6 +14,7 @@ namespace SkillBridges.Models
         private ISkillRepository _skillRepository;
         private IProfessionalSkillRepository _professionalSkillRepository;
         private ICategoryRepository _categoryRepository;
+        private IMessageRepository _messageRepository;
         public UnitOfWorkRepository(SkillBridgeContext context)
         {
             _context = context;
@@ -65,7 +66,14 @@ namespace SkillBridges.Models
         {
             get
             {
-                return _professionalSkillRepository ?? new ProfessionalSkillRepository(_context);
+                return _professionalSkillRepository ??= new ProfessionalSkillRepository(_context);
+            }
+        }
+        public IMessageRepository Messages
+        {
+            get
+            {
+                return _messageRepository ??= new MessageRepository(_context);
             }
         }
         public void Save()

@@ -10,6 +10,7 @@
         ISkillRepository Skills { get; }
         IProfessionalSkillRepository ProfessionalSkills { get; }
         ICategoryRepository Categories { get; }
+        IMessageRepository Messages { get; }
         void Save();
     }
 }

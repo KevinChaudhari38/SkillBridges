@@ -17,8 +17,8 @@ namespace SkillBridges
             builder.Services.AddDbContext<SkillBridgeContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SkillBridgeConn")));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
-            
 
+           
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new Helper());
