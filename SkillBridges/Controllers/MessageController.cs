@@ -113,6 +113,59 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Index", new {TaskId=me.TaskId,ViewerId=me.SenderId});
         }
-        
+        [HttpGet]
+        public IActionResult Edit(string id,string SenderId)
+        {
+            var msg = _unitOfWork.Messages.GetById(id);
+            if (msg == null) return NotFound();
+            if (msg.SenderId != SenderId)
+            {
+                return RedirectToAction("Index", new { TaskId = msg.TaskId, ViewerId = SenderId });
+            }
+            var vm = _mapper.Map<TaskMessageViewModel>(msg);
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult Edit(TaskMessageViewModel vm)
+        {
+            
+            var msg = _unitOfWork.Messages.GetById(vm.MessageId);
+            if(msg == null) return NotFound();
+            if (msg.SenderId != vm.SenderId)
+            {
+                return RedirectToAction("Index", new { TaskId = msg.TaskId, ViewerId = vm.SenderId });
+            }
+            msg.Message = vm.Message;
+            _unitOfWork.Messages.update(msg);
+            _unitOfWork.Save();
+            return RedirectToAction("Index", new { TaskId = msg.TaskId, ViewerId = vm.SenderId });
+        }
+        [HttpGet]
+        public IActionResult Delete(string id, string SenderId)
+        {
+            var msg = _unitOfWork.Messages.GetById(id);
+            if (msg == null) return NotFound();
+            if (msg.SenderId != SenderId)
+            {
+                return RedirectToAction("Index", new { TaskId = msg.TaskId, ViewerId = SenderId });
+            }
+            var vm = _mapper.Map<TaskMessageViewModel>(msg);
+            return View(vm);
+        }
+
+        [HttpPost,ActionName("Delete")]
+        public IActionResult DeleteConfirmed(TaskMessageViewModel vm)
+        {
+            var msg = _unitOfWork.Messages.GetById(vm.MessageId);
+            if (msg == null) return NotFound();
+            if (msg.SenderId != vm.SenderId)
+            {
+                return RedirectToAction("Index", new { TaskId = msg.TaskId, ViewerId = vm.SenderId });
+            }
+            _unitOfWork.Messages.delete(msg);
+            _unitOfWork.Save();
+            return RedirectToAction("Index", new { TaskId = msg.TaskId, ViewerId = vm.SenderId });
+        }
+
     }
 }

@@ -5,6 +5,13 @@
 }
 
 <h1>Index</h1>
+<h4>TaskMessageViewModel</h4>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
 @if (@Model.Role == "Client")
 {
     <p>
@@ -71,10 +78,25 @@ else
                     @Html.DisplayFor(modelItem => item.IsRead)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @if ((Model.Role == "Client" && item.SenderId == Model.ClientProfileId) ||
+                                    (Model.Role == "Professional" && item.SenderId == Model.ProfessionalProfileId))
+                    {
+                        <a asp-action="Edit"
+                           asp-route-id="@item.MessageId"
+                           asp-route-SenderId="@(Model.Role == "Client" ? Model.ClientProfileId : Model.ProfessionalProfileId)">
+                            Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.MessageId" asp-route-SenderId="@(Model.Role == "Client" ? Model.ClientProfileId : Model.ProfessionalProfileId)">Delete</a>
+                               
+                     }
+                    else
+                    {
+                        <span class="text-muted">Not your message</span>
+                    }
                 </td>
+
+
+
             </tr>
         }
     </tbody>
