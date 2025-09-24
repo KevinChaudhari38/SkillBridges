@@ -85,6 +85,7 @@
                 <a asp-controller="TaskApplication" asp-action="ClientRequests" asp-route-taskId="@item.TaskId">View Requests</a>
                     @if ((int)item.Status == (int)SkillBridges.Models.TaskStatus.Assigned)
                     {
+                        <a asp-controller="Work" asp-action="Index" asp-route-TaskId="@item.TaskId">View Work</a>
                         <a asp-controller="Message" asp-action="Create" asp-route-id="@item.TaskId" asp-route-senderId="@item.ClientProfileId" asp-route-receiverId="@item.ProfessionalProfileId">Message</a>
                     }
             </td>

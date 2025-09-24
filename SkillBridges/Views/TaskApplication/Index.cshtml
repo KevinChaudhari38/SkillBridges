@@ -71,6 +71,7 @@
                     @if (item.Status == "Accepted")
                     {
                         <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ProfessionalProfileId">View Messages</a>
+                        <a asp-controller="Work" asp-action="Create" asp-route-TaskId="@item.TaskId">Upload Work</a>
                     }
                 </td>
                 

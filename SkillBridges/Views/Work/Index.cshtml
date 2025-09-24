@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SkillBridges.Models.WorkSubmission>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkSubmissionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfessionalProfileId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmittedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkSubmissionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfessionalProfileId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                    <a href="@item.FilePath" target="_blank" class="btn btn-link">Download</a>
+            </td>
+              
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmittedAt)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.WorkSubmissionId  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.WorkSubmissionId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.WorkSubmissionId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

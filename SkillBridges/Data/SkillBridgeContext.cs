@@ -15,6 +15,7 @@ namespace SkillBridges.Data
         public DbSet<ProfessionalSkill> ProfessionalSkills { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TaskMessage> Messages {  get; set; }
+        public DbSet<WorkSubmission>   WorkSubmissions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -36,6 +37,8 @@ namespace SkillBridges.Data
 
            
             modelBuilder.Entity<TaskMessage>().HasOne(c => c.Task).WithMany().HasForeignKey(m => m.TaskId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<WorkSubmission>().HasOne(c=>c.Task).WithMany().HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<WorkSubmission>().HasOne(c => c.ProfessionalProfile).WithMany().HasForeignKey(p => p.ProfessionalProfileId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>().HasData(new User
             {

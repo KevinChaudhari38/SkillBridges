@@ -11,6 +11,7 @@
         IProfessionalSkillRepository ProfessionalSkills { get; }
         ICategoryRepository Categories { get; }
         IMessageRepository Messages { get; }
+        IWorkRepository WorkSubmissions { get; }
         void Save();
     }
 }
