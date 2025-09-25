@@ -29,7 +29,7 @@ namespace SkillBridges.Controllers
         {
             return View();
         }
-
+        
         public IActionResult Index()
         {
             var models = _unitOfWork.Users.GetAll();

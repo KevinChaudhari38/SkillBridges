@@ -21,7 +21,7 @@ namespace SkillBridges.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ProfessionalProfile>().HasOne(c => c.User).WithOne(u => u.ProfessionalProfile).HasForeignKey<ProfessionalProfile>(c => c.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<ClientProfile>().HasOne(c => c.User).WithOne(u => u.ClientProfile).HasForeignKey<ClientProfile>(c => c.UserId).OnDelete(DeleteBehavior.Cascade);
-
+           
             modelBuilder.Entity<ProfessionalSkill>().HasKey(ps => new { ps.ProfessionalProfileId, ps.SkillId });
             modelBuilder.Entity<ProfessionalSkill>().HasOne(ps => ps.ProfessionalProfile).WithMany(p => p.Skills).HasForeignKey(ps=>ps.ProfessionalProfileId);
             modelBuilder.Entity<ProfessionalSkill>().HasOne(s=>s.Skill).WithMany(ps=>ps.ProfessionalSkills).HasForeignKey(p=>p.SkillId);
@@ -37,7 +37,7 @@ namespace SkillBridges.Data
 
            
             modelBuilder.Entity<TaskMessage>().HasOne(c => c.Task).WithMany().HasForeignKey(m => m.TaskId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<WorkSubmission>().HasOne(c=>c.Task).WithMany().HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<WorkSubmission>().HasOne(c=>c.Task).WithMany().HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<WorkSubmission>().HasOne(c => c.ProfessionalProfile).WithMany().HasForeignKey(p => p.ProfessionalProfileId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>().HasData(new User

@@ -30,7 +30,12 @@ namespace SkillBridges.Mappings
                 .ForMember(dest=>dest.ClientName,opt=>opt.MapFrom(src=>src.ClientProfile.OrganizationName))
                 .ForMember(dest=>dest.ProfessionalName,opt=>opt.MapFrom(src=>src.ProfessionalProfile.User.Name))
                 .ForMember(dest=>dest.Skills,opt=>opt.MapFrom(src=>src.ProfessionalProfile.Skills.Select(s=>s.Skill.Name).ToList()));
+
             CreateMap<SkillViewModel, Skill>().ReverseMap();
+            CreateMap<SkillCreateViewModel, Skill>();
+
+            CreateMap<CategoryViewModel,Category>().ReverseMap();
+            CreateMap<CategoryCreateViewModel, Category>();
 
             CreateMap< TaskMessageCreateViewModel,TaskMessage>();
             CreateMap<TaskMessage, TaskMessageViewModel>()

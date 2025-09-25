@@ -17,7 +17,7 @@ namespace SkillBridges.ViewModels
         
         public DateTime? Deadline { get; set; }
         public string ClientProfileId {  get; set; }
-        public int CategoryId {  get; set; }
+        public string CategoryId {  get; set; }
         
         public IEnumerable<SelectListItem>? Categories { get; set; }
 

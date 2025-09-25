@@ -30,7 +30,7 @@ namespace SkillBridges.Models
         public TaskStatus Status { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+        public string CategoryId { get; set; }
         public Category Category { get; set; }
         [Required]
         public string ClientProfileId {  get; set; }
