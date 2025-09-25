@@ -1,9 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
+using SkillBridges.Services;
 using SkillBridges.ViewModels;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Security.Cryptography;
+
 
 namespace SkillBridges.Controllers
 {
@@ -12,12 +15,14 @@ namespace SkillBridges.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
+        private readonly EmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, IMapper mapper, IUnitOfWork unitOfWork)
+        public HomeController(ILogger<HomeController> logger, IMapper mapper, IUnitOfWork unitOfWork,EmailService emailService)
         {
             _logger = logger;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         public IActionResult Login()
@@ -170,6 +175,84 @@ namespace SkillBridges.Controllers
                 return View(vm);
             }
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var user = _unitOfWork.Users.GetByEmail(vm.Email);
+
+            if(user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Email not found");
+                return View(vm);
+            }
+
+            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            user.ResetPasswordToken = token;
+            user.ResetPasswordTokenExpiry = DateTime.UtcNow.AddHours(1);
+
+            _unitOfWork.Users.update(user);
+            _unitOfWork.Save();
+
+            var resetLink = Url.Action("ResetPassword", "Home", new { email = user.Email, token = token }, Request.Scheme);
+
+            _emailService.SendEmail(user.Email, "Reset Password", $"Click here to reset your Password: {resetLink}");
+
+            ViewBag.Message = "Password reset link sent to your email.";
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email,string token)
+        {
+            if (email == null || token == null)
+            {
+                return BadRequest();
+            }
+
+            var vm = new ResetPasswordViewModel { Email = email, Token = token };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResetPassword(ResetPasswordViewModel vm)
+        {
+            if (!ModelState.IsValid) {
+                return View(vm);    
+            }
+
+            var user = _unitOfWork.Users.GetByEmail(vm.Email);
+            if (user == null || user.ResetPasswordToken != vm.Token || user.ResetPasswordTokenExpiry < DateTime.UtcNow)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid or expired token.");
+                return View(vm);
+            }
+
+            user.Password = vm.NewPassword;
+            user.ResetPasswordToken = null;
+            user.ResetPasswordTokenExpiry = null;
+
+            _unitOfWork.Users.update(user);
+            _unitOfWork.Save();
+
+
+            ViewBag.Message = "password has been reset successfully.";
+            return RedirectToAction("Login");
+        }
+        
 
         public IActionResult Privacy()
         {

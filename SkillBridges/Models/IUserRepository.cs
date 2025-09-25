@@ -12,5 +12,7 @@ namespace SkillBridges.Models
         void update(User user);
         void delete(User user);
         List<User> GetAll();
+
+ 
     }
 }

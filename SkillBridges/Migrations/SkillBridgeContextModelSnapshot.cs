@@ -281,6 +281,12 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ResetPasswordToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ResetPasswordTokenExpiry")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -494,11 +500,9 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.User", b =>
                 {
-                    b.Navigation("ClientProfile")
-                        .IsRequired();
+                    b.Navigation("ClientProfile");
 
-                    b.Navigation("ProfessionalProfile")
-                        .IsRequired();
+                    b.Navigation("ProfessionalProfile");
                 });
 #pragma warning restore 612, 618
         }

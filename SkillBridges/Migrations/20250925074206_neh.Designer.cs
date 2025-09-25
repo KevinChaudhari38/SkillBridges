@@ -12,8 +12,8 @@ using SkillBridges.Data;
 namespace SkillBridges.Migrations
 {
     [DbContext(typeof(SkillBridgeContext))]
-    [Migration("20250924162227_workSubmission")]
-    partial class workSubmission
+    [Migration("20250925074206_neh")]
+    partial class neh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

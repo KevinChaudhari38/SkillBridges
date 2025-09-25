@@ -12,8 +12,8 @@ using SkillBridges.Data;
 namespace SkillBridges.Migrations
 {
     [DbContext(typeof(SkillBridgeContext))]
-    [Migration("20250915162218_pass")]
-    partial class pass
+    [Migration("20250925150110_AddResetPasswordFields")]
+    partial class AddResetPasswordFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,10 @@ namespace SkillBridges.Migrations
                     b.Property<string>("SkillId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -189,6 +193,10 @@ namespace SkillBridges.Migrations
                     b.Property<decimal>("ExpectedBudjet")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProfessionalProfileId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -215,6 +223,43 @@ namespace SkillBridges.Migrations
                     b.ToTable("TaskApplications");
                 });
 
+            modelBuilder.Entity("SkillBridges.Models.TaskMessage", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SenderRole")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TaskId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("SkillBridges.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -239,6 +284,12 @@ namespace SkillBridges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ResetPasswordToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ResetPasswordTokenExpiry")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -248,6 +299,51 @@ namespace SkillBridges.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "admin",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "bizzconnect2000@gmail.com",
+                            Name = "SkillBridge",
+                            Password = "Skill@123",
+                            PhoneNumber = "9265983497",
+                            Role = 3
+                        });
+                });
+
+            modelBuilder.Entity("SkillBridges.Models.WorkSubmission", b =>
+                {
+                    b.Property<string>("WorkSubmissionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfessionalProfileId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TaskId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("WorkSubmissionId");
+
+                    b.HasIndex("ProfessionalProfileId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("WorkSubmissions");
                 });
 
             modelBuilder.Entity("SkillBridges.Models.ClientProfile", b =>
@@ -344,6 +440,36 @@ namespace SkillBridges.Migrations
                     b.Navigation("Task");
                 });
 
+            modelBuilder.Entity("SkillBridges.Models.TaskMessage", b =>
+                {
+                    b.HasOne("SkillBridges.Models.Task", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("SkillBridges.Models.WorkSubmission", b =>
+                {
+                    b.HasOne("SkillBridges.Models.ProfessionalProfile", "ProfessionalProfile")
+                        .WithMany()
+                        .HasForeignKey("ProfessionalProfileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SkillBridges.Models.Task", "Task")
+                        .WithMany()
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ProfessionalProfile");
+
+                    b.Navigation("Task");
+                });
+
             modelBuilder.Entity("SkillBridges.Models.Category", b =>
                 {
                     b.Navigation("Tasks");
@@ -377,11 +503,9 @@ namespace SkillBridges.Migrations
 
             modelBuilder.Entity("SkillBridges.Models.User", b =>
                 {
-                    b.Navigation("ClientProfile")
-                        .IsRequired();
+                    b.Navigation("ClientProfile");
 
-                    b.Navigation("ProfessionalProfile")
-                        .IsRequired();
+                    b.Navigation("ProfessionalProfile");
                 });
 #pragma warning restore 612, 618
         }

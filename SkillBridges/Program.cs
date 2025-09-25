@@ -4,6 +4,7 @@ using SkillBridges.Data;
 using SkillBridges.Mappings;
 using SkillBridges.Models;
 using AutoMapper;
+using SkillBridges.Services;
 namespace SkillBridges
 {
     public class Program
@@ -17,6 +18,8 @@ namespace SkillBridges
             builder.Services.AddDbContext<SkillBridgeContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SkillBridgeConn")));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddScoped<EmailService>();
 
            
             var config = new AutoMapper.MapperConfiguration(cfg =>

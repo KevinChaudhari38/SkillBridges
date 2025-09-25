@@ -63,5 +63,12 @@ namespace SkillBridges.Models
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
+        public void SetPasswordResetToken(User user,string token,DateTime expiration)
+        {
+            user.ResetPasswordToken = token;
+            user.ResetPasswordTokenExpiry = expiration;
+            _context.Users.Update(user);
+        }
+      
     }
 }
