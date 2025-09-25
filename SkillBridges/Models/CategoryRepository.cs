@@ -1,4 +1,5 @@
-﻿using SkillBridges.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SkillBridges.Data;
 
 namespace SkillBridges.Models
 {
@@ -9,7 +10,7 @@ namespace SkillBridges.Models
         {
             _context = context;
         }
-        public Category GetById(int id)
+        public Category GetById(string id)
         {
             return _context.Categories.FirstOrDefault(c => c.CategoryId == id);
         }
@@ -19,7 +20,7 @@ namespace SkillBridges.Models
         }
         public void Insert(Category category)
         {
-           
+            category.CategoryId = Guid.NewGuid().ToString();
             _context.Categories.Add(category);
         }
         public void Update(Category category) { 

@@ -2,15 +2,11 @@
 
 namespace SkillBridges.ViewModels
 {
-    public class SkillViewModel
+    public class CategoryViewModel
     {
-
-        public string SkillId { get; set; }
-
-        
+        public string CategoryId {  get; set; }
         public string Name { get; set; }
- 
-        public string Description { get; set; }
+        public List<Task>? Tasks { get; set; }
 
     }
 }

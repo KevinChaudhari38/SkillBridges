@@ -44,11 +44,35 @@ namespace SkillBridges.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(SkillViewModel vm)
+        public IActionResult Create(SkillCreateViewModel vm)
         {
-            
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
             var skill = _mapper.Map<Skill>(vm);
             _unitOfWork.Skills.Insert(skill);
+            _unitOfWork.Save();
+            return RedirectToAction("Index");
+        }
+        public IActionResult Edit(string id)
+        {
+            var skill = _unitOfWork.Skills.GetById(id);
+            var vm = _mapper.Map<SkillViewModel>(skill);
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult Edit(SkillViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            var model = _unitOfWork.Skills.GetById(vm.SkillId);
+            if (model == null) return NotFound();
+            model.Name = vm.Name;
+            model.Description = vm.Description;
+            _unitOfWork.Skills.Update(model);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

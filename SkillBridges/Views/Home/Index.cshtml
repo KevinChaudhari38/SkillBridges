@@ -6,9 +6,6 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -55,5 +52,9 @@
             </td>
         </tr>
 }
-    </tbody>
+ <a asp-action="Create">Create New</a><br />
+<a asp-controller="Skill" asp-action="Index">Skills</a><br />
+<a asp-controller="Category" asp-action="Index">Categories</a>
+
+</tbody>
 </table>

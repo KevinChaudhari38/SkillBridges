@@ -2,7 +2,7 @@
 {
     public interface ICategoryRepository
     {
-        Category GetById(int id);
+        Category GetById(string id);
         List<Category> GetAll();
         void Insert(Category category);
         void Update(Category category);

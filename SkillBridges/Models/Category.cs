@@ -5,9 +5,9 @@ namespace SkillBridges.Models
     public class Category
     {
         [Key]
-        public int CategoryId {  get; set; }
+        public string CategoryId { get; set; }
         [Required]
         public string Name {  get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        public List<Task>? Tasks { get; set; }
     }
 }
