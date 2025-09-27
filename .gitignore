@@ -3,7 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 # Ignore EF Core Migrations
-Migrations/
+/SkillBridges/Migrations/
 
 # User-specific files
 *.rsuser
