@@ -5,6 +5,9 @@ using SkillBridges.Mappings;
 using SkillBridges.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
+
+using SkillBridges.Services;
+
 namespace SkillBridges
 {
     public class Program
@@ -24,6 +27,11 @@ namespace SkillBridges
                     options.LoginPath = "/Home/Login";
                     options.AccessDeniedPath = "/Home/Login";
                 });
+
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddScoped<EmailService>();
+
+
            
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {

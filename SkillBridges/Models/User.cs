@@ -25,17 +25,24 @@ namespace SkillBridges.Models
 
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$",ErrorMessage = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$", ErrorMessage = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character")]
         public string Password { get; set; }
 
         [Phone(ErrorMessage = "Invalid Phone Number")]
+        [Required(ErrorMessage ="Phone number is required")]
+
         public string PhoneNumber { get; set; }
 
         public UserRole Role { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public ClientProfile ClientProfile { get; set; }
-        public ProfessionalProfile ProfessionalProfile { get; set; }
+        public string? ResetPasswordToken { get; set; }
+        public DateTime? ResetPasswordTokenExpiry { get; set; }
+        public ClientProfile? ClientProfile { get; set; }
+        public ProfessionalProfile? ProfessionalProfile { get; set; }
+
+
+      
     }
 }
