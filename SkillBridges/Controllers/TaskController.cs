@@ -22,17 +22,31 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<TaskViewModel>>(model);
             return View(vm);
         }
-        public IActionResult IndexForProfessional(string professionalProfileId)
+        
+        
+        public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId)
         {
-            var model = _unitOfWork.Tasks.GetAll();
+            var tasks= _unitOfWork.Tasks.GetAll();
+            if (!string.IsNullOrEmpty(SelectedCategoryId))
+            {
+                tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId); ;
+            }
+           
+           
+            var result = _mapper.Map<List<TaskViewModel>>(tasks);
+
+            var categories = _unitOfWork.Categories.GetAll();
             
-            var result=_mapper.Map<List<TaskViewModel>>(model);
+            var taskApplications=_unitOfWork.TaskApplications.GetByProfessionalId(professionalProfileId);
+
             var vm = new ProfessionalTasksViewModel
             {
                 ProfessionalProfileId = professionalProfileId,
-                Tasks = result
+                Tasks = result,
+                Categories=categories,
+                SelectedCategoryId= SelectedCategoryId,
+                TaskApplications=taskApplications
             };
-           
             return View(vm);
         }
         public IActionResult Details(string id)

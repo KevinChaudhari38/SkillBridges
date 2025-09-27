@@ -4,6 +4,7 @@ using SkillBridges.Data;
 using SkillBridges.Mappings;
 using SkillBridges.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 namespace SkillBridges
 {
     public class Program
@@ -17,7 +18,12 @@ namespace SkillBridges
             builder.Services.AddDbContext<SkillBridgeContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SkillBridgeConn")));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
-
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/Login";
+                    options.AccessDeniedPath = "/Home/Login";
+                });
            
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
@@ -38,6 +44,7 @@ namespace SkillBridges
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();

@@ -15,15 +15,15 @@ namespace SkillBridges.Models
             return _context.Tasks.Include(t => t.ClientProfile).Include(t => t.TaskApplications).FirstOrDefault(t => t.TaskId == id);
         }
         public List<Task> GetByClientId(string clientId) {
-            return _context.Tasks.Include(t => t.TaskApplications).Where(t => t.ClientProfileId == clientId).ToList();
+            return _context.Tasks.Include(t => t.TaskApplications).Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.ClientProfileId == clientId).ToList();
         }
         public List<Task> GetAll()
         {
-            return _context.Tasks.ToList();
+            return _context.Tasks.Include(c=>c.ClientProfile).ThenInclude(c=>c.User).Include(c=>c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).ToList();
         }
         public List<Task> GetByCategoryId(string id)
         {
-            return _context.Tasks.Where(t => t.CategoryId == id).ToList();
+            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.CategoryId == id).ToList();
         }
         public void Insert(Task task)
         {

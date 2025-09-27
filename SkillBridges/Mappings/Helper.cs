@@ -23,12 +23,16 @@ namespace SkillBridges.Mappings
 
             CreateMap<Models.Task, TaskEditViewModel>().ReverseMap();
             CreateMap<Models.Task, TaskCreateViewModel>().ReverseMap();
-            CreateMap<Models.Task, TaskViewModel>().ReverseMap();
+            CreateMap<Models.Task, TaskViewModel>()
+                .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.ClientProfile.OrganizationName))
+                .ForMember(dest=>dest.ProfessionalName,opt=>opt.MapFrom(src=>src.ProfessionalProfile.User.Name))
+                .ForMember(dest=>dest.CategoryName,opt=>opt.MapFrom(src=>src.Category.Name))
+                .ReverseMap();
 
             CreateMap<TaskApplicationCreateViewModel, TaskApplication>();
             CreateMap<TaskApplication, TaskApplicationViewModel>().ForMember(dest=>dest.TaskTitle,opt=>opt.MapFrom(src=>src.Task.Title))
                 .ForMember(dest=>dest.ClientName,opt=>opt.MapFrom(src=>src.ClientProfile.OrganizationName))
-                .ForMember(dest=>dest.ProfessionalName,opt=>opt.MapFrom(src=>src.ProfessionalProfile.User.Name))
+                .ForMember(dest=>dest.ProfessionalName,opt=>opt.MapFrom(src=>src.ProfessionalProfile!=null ? src.ProfessionalProfile.User.Name :"UnAssigned"))
                 .ForMember(dest=>dest.Skills,opt=>opt.MapFrom(src=>src.ProfessionalProfile.Skills.Select(s=>s.Skill.Name).ToList()));
 
             CreateMap<SkillViewModel, Skill>().ReverseMap();

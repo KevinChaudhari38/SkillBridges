@@ -29,16 +29,16 @@
                 @Html.DisplayNameFor(model => model.Deadline)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientProfileId)
+                @Html.DisplayNameFor(model => model.ClientName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProfessionalProfileId)
+                @Html.DisplayNameFor(model => model.ProfessionalName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
+                @Html.DisplayNameFor(model => model.CategoryName)
             </th>
             <th></th>
         </tr>
@@ -65,16 +65,16 @@
                     @Html.DisplayFor(modelItem => item.Deadline)
                 </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientProfileId)
+                @Html.DisplayFor(modelItem => item.ClientName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProfessionalProfileId)
+                @(string.IsNullOrEmpty(item.ProfessionalName)?"UnAssignrd":item.ProfessionalName)
             </td>
              <td>
                 @Html.DisplayFor(modelItem => item.Status)
              </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
+                @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new {  id=item.TaskId }) 

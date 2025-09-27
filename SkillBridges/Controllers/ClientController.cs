@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers
 {
+    [Authorize(Roles ="Client,Admin")]
     public class ClientController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -70,7 +70,7 @@ namespace SkillBridges.Controllers
             model.Status = ApplicationStatus.Pending;
             _unitOfWork.TaskApplications.Insert(model);
             _unitOfWork.Save();
-            return RedirectToAction("IndexForProfessional", "Task", new { professionalProfileId = vm.ProfessionalProfileId });
+            return RedirectToAction("IndexByCategory", "Task", new { professionalProfileId = vm.ProfessionalProfileId });
         }
 
         public IActionResult Accept(string id)

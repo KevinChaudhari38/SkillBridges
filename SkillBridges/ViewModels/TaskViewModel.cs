@@ -10,8 +10,11 @@ namespace SkillBridges.ViewModels
         public DateTime CreatedAt { get; set; }
         public DateTime? Deadline { get; set; }
         public string ClientProfileId { get; set; }
+        public string ClientName { get; set; }
         public string? ProfessionalProfileId { get; set; }
+        public string? ProfessionalName { get; set; }
         public TaskStatus Status { get; set; }
         public string CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 }

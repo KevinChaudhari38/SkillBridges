@@ -1,9 +1,13 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Security.Claims;
 
 namespace SkillBridges.Controllers
 {
@@ -24,7 +28,7 @@ namespace SkillBridges.Controllers
         {
             return View();
         }
-        
+        [Authorize(Roles ="Admin")]
         public IActionResult Index()
         {
             var models = _unitOfWork.Users.GetAll();
@@ -40,10 +44,30 @@ namespace SkillBridges.Controllers
 
             var user = _unitOfWork.Users.GetByEmailAndPassword(model.Email, model.Password);
             if (user != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier,user.Id),
+                    new Claim(ClaimTypes.Name,user.Name),
+                    new Claim(ClaimTypes.Role,user.Role.ToString())
+                };
+                var identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
                 return RedirectToAction("Details", new { id = user.Id });
+            }
+                
 
             ModelState.AddModelError(string.Empty, "Invalid Email or Password");
             return View(model);
+        }
+
+        [Authorize]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Details(string id)

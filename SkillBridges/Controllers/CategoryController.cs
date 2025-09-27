@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
