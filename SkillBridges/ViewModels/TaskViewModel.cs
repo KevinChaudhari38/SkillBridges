@@ -7,13 +7,13 @@ namespace SkillBridges.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Budjet { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? Deadline { get; set; }
         public string ClientProfileId { get; set; }
         public string ClientName { get; set; }
         public string? ProfessionalProfileId { get; set; }
         public string? ProfessionalName { get; set; }
-        public TaskStatus Status { get; set; }
+        public string Status { get; set; }
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
     }

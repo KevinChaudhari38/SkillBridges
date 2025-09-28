@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
@@ -25,9 +26,20 @@ namespace SkillBridges.Controllers
         public IActionResult IndexForProfessional(string professionalId)
         {
             var skills = _unitOfWork.Skills.GetByProfessionalId(professionalId);
+            Console.WriteLine("Professional Id :- " + professionalId);
+            Console.WriteLine("Skill count :- " + skills.ToList().Count);
+            if (!skills.Any())
+            {
+                return RedirectToAction("Assign", new { professionalId });
+            }
             var vm = _mapper.Map<List<SkillViewModel>>(skills);
+            vm.First().ProfessionalProfileId = professionalId;
+            
             return View(vm);
         }
+        
+        
+
         
         public IActionResult Details(string id)
         {
@@ -37,7 +49,40 @@ namespace SkillBridges.Controllers
 
         }
         [HttpGet]
-       
+        public IActionResult CreateForProfessional(string professionalProfileId)
+        {
+            Console.WriteLine("Create for Professional Hit");
+            Console.WriteLine("Professional Id :- " + professionalProfileId);
+            var vm = new SkillCreateViewModel
+            {
+                ProfessionalProfileId = professionalProfileId,
+            };
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult CreateForProfessional(SkillCreateViewModel vm)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var user = _unitOfWork.Professionals.GetById(vm.ProfessionalProfileId);
+            if (user == null) return NotFound();
+           
+            var skill = _mapper.Map<Skill>(vm);
+            _unitOfWork.Skills.Insert(skill);
+            _unitOfWork.Save();
+            
+            user.Skills.Add(new ProfessionalSkill
+            {
+                ProfessionalProfileId = vm.ProfessionalProfileId,
+                SkillId = skill.SkillId,
+            });
+            _unitOfWork.Save();
+            return RedirectToAction("IndexForProfessional", new {professionalId=vm.ProfessionalProfileId});
+        }
+        [HttpGet]  
         public IActionResult Create()
         {
             return View();
@@ -50,6 +95,7 @@ namespace SkillBridges.Controllers
             {
                 return View();
             }
+            
             var skill = _mapper.Map<Skill>(vm);
             _unitOfWork.Skills.Insert(skill);
             _unitOfWork.Save();

@@ -5,10 +5,15 @@
 }
 
 <h1>IndexForProfessional</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    Add A skill which is Not There in the List :
+    <a asp-action="CreateForProfessional" asp-route-professionalProfileId="@Model.First().ProfessionalProfileId">Create New</a>
 </p>
+<p>
+    Manage Skills(Add Or Remove Skills) :
+    <a asp-action="Assign" asp-route-professionalId="@Model.First().ProfessionalProfileId">Manage Skills</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -36,11 +41,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+        
         </tr>
 }
     </tbody>

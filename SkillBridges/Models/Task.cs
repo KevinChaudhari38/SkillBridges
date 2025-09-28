@@ -19,13 +19,13 @@ namespace SkillBridges.Models
         public string TaskId {  get; set; }
 
         [Required(ErrorMessage="Title is required")]
-        public string Title { get; set; }
+        public string Title { get; set;}
 
         [Required(ErrorMessage="Description Is Required")]
         public string Description { get; set; }
 
         public decimal Budjet {  get; set; }
-        public DateTime CreateAt { get; set; }= DateTime.Now;
+        public DateTime CreatedAt { get; set; }= DateTime.Now;
         public DateTime? Deadline { get; set; }
         public TaskStatus Status { get; set; }
 

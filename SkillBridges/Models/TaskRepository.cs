@@ -19,11 +19,15 @@ namespace SkillBridges.Models
         }
         public List<Task> GetAll()
         {
-            return _context.Tasks.Include(c=>c.ClientProfile).ThenInclude(c=>c.User).Include(c=>c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).ToList();
+            return _context.Tasks.Include(c=>c.ClientProfile).ThenInclude(c=>c.User).Include(c=>c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t=>t.Status==TaskStatus.Open).ToList();
         }
         public List<Task> GetByCategoryId(string id)
         {
-            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.CategoryId == id).ToList();
+            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.CategoryId == id && t.Status==TaskStatus.Open).ToList();
+        }
+        public List<Task> GetByProfessionalId(string professionalId)
+        {
+            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.ProfessionalProfileId == professionalId).ToList();
         }
         public void Insert(Task task)
         {

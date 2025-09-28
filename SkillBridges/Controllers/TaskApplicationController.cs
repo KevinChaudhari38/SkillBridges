@@ -78,7 +78,12 @@ namespace SkillBridges.Controllers
             var model = _unitOfWork.TaskApplications.GetById(id);
             var vm = _unitOfWork.Tasks.GetById(model.TaskId);
             if(model==null) return NotFound();
-
+            var ToReject = _unitOfWork.TaskApplications.GetByTaskId(model.TaskId);
+            foreach(var x in ToReject)
+            {
+                x.Status = ApplicationStatus.Rejected;
+            }
+            
             model.Status=ApplicationStatus.Accepted;
             vm.ProfessionalProfileId = model.ProfessionalProfileId;
             vm.Status = Models.TaskStatus.Assigned;

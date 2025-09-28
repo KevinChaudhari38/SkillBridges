@@ -27,11 +27,12 @@ namespace SkillBridges.Controllers
         public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId)
         {
             var tasks= _unitOfWork.Tasks.GetAll();
+            Console.WriteLine("SelectedCategory :- " + SelectedCategoryId);
             if (!string.IsNullOrEmpty(SelectedCategoryId))
             {
+                Console.WriteLine("Not Null Hit");
                 tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId); ;
             }
-           
            
             var result = _mapper.Map<List<TaskViewModel>>(tasks);
 
@@ -49,6 +50,13 @@ namespace SkillBridges.Controllers
             };
             return View(vm);
         }
+
+        public IActionResult IndexForProfessional(string ProfessionalProfileId)
+        {
+            var tasks=_unitOfWork.Tasks.GetByProfessionalId(ProfessionalProfileId);
+            var vm=_mapper.Map<List<TaskViewModel>>(tasks);
+            return View(vm);
+        }
         public IActionResult Details(string id)
         {
             var task = _unitOfWork.Tasks.GetById(id);
@@ -59,6 +67,14 @@ namespace SkillBridges.Controllers
             var model=_mapper.Map<TaskViewModel>(task);
             return View(model);
         }
+        public IActionResult InProgress(string TaskId)
+        {
+            var vm=_unitOfWork.Tasks.GetById(TaskId);
+            vm.Status = Models.TaskStatus.InProgress;
+            _unitOfWork.Save();
+            return RedirectToAction("IndexForProfessional", new {vm.ProfessionalProfileId});
+        }
+        
         public IActionResult Create(string clientId)
         {
             var categories = _unitOfWork.Categories.GetAll().Select(c => new SelectListItem
@@ -111,7 +127,9 @@ namespace SkillBridges.Controllers
         [HttpPost]
         public IActionResult Edit(TaskEditViewModel vm) {
             Console.WriteLine("Edit POST method hit for TaskId: " + vm.TaskId);
-
+           var user=_unitOfWork.Clients.GetById(vm.ClientProfileId);
+            if (user == null) return NotFound();
+            
             if (!ModelState.IsValid)
             {
                 

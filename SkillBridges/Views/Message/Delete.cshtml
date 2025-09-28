@@ -68,9 +68,10 @@
     </dl>
     
     <form asp-action="Delete">
+        <input type="hidden" asp-for="TaskId" />
         <input type="hidden" asp-for="@Model.MessageId"/>
         <input type="hidden" asp-for="@Model.SenderId"/>
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" asp-route-TaskId="@Model.TaskId" asp-route-ViewerId="@Model.SenderId">Back to List</a>
     </form>
 </div>

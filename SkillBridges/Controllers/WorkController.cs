@@ -15,10 +15,35 @@ namespace SkillBridges.Controllers
             var vm = _unitOfWork.WorkSubmissions.GetByTaskId(TaskId);
             return View(vm);
         }
+        public IActionResult IndexForProfessional (string TaskId)
+        {
+            var vm = _unitOfWork.WorkSubmissions.GetByTaskId(TaskId);
+            return View(vm);
+        }
         public IActionResult Details(string id)
         {
             var vm=_unitOfWork.WorkSubmissions.GetById(id);
             return View(vm);
+        }
+        public IActionResult Accept(string WorkSubmissionId)
+        {
+
+            var vm = _unitOfWork.WorkSubmissions.GetById(WorkSubmissionId);
+            var task = _unitOfWork.Tasks.GetById(vm.TaskId);
+            task.Status = Models.TaskStatus.Completed;
+            vm.Status = Models.WorkStatus.Accepted;
+            _unitOfWork.Save();
+            return RedirectToAction("Index", "Work", new { TaskId=vm.TaskId });
+
+        }
+        public IActionResult Reject(string WorkSubmissionId)
+        {
+            var vm = _unitOfWork.WorkSubmissions.GetById(WorkSubmissionId);
+            var task = _unitOfWork.Tasks.GetById(vm.TaskId);
+            task.Status = Models.TaskStatus.Rejected;
+            vm.Status = Models.WorkStatus.Rejected;
+            _unitOfWork.Save();
+            return RedirectToAction("Index", "Work", new { TaskId = vm.TaskId });
         }
         public IActionResult Create(string TaskId)
         {
@@ -51,8 +76,10 @@ namespace SkillBridges.Controllers
             workSubmission.FilePath = "/uploads/works/" + fileName;
             
             _unitOfWork.WorkSubmissions.insert(workSubmission);
+            var task=_unitOfWork.Tasks.GetById(workSubmission.TaskId);
+            task.Status = Models.TaskStatus.Submitted;
             _unitOfWork.Save();
-            return RedirectToAction("Index", "TaskApplication", new {professionalProfileId=workSubmission.ProfessionalProfileId});
+            return RedirectToAction("IndexForProfessional", "Task", new {ProfessionalProfileId=workSubmission.ProfessionalProfileId});
         }
         [HttpGet]
         public IActionResult Edit(string id)

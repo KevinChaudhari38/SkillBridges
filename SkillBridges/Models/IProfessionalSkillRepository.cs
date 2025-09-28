@@ -5,5 +5,6 @@
         void Insert(ProfessionalSkill professionalSkill);
         void Delete(ProfessionalSkill professionalSkill);
         List<ProfessionalSkill> GetByProfessionalId(string professionalId);
+        List<ProfessionalSkill> GetBySkillId(string SkillId);
     }
 }

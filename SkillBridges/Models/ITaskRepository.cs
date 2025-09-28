@@ -8,6 +8,7 @@ namespace SkillBridges.Models
         List<Task> GetAll();
         List<Task> GetByCategoryId(string id);
         List<Task> GetByClientId(string clientId);
+        List<Task> GetByProfessionalId(string professionalId);
         void Insert(Task task);
         void Update(Task task);
         void Delete(Task task);

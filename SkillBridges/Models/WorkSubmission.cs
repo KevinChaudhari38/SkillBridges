@@ -2,6 +2,12 @@
 
 namespace SkillBridges.Models
 {
+    public enum WorkStatus
+    {
+        UnderSupervision,
+        Accepted,
+        Rejected
+    }
     public class WorkSubmission
     {
         [Key]
@@ -17,5 +23,6 @@ namespace SkillBridges.Models
         [Required]
         public string? FilePath {  get; set; }
         public DateTime SubmittedAt { get; set; }=DateTime.Now;
+        public WorkStatus Status { get; set; }=WorkStatus.UnderSupervision;
     }
 }

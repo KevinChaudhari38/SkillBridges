@@ -33,7 +33,8 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new {  id=item.SkillId  }) |
                 @Html.ActionLink("Details", "Details", new {  id=item.SkillId }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.SkillId })
+                @Html.ActionLink("Delete", "Delete", new {  id=item.SkillId }) |
+                <a asp-controller="Home" asp-action="IndexBySkill" asp-route-SkillId="@item.SkillId">View Professionals</a>
             </td>
         </tr>
 }

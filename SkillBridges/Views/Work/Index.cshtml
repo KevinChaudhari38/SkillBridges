@@ -6,9 +6,6 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -29,6 +26,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SubmittedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model=>model.Status)
             </th>
             <th></th>
         </tr>
@@ -56,9 +56,16 @@
                 @Html.DisplayFor(modelItem => item.SubmittedAt)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.WorkSubmissionId  }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.WorkSubmissionId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.WorkSubmissionId })
+                @if (item.Status==WorkStatus.UnderSupervision)
+                {
+                    <a asp-controller="Work" asp-action="Accept" asp-route-WorkSubmissionId="@item.WorkSubmissionId">Accept Work</a>
+                    <a asp-controller="Work" asp-action="Reject" asp-route-WorkSubmissionId="@item.WorkSubmissionId">Reject Work</a>
+                }
+                else
+                {
+                   @Html.DisplayFor(modelItem => item.Status)
+                }
+              
             </td>
         </tr>
 }

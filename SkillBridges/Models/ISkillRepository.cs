@@ -3,6 +3,7 @@
     public interface ISkillRepository
     {
         Skill GetById(string id);
+        Skill GetByName(string Name);
         List<Skill> GetByProfessionalId(string id);
         List<Skill> GetAll();
         void Insert(Skill skill);

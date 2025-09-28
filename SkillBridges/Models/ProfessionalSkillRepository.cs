@@ -22,5 +22,9 @@ namespace SkillBridges.Models
         {
             return _context.ProfessionalSkills.Include(ps => ps.Skill).Where(ps => ps.ProfessionalProfileId == professionalId).ToList(); 
         }
+        public List<ProfessionalSkill> GetBySkillId(string SkillId)
+        {
+            return _context.ProfessionalSkills.Include(ps => ps.Skill).Where(ps => ps.SkillId == SkillId).ToList();
+        }
     }
 }

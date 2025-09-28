@@ -86,10 +86,11 @@
     </dl>
     
     <form asp-action="DeleteForClient">
+        <input type="hidden" asp-for="TaskId"/>
         <input type="hidden" asp-for="TaskApplicationId" />
         <input type="hidden" asp-for="ClientProfileId" />
         <input type="hidden" asp-for="ProfessionalProfileId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="ClientRequests" asp-route-taskId="@Model.TaskId">Back to List</a>
     </form>
 </div>

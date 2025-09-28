@@ -19,12 +19,13 @@ namespace SkillBridges.Models
                 
                 .FirstOrDefault(p => p.ProfessionalProfileId == id);
         }
-
+        
         public ProfessionalProfile GetByUserId(String id)
         {
             return _context.ProfessionalProfiles.Include(p => p.User)
                                                 .FirstOrDefault(p => p.UserId == id);
         }
+        
 
         public List<ProfessionalProfile> GetAll()
         {

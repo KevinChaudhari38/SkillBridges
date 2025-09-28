@@ -27,6 +27,6 @@ namespace SkillBridges.ViewModels
         public IEnumerable<SelectListItem>? Categories { get; set; }
         public string ClientProfileId { get; set; }
 
-        public string? ProfessionalProfileId { get; set; }
+        
     }
 }

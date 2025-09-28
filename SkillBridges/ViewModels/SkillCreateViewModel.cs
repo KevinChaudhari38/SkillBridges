@@ -8,5 +8,6 @@ namespace SkillBridges.ViewModels
         public string Name { get; set; }
         [Required(ErrorMessage = "Description is Required")]
         public string Description { get; set; }
+        public string? ProfessionalProfileId { get; set; }
     }
 }

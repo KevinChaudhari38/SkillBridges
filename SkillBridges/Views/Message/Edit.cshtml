@@ -12,6 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TaskId"/>
             <input type="hidden" asp-for="MessageId"/>
             <input type="hidden" asp-for="TaskTitle"/>
             <input type="hidden" asp-for="SenderId"/>
@@ -34,7 +35,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-TaskId="@Model.TaskId" asp-route-ViewerId="@Model.SenderId">Back to List</a>
 </div>
 
 @section Scripts {

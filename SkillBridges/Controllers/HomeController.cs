@@ -8,6 +8,7 @@ using SkillBridges.Services;
 using SkillBridges.ViewModels;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Security.Claims;
 
 using System.Security.Cryptography;
@@ -40,6 +41,19 @@ namespace SkillBridges.Controllers
             var models = _unitOfWork.Users.GetAll();
             var vm=_mapper.Map<List<UserViewModel>>(models);
             return View(vm);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult IndexBySkill(string SkillId)
+        {
+            var vm = _unitOfWork.ProfessionalSkills.GetBySkillId(SkillId);
+            List<User> um = new List<User>();
+            foreach (var v in vm)
+            {
+                var user = _unitOfWork.Professionals.GetById(v.ProfessionalProfileId).User;              
+                um.Add(user);
+            }
+            var model = _mapper.Map<List<UserViewModel>>(um);
+            return View(model);
         }
 
         [HttpPost]
@@ -91,22 +105,54 @@ namespace SkillBridges.Controllers
 
         public IActionResult ClientDetails(string id)
         {
-            var vm = _unitOfWork.Clients.GetByUserId(id);
+            string userId;
+            if (User.IsInRole("Admin"))
+            {
+                userId = id;
+            }
+            else
+            {
+                userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+                
+            var vm = _unitOfWork.Clients.GetByUserId(userId);
+            
             if (vm == null)
-                return RedirectToAction("Create", "Client", new { userId = id });
-
+            {
+                
+               return RedirectToAction("Create", "Client", new { userId = id });
+                
+            }
+            
             var model = _mapper.Map<ClientDetailsViewModel>(vm);
+            
+
+                
             return View(model);
         }
 
         public IActionResult ProfessionalDetails(string id)
         {
-            var vm = _unitOfWork.Professionals.GetByUserId(id);
+            string userId;
+            if (User.IsInRole("Admin"))
+            {
+                userId = id;
+            }
+            else
+            {
+                userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+
+            var vm = _unitOfWork.Professionals.GetByUserId(userId);
+
             if (vm == null)
+            {
+
                 return RedirectToAction("Create", "Professional", new { userId = id });
 
+            }
+
             var model = _mapper.Map<ProfessionalDetailsViewModel>(vm);
-            
             return View(model);
         }
 

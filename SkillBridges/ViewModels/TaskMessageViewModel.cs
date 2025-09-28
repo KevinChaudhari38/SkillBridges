@@ -2,6 +2,7 @@
 {
     public class TaskMessageViewModel
     {
+        public string TaskId { get; set; }
         public string MessageId {  get; set; }
         public string TaskTitle {  get; set; }
         public string SenderId {  get; set; }
