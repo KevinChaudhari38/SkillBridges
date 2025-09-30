@@ -89,6 +89,7 @@
                         <a asp-controller="Work" asp-action="Index" asp-route-TaskId="@item.TaskId">View Work</a> <br />
                         <a asp-controller="Message" asp-action="Create" asp-route-id="@item.TaskId" asp-route-senderId="@item.ClientProfileId" asp-route-receiverId="@item.ProfessionalProfileId">Message</a> <br />
                         <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ClientProfileId">View Messages</a>
+
                     }
 
                 
