@@ -4,6 +4,7 @@ using SkillBridges.Data;
 using SkillBridges.Mappings;
 using SkillBridges.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using SkillBridges.Services;
@@ -16,6 +17,9 @@ namespace SkillBridges
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            StaticWebAssetsLoader.UseStaticWebAssets(
+             builder.Environment,
+             builder.Configuration);
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<SkillBridgeContext>(options =>
@@ -49,6 +53,7 @@ namespace SkillBridges
                 app.UseHsts();
             }
 
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
 
