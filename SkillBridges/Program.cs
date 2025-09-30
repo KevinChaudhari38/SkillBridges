@@ -34,9 +34,11 @@ namespace SkillBridges
 
             builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
             builder.Services.AddScoped<EmailService>();
+            builder.Services.AddSingleton<RazorpayService>();
 
 
-           
+
+
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new Helper());

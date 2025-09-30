@@ -80,19 +80,23 @@
                 @Html.ActionLink("Edit", "Edit", new {  id=item.TaskId }) |
                 @Html.ActionLink("Details", "Details", new { id=item.TaskId }) |
                 @Html.ActionLink("Delete", "Delete", new {id=item.TaskId}) <br />
-                    @if (item.Status=="Open")
+                @if (item.Status=="Open")
                     {
-                        <a asp-controller="TaskApplication" asp-action="ClientRequests" asp-route-taskId="@item.TaskId">View Requests</a> <br />
+                <a asp-controller="TaskApplication" asp-action="ClientRequests" asp-route-taskId="@item.TaskId">View Requests</a>  <br />
                     }
-                    @if (item.Status != "Open")
-                    {
-                        <a asp-controller="Work" asp-action="Index" asp-route-TaskId="@item.TaskId">View Work</a> <br />
-                        <a asp-controller="Message" asp-action="Create" asp-route-id="@item.TaskId" asp-route-senderId="@item.ClientProfileId" asp-route-receiverId="@item.ProfessionalProfileId">Message</a> <br />
-                        <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ClientProfileId">View Messages</a>
+                @if (item.Status != "Open" && item.PaymentStatus != "Paid")
+{
+                <a asp-controller="Payment" asp-action="Pay" asp-route-taskId="@item.TaskId" class="btn btn-success mb-1">
+                    Pay ₹@item.Budjet
+                </a>
+}
+else if(item.PaymentStatus == "Paid")
+{
+                <span class="badge bg-success">Paid</span>
+}
 
-                    }
 
-                
+
 
 
             </td>

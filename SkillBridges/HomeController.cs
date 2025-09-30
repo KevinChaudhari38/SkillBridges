@@ -23,7 +23,7 @@ namespace SkillBridges.Controllers
         private readonly IMapper _mapper;
         private readonly EmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, IMapper mapper, IUnitOfWork unitOfWork,EmailService emailService)
+        public HomeController(ILogger<HomeController> logger, IMapper mapper, IUnitOfWork unitOfWork, EmailService emailService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -35,11 +35,11 @@ namespace SkillBridges.Controllers
         {
             return View();
         }
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var models = _unitOfWork.Users.GetAll();
-            var vm=_mapper.Map<List<UserViewModel>>(models);
+            var vm = _mapper.Map<List<UserViewModel>>(models);
             return View(vm);
         }
         [Authorize(Roles = "Admin")]
@@ -49,7 +49,7 @@ namespace SkillBridges.Controllers
             List<User> um = new List<User>();
             foreach (var v in vm)
             {
-                var user = _unitOfWork.Professionals.GetById(v.ProfessionalProfileId).User;              
+                var user = _unitOfWork.Professionals.GetById(v.ProfessionalProfileId).User;
                 um.Add(user);
             }
             var model = _mapper.Map<List<UserViewModel>>(um);
@@ -71,13 +71,13 @@ namespace SkillBridges.Controllers
                     new Claim(ClaimTypes.Name,user.Name),
                     new Claim(ClaimTypes.Role,user.Role.ToString())
                 };
-                var identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();
                 return RedirectToAction("Details", new { id = user.Id });
             }
-                
+
 
             ModelState.AddModelError(string.Empty, "Invalid Email or Password");
             return View(model);
@@ -97,10 +97,10 @@ namespace SkillBridges.Controllers
 
             if (user.Role == Models.UserRole.Client)
                 return RedirectToAction("ClientDetails", new { id = user.Id });
-            else if(user.Role == Models.UserRole.Admin)
+            else if (user.Role == Models.UserRole.Admin)
                 return RedirectToAction("Index");
 
-           return RedirectToAction("ProfessionalDetails", new { id = user.Id });
+            return RedirectToAction("ProfessionalDetails", new { id = user.Id });
         }
 
         public IActionResult ClientDetails(string id)
@@ -114,20 +114,20 @@ namespace SkillBridges.Controllers
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             }
-                
+
             var vm = _unitOfWork.Clients.GetByUserId(userId);
-            
+
             if (vm == null)
             {
-                
-               return RedirectToAction("Create", "Client", new { userId = id });
-                
-            }
-            
-            var model = _mapper.Map<ClientDetailsViewModel>(vm);
-            
 
-                
+                return RedirectToAction("Create", "Client", new { userId = id });
+
+            }
+
+            var model = _mapper.Map<ClientDetailsViewModel>(vm);
+
+
+
             return View(model);
         }
 
@@ -184,12 +184,12 @@ namespace SkillBridges.Controllers
                 return View(vm);
             }
             var user = _mapper.Map<User>(vm);
-        
+
             _unitOfWork.Users.insert(user);
-            _unitOfWork.Save(); 
-             return RedirectToAction("Details", new { id = user.Id });
-            
-            
+            _unitOfWork.Save();
+            return RedirectToAction("Details", new { id = user.Id });
+
+
         }
 
         [HttpGet]
@@ -214,7 +214,7 @@ namespace SkillBridges.Controllers
 
             _mapper.Map(vm, user);
             _unitOfWork.Users.update(user);
-            _unitOfWork.Save(); 
+            _unitOfWork.Save();
             return RedirectToAction("Details", new { id = user.Id });
         }
 
@@ -238,7 +238,7 @@ namespace SkillBridges.Controllers
                 if (model == null) return NotFound();
 
                 _unitOfWork.Users.delete(model);
-                _unitOfWork.Save(); 
+                _unitOfWork.Save();
                 return RedirectToAction("Login");
             }
             catch
@@ -264,7 +264,7 @@ namespace SkillBridges.Controllers
 
             var user = _unitOfWork.Users.GetByEmail(vm.Email);
 
-            if(user == null)
+            if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Email not found");
                 return View(vm);
@@ -286,7 +286,7 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(string email,string token)
+        public IActionResult ResetPassword(string email, string token)
         {
             if (email == null || token == null)
             {
@@ -301,8 +301,9 @@ namespace SkillBridges.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ResetPassword(ResetPasswordViewModel vm)
         {
-            if (!ModelState.IsValid) {
-                return View(vm);    
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
             }
 
             var user = _unitOfWork.Users.GetByEmail(vm.Email);
@@ -323,7 +324,7 @@ namespace SkillBridges.Controllers
             ViewBag.Message = "password has been reset successfully.";
             return RedirectToAction("Login");
         }
-        
+
 
         public IActionResult Privacy()
         {
