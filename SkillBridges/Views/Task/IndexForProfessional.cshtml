@@ -21,6 +21,7 @@
                 <th>@Html.DisplayNameFor(model => model.ProfessionalName)</th>
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
                 <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                <th>@Html.DisplayNameFor(Model=>Model.PaymentStatus)</th>
                 <th>Actions</th>
 
 
@@ -40,6 +41,7 @@
                     <td>@(string.IsNullOrEmpty(item.ProfessionalName) ? "UnAssigned" : item.ProfessionalName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Status)</td>
                     <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                    <td>@(string.IsNullOrEmpty(item.PaymentStatus) ? "Pending" : item.PaymentStatus)</td>
                     <td>
                         <div class="d-grid gap-1">
                             @if (item.Status == "Open" || item.Status == "Rejected")

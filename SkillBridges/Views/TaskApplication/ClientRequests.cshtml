@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<<<<<<< HEAD
+
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered align-middle">
@@ -36,23 +36,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskApplicationId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TaskTitle)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientProfileId)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.ClientName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfessionalProfileId)
-            </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.ProfessionalName)
             </td>
@@ -91,47 +81,7 @@
                         <span class="text-muted">No File</span>
                     }
             </td>
-            <td>
-                    @if (item.Status == "Pending")
-                    {
-                        <a asp-action="Accept" asp-route-id="@item.TaskApplicationId" class="btn btn-success">Accept</a>
-                        <a asp-action="Reject" asp-route-id="@item.TaskApplicationId" class="btn btn-success">Reject</a>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Status)
-                        <a asp-controller="Task" asp-action="Details" asp-route-id="@item.TaskId">View Task</a>
-                    }
-                    
-                    <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>                   
-                    <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ProfessionalName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Proposal)</td>
-                    <td>
-                        @if (item.Skills != null && item.Skills.Any())
-                        {
-                            foreach (var skill in item.Skills)
-                            {
-                                <span class="badge bg-primary">@skill</span>
-                            }
-                        }
-                        else
-                        {
-                            <span class="text-muted">No Skills</span>
-                        }
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.ExpectedBudjet)</td>
-                    <td>@Html.DisplayFor(modelItem => item.AppliedAt)</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(item.File))
-                        {
-                            <a href="@item.File" target="_blank" class="btn btn-link">Download</a>
-                        }
-                        else
-                        {
-                            <span class="text-muted">No File</span>
-                        }
-                    </td>
+            
                     <td>
                         @if (item.Status == "Pending")
                         {
