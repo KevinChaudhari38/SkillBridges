@@ -56,6 +56,8 @@ dotnet add package MailKit
 
 
 In Your appsettings.json / appsettings.Development.json  Add following:
+<img width="419" height="144" alt="image" src="https://github.com/user-attachments/assets/062208af-c3d2-45eb-b835-db31ac26ac67" />
+
   "EmailSettings": {
     "Host": "smtp.gmail.com",
     "Port": 587,
@@ -79,6 +81,8 @@ Go to Tools -> NuGet Package Manager ->Manage NuGet Packages for solution
 
  
 In Your appsettings.json / appsettings.Development.json  Add following:
+<img width="419" height="144" alt="image" src="https://github.com/user-attachments/assets/df756030-8ef3-416c-9439-b870ed291ddf" />
+
 "Razorpay": {
   "Key": "YOUR_RAZORPAY_API_KEY",
   "Secret": "YOUR_RAZORPAY_SECRET_ID"
