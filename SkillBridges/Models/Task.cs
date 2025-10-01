@@ -40,6 +40,8 @@ namespace SkillBridges.Models
         public string Description { get; set; }
 
         public decimal Budjet {  get; set; }
+        public string PaymentStatus { get; set; } = "Pending";
+        public string? RazorpayOrderId { get; set; }
         public DateTime CreatedAt { get; set; }= DateTime.Now;
         public DateTime? Deadline { get; set; }
         public TaskStatus Status { get; set; }

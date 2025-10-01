@@ -7,6 +7,8 @@ namespace SkillBridges.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Budjet { get; set; }
+        public string PaymentStatus { get; set; } = "Pending";
+        public string? RazorpayOrderId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? Deadline { get; set; }
         public string ClientProfileId { get; set; }
