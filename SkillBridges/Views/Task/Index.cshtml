@@ -61,11 +61,17 @@
                                     Pay ₹@item.Budjet
                                 </a>
                             }
+                            @if(item.PaymentStatus == "Paid")
+                            {
+                                <a asp-controller="Payment" asp-action="Index" asp-route-clientId="@item.ClientProfileId" class="btn btn-outline-info">
+                                View Payment History    
+                                </a>
+                            }
                             @if (item.Status == "Completed")
                             {
                                 <a asp-controller="Rating" asp-action="Create" asp-Route-TaskId="@item.TaskId" class="btn btn-sm-outline-primary">Give Ratings</a>
                             }
-                        </div>
+                        </div> 
                     </td>
                 </tr>
             }

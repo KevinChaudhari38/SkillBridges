@@ -1,4 +1,4 @@
-﻿using SkillBridges.Migrations;
+﻿//using SkillBridges.Migrations;
 using System.ComponentModel.DataAnnotations;
 
 namespace SkillBridges.ViewModels

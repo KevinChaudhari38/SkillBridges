@@ -13,6 +13,7 @@
         IMessageRepository Messages { get; }
         IWorkRepository WorkSubmissions { get; }
         IRatingRepository Ratings { get; }
+        IPaymentRepository Payments { get; }
         void Save();
     }
 }

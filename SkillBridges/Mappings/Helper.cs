@@ -53,6 +53,11 @@ namespace SkillBridges.Mappings
                     src.Task.Title
                 ));
 
+            CreateMap<Payment, PaymentViewModel>()
+                .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.ClientProfile.OrganizationName))
+                .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.Task.Title))
+                .ForMember(dest => dest.ProfessionalName, opt => opt.MapFrom(src => src.ProfessionalProfile.User.Name));
+
         }  
     }
 }

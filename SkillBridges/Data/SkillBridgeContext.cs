@@ -17,6 +17,8 @@ namespace SkillBridges.Data
         public DbSet<TaskMessage> Messages {  get; set; }
         public DbSet<WorkSubmission>   WorkSubmissions { get; set; }
         public DbSet<Rating> Ratings {  get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -47,6 +49,36 @@ namespace SkillBridges.Data
             modelBuilder.Entity<Rating>().HasOne(t => t.Task).WithOne().HasForeignKey<Rating>(t => t.TaskId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Rating>().HasOne(t => t.ClientProfile).WithMany().HasForeignKey(t => t.ClientProfileId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Rating>().HasOne(t => t.ProfessionalProfile).WithMany().HasForeignKey(t => t.ProfessionalProfileId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Models.Task>()
+           .Property(t => t.Budjet)
+            .HasPrecision(18, 2);
+
+            modelBuilder.Entity<TaskApplication>()
+    .Property(t => t.ExpectedBudjet)
+    .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Payment>()
+           .HasOne(p => p.Task)
+           .WithMany()
+           .HasForeignKey(p => p.TaskId)
+           .OnDelete(DeleteBehavior.Restrict); 
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.ClientProfile)
+                .WithMany()
+                .HasForeignKey(p => p.ClientProfileId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.ProfessionalProfile)
+                .WithMany()
+                .HasForeignKey(p => p.ProfessionalProfileId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             modelBuilder.Entity<User>().HasData(new User
             {

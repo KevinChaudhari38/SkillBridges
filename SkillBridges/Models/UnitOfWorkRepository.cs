@@ -17,6 +17,7 @@ namespace SkillBridges.Models
         private IMessageRepository _messageRepository;
         private IWorkRepository _workRepository;
         private IRatingRepository _ratingRepository;
+        private IPaymentRepository _payments;
         public UnitOfWorkRepository(SkillBridgeContext context)
         {
             _context = context;
@@ -92,6 +93,7 @@ namespace SkillBridges.Models
             }
         }
 
+        public IPaymentRepository Payments => _payments ??= new PaymentRepository(_context);
         public void Save()
         {
             _context.SaveChanges();

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SkillBridges.ViewModels.PaymentViewModel>
+
+@{
+    ViewData["Title"] = "Payment History";
+}
+
+<h2>Payment History</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Payment Id</th>
+            <th>Task</th>
+            <th>Amount</th>
+            <th>Paid At</th>
+            <th>Payment Status</th>
+            <th>Razorpay Order Id</th>
+            <th>Razorpay Payment Id</th>
+            <th>Professional Name</th>
+            <th>Client Name</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.PaymentId</td>
+            <td>@p.TaskName</td>
+            <td>₹@p.Amount</td>
+            <td>@p.CreatedAt.ToLocalTime().ToString("g")</td>
+            <td>@p.PaymentStatus</td>
+            <td>@p.RazorpayOrderId</td>
+            <td>@p.RazorpayPaymentId</td>
+             <td>@p.ProfessionalName</td> 
+             <td>@p.ClientName</td> 
+        </tr>
+    }
+    </tbody>
+</table>
