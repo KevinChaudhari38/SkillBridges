@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 # Ignore EF Core Migrations
 /SkillBridges/Migrations/
+/SkillBridges/wwwroot/uploads/
+/SkillBridges/appsettings.Development.json/
 
 # User-specific files
 *.rsuser
