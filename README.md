@@ -76,7 +76,9 @@ Go to Tools -> NuGet Package Manager ->Manage NuGet Packages for solution
 - Search for Razorpay package and install it according to suitable version
  <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e28fd73c-a727-4623-96c2-ee740f4159b4" />
 
- .NET ClI :
+ 
+.NET CLI :
+
  dotnet add package razorpay
 
  
