@@ -7,8 +7,7 @@ using SkillBridges.Models;
 using SkillBridges.Services;
 using SkillBridges.ViewModels;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Globalization;
+
 using System.Security.Claims;
 
 using System.Security.Cryptography;

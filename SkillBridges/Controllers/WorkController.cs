@@ -31,7 +31,7 @@ namespace SkillBridges.Controllers
             var vm = _unitOfWork.WorkSubmissions.GetById(WorkSubmissionId);
             var task = _unitOfWork.Tasks.GetById(vm.TaskId);
             task.Status = Models.TaskStatus.Completed;
-            vm.Status = Models.WorkStatus.Accepted;
+            vm.Status = WorkStatus.Accepted;
             _unitOfWork.Save();
             return RedirectToAction("Index", "Work", new { TaskId=vm.TaskId });
 
@@ -41,7 +41,7 @@ namespace SkillBridges.Controllers
             var vm = _unitOfWork.WorkSubmissions.GetById(WorkSubmissionId);
             var task = _unitOfWork.Tasks.GetById(vm.TaskId);
             task.Status = Models.TaskStatus.Rejected;
-            vm.Status = Models.WorkStatus.Rejected;
+            vm.Status = WorkStatus.Rejected;
             _unitOfWork.Save();
             return RedirectToAction("Index", "Work", new { TaskId = vm.TaskId });
         }

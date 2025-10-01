@@ -20,6 +20,7 @@
                 <th>@Html.DisplayNameFor(model => model.ProfessionalName)</th>
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
                 <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                <th>@Html.DisplayNameFor(model=>model.PaymentStatus)</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -37,6 +38,7 @@
                     <td>@(string.IsNullOrEmpty(item.ProfessionalName) ? "UnAssigned" : item.ProfessionalName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Status)</td>
                     <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                    <td>@(string.IsNullOrEmpty(item.PaymentStatus) ? "Pending" : item.PaymentStatus)</td>
                     <td>
                         <div class="d-flex flex-column gap-1">
                             @Html.ActionLink("Edit", "Edit", new { id = item.TaskId }, new { @class = "btn btn-sm btn-outline-primary" })
@@ -48,13 +50,16 @@
                             }
                             @if (item.Status != "Open")
                             {
-                                 <a asp-controller="Payment" asp-action="Pay" asp-route-taskId="@item.TaskId" class="btn btn-success mb-1">
-                    Pay ₹@item.Budjet
-                </a>
                                 <a asp-controller="Work" asp-action="Index" asp-route-TaskId="@item.TaskId" class="btn btn-sm btn-outline-success">View Work</a>
                                 <a asp-controller="Message" asp-action="Create" asp-route-id="@item.TaskId" asp-route-senderId="@item.ClientProfileId" asp-route-receiverId="@item.ProfessionalProfileId" class="btn btn-sm btn-outline-warning">Message</a>
                                 <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ClientProfileId" class="btn btn-sm btn-outline-dark">View Messages</a>
                                 <a asp-controller="Professional" asp-action="Details" asp-route-id="@item.ProfessionalProfileId" class="btn btn-outline-secondary">Professional Profile</a>
+                            }
+                            @if (item.Status != "Open" && item.PaymentStatus != "Paid")
+                            {
+                                <a asp-controller="Payment" asp-action="Pay" asp-route-taskId="@item.TaskId" class="btn btn-success mb-1">
+                                    Pay ₹@item.Budjet
+                                </a>
                             }
                             @if (item.Status == "Completed")
                             {

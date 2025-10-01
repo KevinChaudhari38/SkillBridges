@@ -27,7 +27,8 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
 
             ViewBag.Key = _razorpayService.Key;
-            ViewBag.Amount = task.Budjet * 100;  // Razorpay expects paise
+            ViewBag.Amount = task.Budjet * 100;
+            ViewBag.ToDisplay = task.Budjet;
             ViewBag.OrderId = orderId;
             ViewBag.TaskId = task.TaskId;
 
@@ -60,7 +61,7 @@ namespace SkillBridges.Controllers
                 TempData["Message"] = "Payment Failed!";
             }
 
-            return RedirectToAction("Index", "Task");
+            return RedirectToAction("Index", "Task", new {clientId=task.ClientProfileId});
         }
     }
 }

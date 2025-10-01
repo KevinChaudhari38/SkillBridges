@@ -7,7 +7,7 @@ namespace SkillBridges.Models
         User GetByEmailAndPassword(string email, string password);
         User GetByEmail(string Email);
         IEnumerable<SelectListItem> GetRoles();
-        User GetById(String id);
+        User GetById(string id);
         void insert(User user);
         void update(User user);
         void delete(User user);

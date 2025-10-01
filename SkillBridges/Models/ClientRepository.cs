@@ -8,13 +8,13 @@ namespace SkillBridges.Models
         private readonly SkillBridgeContext _context;
         public ClientRepository(SkillBridgeContext context)
         {
-            this._context = context;
+            _context = context;
         }
-        public ClientProfile GetById(String userId)
+        public ClientProfile GetById(string userId)
         {
             return _context.ClientProfiles.Include(c => c.User).FirstOrDefault(p => p.ClientProfileId == userId);
         }
-        public ClientProfile GetByUserId(String id)
+        public ClientProfile GetByUserId(string id)
         {
             return _context.ClientProfiles.Include(c => c.User).FirstOrDefault(p => p.UserId == id);
         }

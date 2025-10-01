@@ -9,10 +9,10 @@ namespace SkillBridges.Models
 
         public ProfessionalRepository(SkillBridgeContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
-        public ProfessionalProfile GetById(String id)
+        public ProfessionalProfile GetById(string id)
         {
             return _context.ProfessionalProfiles
                 .Include(p => p.User)
@@ -20,7 +20,7 @@ namespace SkillBridges.Models
                 .FirstOrDefault(p => p.ProfessionalProfileId == id);
         }
         
-        public ProfessionalProfile GetByUserId(String id)
+        public ProfessionalProfile GetByUserId(string id)
         {
             return _context.ProfessionalProfiles.Include(p => p.User)
                                                 .FirstOrDefault(p => p.UserId == id);

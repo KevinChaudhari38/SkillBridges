@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using SkillBridges.Data;
 using SkillBridges.Mappings;
-using SkillBridges.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using SkillBridges.Services;
+using SkillBridges.Models;
 
 namespace SkillBridges
 {

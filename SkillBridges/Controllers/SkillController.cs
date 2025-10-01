@@ -26,7 +26,7 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<SkillViewModel>>(skills);
             return View(vm);
         }
-        [Authorize(Roles ="Professional")]
+        [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexForProfessional(string professionalId)
         {
             var skills = _unitOfWork.Skills.GetByProfessionalId(professionalId);
@@ -127,7 +127,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
-        [Authorize(Roles ="Professional")]
+        [Authorize(Roles ="Professional,Admin")]
         public IActionResult Assign(string professionalId)
         {
             var allSkills = _unitOfWork.Skills.GetAll();
