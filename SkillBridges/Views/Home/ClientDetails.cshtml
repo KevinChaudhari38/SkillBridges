@@ -4,61 +4,38 @@
     ViewData["Title"] = "ClientDetails";
 }
 
-<h1>Client Details</h1>
+<div class="container vh-100 d-flex justify-content-center align-items-start mt-5">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-4 p-4">
+            <h4 class="text-center fw-semibold mb-4">Client Profile</h4>
 
-<div>
-    <h4>Client Profile</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Name)
-        </dd>
+            <dl class="row mb-4">
+                <dt class="col-sm-2 fw-semibold">Name</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.User.Name)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
+                <dt class="col-sm-2 fw-semibold">Email</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.User.Email)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User.PhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.PhoneNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ClientProfileId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ClientProfileId)
-        </dd>
+                <dt class="col-sm-2 fw-semibold">Phone</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.User.PhoneNumber)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrganizationName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrganizationName)
-        </dd>
+                <dt class="col-sm-2 fw-semibold">Profile ID</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.ClientProfileId)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                <dt class="col-sm-2 fw-semibold">Organization</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.OrganizationName)</dd>
 
-    </dl>
-</div>
+                <dt class="col-sm-2 fw-semibold">Address</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+            </dl>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.User.Id">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model.User.Id">Delete</a> |
-    <a asp-controller="Client" asp-action="Edit" asp-route-id="@Model.User.Id">Edit Bio</a> |
-    <a asp-controller="Task" asp-action="Create" asp-route-clientId="@Model.ClientProfileId">Create Task</a> |
-    <a asp-controller="Task" asp-action="Index" asp-route-clientId="@Model.ClientProfileId">View Tasks</a>
-    
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-primary btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.User.Id" class="btn btn-danger btn-sm">Delete</a>
+                <a asp-controller="Client" asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-secondary btn-sm">Edit Bio</a>
+                <a asp-controller="Task" asp-action="Create" asp-route-clientId="@Model.ClientProfileId" class="btn btn-success btn-sm">Create Task</a>
+                <a asp-controller="Task" asp-action="Index" asp-route-clientId="@Model.ClientProfileId" class="btn btn-info btn-sm text-white">View Tasks</a>
+            </div>
+        </div>
+    </div>
 </div>

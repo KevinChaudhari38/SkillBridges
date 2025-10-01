@@ -45,7 +45,7 @@ namespace SkillBridges.Models
 
         public IEnumerable<SelectListItem> GetRoles()
         {
-            return Enum.GetValues(typeof(UserRole))
+            return Enum.GetValues(typeof(ViewModels.UserRole))
                        .Cast<UserRole>()
                        .Select(r => new SelectListItem
                        {
@@ -53,6 +53,7 @@ namespace SkillBridges.Models
                            Text = r.ToString()
                        });
         }
+        
 
         public User GetByEmailAndPassword(string Email, string Password)
         {

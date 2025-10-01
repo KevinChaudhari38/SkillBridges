@@ -10,8 +10,23 @@ namespace SkillBridges.Models
         InProgress,
         Submitted,
         Completed,
+        Done,
         Rejected,
         Cancelled
+    }
+    public enum TaskType
+    {
+        Local,
+        Global
+    }
+    public enum City
+    {
+        Mumbai,
+        Ahmedabad,
+        Nadiad,
+        Vadodara,
+        Surat,
+        Rajkot
     }
     public class Task
     {
@@ -28,7 +43,8 @@ namespace SkillBridges.Models
         public DateTime CreatedAt { get; set; }= DateTime.Now;
         public DateTime? Deadline { get; set; }
         public TaskStatus Status { get; set; }
-
+        public TaskType Type { get; set; }
+        public City? City { get; set; }
         [Required]
         public string CategoryId { get; set; }
         public Category Category { get; set; }
@@ -39,6 +55,9 @@ namespace SkillBridges.Models
         public ProfessionalProfile ProfessionalProfile { get; set; }
 
         public ICollection<TaskApplication> TaskApplications { get; set; }
+        public List<TaskMessage>? Messages { get; set; }
+
+       
 
     }
 }

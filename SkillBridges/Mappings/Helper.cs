@@ -41,6 +41,12 @@ namespace SkillBridges.Mappings
             CreateMap<CategoryViewModel,Category>().ReverseMap();
             CreateMap<CategoryCreateViewModel, Category>();
 
+            CreateMap<RatingCreateViewModel, Rating>();
+            CreateMap<Rating, RatingViewModel>()
+                .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.Task.Title))
+                .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.ClientProfile.OrganizationName));
+                
+
             CreateMap< TaskMessageCreateViewModel,TaskMessage>();
             CreateMap<TaskMessage, TaskMessageViewModel>()
                 .ForMember(dest => dest.TaskTitle, opt => opt.MapFrom(src =>

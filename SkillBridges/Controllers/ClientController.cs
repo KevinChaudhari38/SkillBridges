@@ -6,7 +6,7 @@ using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers
 {
-    [Authorize(Roles ="Client,Admin")]
+   
     public class ClientController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -18,9 +18,11 @@ namespace SkillBridges.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Details(string id)
         {
-            return View();
+            var model = _unitOfWork.Clients.GetById(id);
+            var vm = _mapper.Map<ClientDetailsViewModel>(model);
+            return View(vm);
         }
 
         public IActionResult Create(string userId)

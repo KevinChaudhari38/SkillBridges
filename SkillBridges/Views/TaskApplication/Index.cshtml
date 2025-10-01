@@ -1,54 +1,57 @@
 ﻿@model IEnumerable<SkillBridges.ViewModels.TaskApplicationViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Task Applications";
 }
 
-<h1>Index</h1>
+<h1 class="mb-4">Task Applications</h1>
 
-
-<table class="table">
-    <thead>
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.TaskApplicationId)</th>
-            <th>@Html.DisplayNameFor(model => model.TaskId)</th>
+            
             <th>@Html.DisplayNameFor(model => model.TaskTitle)</th>
-            <th>@Html.DisplayNameFor(model => model.ClientProfileId)</th>
-            <th>@Html.DisplayNameFor(model => model.ClientName)</th>
-            <th>@Html.DisplayNameFor(model => model.ProfessionalProfileId)</th>
-            <th>@Html.DisplayNameFor(model => model.ProfessionalName)</th>
+            <th>Client</th>
+            <th>Professional</th>
             <th>@Html.DisplayNameFor(model => model.Proposal)</th>
             <th>Skills</th>
             <th>@Html.DisplayNameFor(model => model.ExpectedBudjet)</th>
             <th>@Html.DisplayNameFor(model => model.AppliedAt)</th>
-            <th>@Html.DisplayNameFor(model => model.File)</th>
-            <th>@Html.DisplayNameFor(model => model.Status)</th>
-            <th></th>
+            <th>File</th>
+            <th>Status / Actions</th>
+            <th>Manage</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.TaskApplicationId)</td>
-                <td>@Html.DisplayFor(modelItem => item.TaskId)</td>
+                
                 <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>
-                <td>@Html.DisplayFor(modelItem => item.ClientProfileId)</td>
                 <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProfessionalProfileId)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProfessionalName)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ProfessionalName)){
+                    
+                        @Html.DisplayFor(modelItem => item.ProfessionalName)
+                        
+                    }
+                    else
+                    {
+                        <span class="text-muted">Unassigned</span>
+                    }
+                </td>
                 <td>@Html.DisplayFor(modelItem => item.Proposal)</td>
                 <td>
                     @if (item.Skills != null && item.Skills.Any())
                     {
                         foreach (var skill in item.Skills)
                         {
-                            <span>@skill</span>
+                            <span class="badge bg-primary me-1">@skill</span>
                         }
                     }
                     else
                     {
-                        <span>No Skills</span>
+                        <span class="text-muted">No Skills</span>
                     }
                 </td>
                 <td>@Html.DisplayFor(modelItem => item.ExpectedBudjet)</td>
@@ -63,20 +66,19 @@
                         <span class="text-muted">No File</span>
                     }
                 </td>
-              
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)
                     @if (item.Status == "Accepted")
                     {
-                        <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ProfessionalProfileId">View Messages</a>
-                        <a asp-controller="Work" asp-action="Create" asp-route-TaskId="@item.TaskId">Upload Work</a>
+                        <div class="mt-1">
+                            <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ProfessionalProfileId" class="btn btn-sm btn-info me-1">View Messages</a>
+                            <a asp-controller="Work" asp-action="Create" asp-route-TaskId="@item.TaskId" class="btn btn-sm btn-success">Upload Work</a>
+                        </div>
                     }
                 </td>
-                
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.TaskApplicationId">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.TaskApplicationId" class="btn btn-sm btn-danger">Delete</a>
                 </td>
-                
             </tr>
         }
     </tbody>

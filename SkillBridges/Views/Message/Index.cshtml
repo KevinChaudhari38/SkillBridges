@@ -1,81 +1,74 @@
 ﻿@model SkillBridges.ViewModels.TaskConversationViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Task Conversation";
 }
 
-<h1>Index</h1>
-<h4>TaskMessageViewModel</h4>
+<h1 class="mb-3">Task Conversation</h1>
+<h4 class="mb-4">Messages</h4>
+
 @if (ViewBag.ErrorMessage != null)
 {
     <div class="alert alert-danger">
         @ViewBag.ErrorMessage
     </div>
 }
-@if (@Model.Role == "Client")
-{
-    <p>
-        <a asp-action="Create" asp-route-id="@Model.TaskId" asp-route-senderId="@Model.ClientProfileId" asp-route-receiverId="@Model.ProfessionalProfileId">Create New</a>
-    </p>
-}
-else
-{
-    <p>
-        <a asp-action="Create" asp-route-id="@Model.TaskId" asp-route-senderId="@Model.ProfessionalProfileId" asp-route-receiverId="@Model.ClientProfileId">Create New</a>
-    </p>
-}
 
-<table class="table">
-    <thead>
+<div class="mb-3">
+    @if (Model.Role == "Client")
+    {
+        <a asp-action="Create"
+           asp-route-id="@Model.TaskId"
+           asp-route-senderId="@Model.ClientProfileId"
+           asp-route-receiverId="@Model.ProfessionalProfileId"
+           class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Create New
+        </a>
+    }
+    else
+    {
+        <a asp-action="Create"
+           asp-route-id="@Model.TaskId"
+           asp-route-senderId="@Model.ProfessionalProfileId"
+           asp-route-receiverId="@Model.ClientProfileId"
+           class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Create New
+        </a>
+    }
+</div>
+
+<table class="table table-bordered table-striped align-middle">
+    <thead class="table-dark">
         <tr>
-            <th>
-                MessageId
-            </th>
-            <th>
-                TaskTitle
-            </th>
-            <th>
-                SenderName
-            </th>
-            <th>
-                ReceiverName
-            </th>
-            <th>
-                Message
-            </th>
-            <th>
-                SentAt
-            </th>
-            <th>
-                IsRead
-            </th>
-            <th></th>
+            <th>MessageId</th>
+            <th>TaskTitle</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Message</th>
+            <th>Sent At</th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Messages)
         {
             <tr>
+                <td>@item.MessageId</td>
+                <td>@item.TaskTitle</td>
+                <td>@item.SenderName</td>
+                <td>@item.ReceiverName</td>
+                <td>@item.Message</td>
+                <td>@item.SentAt</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MessageId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TaskTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SenderName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReceiverName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Message)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SentAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsRead)
+                    @if (item.IsRead)
+                    {
+                        <span class="badge bg-success">Read</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Unread</span>
+                    }
                 </td>
                 <td>
                     @if ((Model.Role == "Client" && item.SenderId == Model.ClientProfileId) ||
@@ -83,20 +76,22 @@ else
                     {
                         <a asp-action="Edit"
                            asp-route-id="@item.MessageId"
-                           asp-route-SenderId="@(Model.Role == "Client" ? Model.ClientProfileId : Model.ProfessionalProfileId)">
+                           asp-route-SenderId="@(Model.Role == "Client" ? Model.ClientProfileId : Model.ProfessionalProfileId)"
+                           class="btn btn-sm btn-warning me-1">
                             Edit
                         </a>
-                        <a asp-action="Delete" asp-route-id="@item.MessageId" asp-route-SenderId="@(Model.Role == "Client" ? Model.ClientProfileId : Model.ProfessionalProfileId)">Delete</a>
-                               
-                     }
+                        <a asp-action="Delete"
+                           asp-route-id="@item.MessageId"
+                           asp-route-SenderId="@(Model.Role == "Client" ? Model.ClientProfileId : Model.ProfessionalProfileId)"
+                           class="btn btn-sm btn-danger">
+                            Delete
+                        </a>
+                    }
                     else
                     {
                         <span class="text-muted">Not your message</span>
                     }
                 </td>
-
-
-
             </tr>
         }
     </tbody>

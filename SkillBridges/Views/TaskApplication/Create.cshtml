@@ -1,44 +1,48 @@
 ﻿@model SkillBridges.ViewModels.TaskApplicationCreateViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Task Application";
 }
 
-<h1>Create</h1>
+<h1 class="mb-4">Submit Proposal</h1>
 
-<h4>TaskApplicationCreateViewModel</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 col-lg-4">
         <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
             <input type="hidden" asp-for="TaskId" />
             <input type="hidden" asp-for="ClientProfileId" />
             <input type="hidden" asp-for="ProfessionalProfileId" />
 
-            <div class="form-group">
-                <label asp-for="Proposal" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="Proposal" class="form-label"></label>
                 <input asp-for="Proposal" class="form-control" />
                 <span asp-validation-for="Proposal" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ExpectedBudjet" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="ExpectedBudjet" class="form-label"></label>
                 <input asp-for="ExpectedBudjet" class="form-control" />
                 <span asp-validation-for="ExpectedBudjet" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label for="File">Upload Proof of Work (PDF)</label>
+
+            <div class="mb-3">
+                <label for="File" class="form-label">Upload Proof of Work (PDF)</label>
                 <input type="file" name="File" accept="application/pdf" class="form-control" />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="mb-3">
+                <input type="submit" value="Submit Proposal" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-controller="Task" asp-action="IndexForProfessional" asp-route-professionalProfileId="@Model.ProfessionalProfileId">Back to List</a>
+<div class="mt-3">
+    <a asp-controller="Task" asp-action="IndexForProfessional" asp-route-professionalProfileId="@Model.ProfessionalProfileId" class="btn btn-secondary">
+        Back to Task List
+    </a>
 </div>
 
 @section Scripts {

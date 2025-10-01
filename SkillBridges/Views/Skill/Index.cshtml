@@ -7,36 +7,30 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
+
+<table class="table table-bordered table-striped align-middle">
+    <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.SkillId  }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.SkillId }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.SkillId }) |
-                <a asp-controller="Home" asp-action="IndexBySkill" asp-route-SkillId="@item.SkillId">View Professionals</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SkillId" class="btn btn-sm btn-warning me-1">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.SkillId" class="btn btn-sm btn-info me-1">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.SkillId" class="btn btn-sm btn-danger me-1">Delete</a>
+                    <a asp-controller="Home" asp-action="IndexBySkill" asp-route-SkillId="@item.SkillId" class="btn btn-sm btn-secondary">View Professionals</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

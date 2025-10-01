@@ -1,0 +1,32 @@
+﻿@model SkillBridges.ViewModels.ClientDetailsViewModel
+
+@{
+    ViewData["Title"] = "ClientDetails";
+}
+
+<div class="container vh-100 d-flex justify-content-center align-items-start mt-5">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-4 p-4">
+            <h4 class="text-center fw-semibold mb-4">Client Profile</h4>
+
+            <dl class="row mb-4">
+                <dt class="col-sm-2 fw-semibold">Name</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.User.Name)</dd>
+
+                <dt class="col-sm-2 fw-semibold">Email</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.User.Email)</dd>
+
+                <dt class="col-sm-2 fw-semibold">Phone</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.User.PhoneNumber)</dd>
+
+                <dt class="col-sm-2 fw-semibold">Organization</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.OrganizationName)</dd>
+
+                <dt class="col-sm-2 fw-semibold">Address</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+            </dl>
+
+            
+        </div>
+    </div>
+</div>

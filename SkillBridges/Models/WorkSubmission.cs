@@ -20,8 +20,8 @@ namespace SkillBridges.Models
         public ProfessionalProfile ProfessionalProfile { get; set; }
         [Required]
         public string Notes {  get; set; }
-        [Required]
-        public string? FilePath {  get; set; }
+        [Required(ErrorMessage="The type of file must be .pdf, .ppt, .pptx, .mp4 And it is required")]
+        public string FilePath {  get; set; }
         public DateTime SubmittedAt { get; set; }=DateTime.Now;
         public WorkStatus Status { get; set; }=WorkStatus.UnderSupervision;
     }

@@ -5,39 +5,41 @@
 }
 
 <h1>Edit</h1>
-
-
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TaskId"/>
-            <input type="hidden" asp-for="MessageId"/>
-            <input type="hidden" asp-for="TaskTitle"/>
-            <input type="hidden" asp-for="SenderId"/>
-            <input type="hidden" asp-for="ReceiverId"/>
-            <input type="hidden" asp-for="ReceiverName"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="TaskId" />
+            <input type="hidden" asp-for="MessageId" />
+            <input type="hidden" asp-for="TaskTitle" />
+            <input type="hidden" asp-for="SenderId" />
+            <input type="hidden" asp-for="ReceiverId" />
+            <input type="hidden" asp-for="ReceiverName" />
             <input type="hidden" asp-for="SentAt" />
-            <input type="hidden" asp-for="IsRead"/>
-            
-            <div class="form-group">
-                <label asp-for="Message" class="control-label"></label>
+            <input type="hidden" asp-for="IsRead" />
+
+            <div class="mb-3">
+                <label asp-for="Message" class="form-label"></label>
                 <input asp-for="Message" class="form-control" />
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" asp-route-TaskId="@Model.TaskId" asp-route-ViewerId="@Model.SenderId">Back to List</a>
+<div class="mt-3">
+    <a asp-action="Index" asp-route-TaskId="@Model.TaskId" asp-route-ViewerId="@Model.SenderId" class="btn btn-secondary">
+        Back to List
+    </a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

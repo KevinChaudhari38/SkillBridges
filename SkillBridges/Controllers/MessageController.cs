@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers
 {
+    [Authorize(Roles = "Client,Professional")]
     public class MessageController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -14,6 +16,7 @@ namespace SkillBridges.Controllers
             _unitOfWork = unitOfWork;
             _mapper= mapper;    
         }
+       
         public IActionResult Index(string TaskId,string ViewerId)
         {
             var task=_unitOfWork.Tasks.GetById(TaskId);

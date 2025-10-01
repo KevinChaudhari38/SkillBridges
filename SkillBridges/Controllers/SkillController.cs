@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
@@ -6,6 +7,7 @@ using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers
 {
+    [Authorize]
     public class SkillController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,12 +19,14 @@ namespace SkillBridges.Controllers
             _mapper = mapper;
 
         }
+        [Authorize(Roles ="Admin")]
         public IActionResult Index()
         {
             var skills = _unitOfWork.Skills.GetAll();
             var vm = _mapper.Map<List<SkillViewModel>>(skills);
             return View(vm);
         }
+        [Authorize(Roles ="Professional")]
         public IActionResult IndexForProfessional(string professionalId)
         {
             var skills = _unitOfWork.Skills.GetByProfessionalId(professionalId);
@@ -37,10 +41,8 @@ namespace SkillBridges.Controllers
             
             return View(vm);
         }
-        
-        
 
-        
+        [Authorize(Roles ="Admin")] 
         public IActionResult Details(string id)
         {
             var skill = _unitOfWork.Skills.GetById(id);
@@ -49,6 +51,7 @@ namespace SkillBridges.Controllers
 
         }
         [HttpGet]
+        [Authorize(Roles ="Professional")]
         public IActionResult CreateForProfessional(string professionalProfileId)
         {
             Console.WriteLine("Create for Professional Hit");
@@ -82,7 +85,8 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("IndexForProfessional", new {professionalId=vm.ProfessionalProfileId});
         }
-        [HttpGet]  
+        [HttpGet]
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -101,6 +105,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
+        [Authorize(Roles ="Admin")]
         public IActionResult Edit(string id)
         {
             var skill = _unitOfWork.Skills.GetById(id);
@@ -122,7 +127,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles ="Professional")]
         public IActionResult Assign(string professionalId)
         {
             var allSkills = _unitOfWork.Skills.GetAll();
@@ -197,7 +202,7 @@ namespace SkillBridges.Controllers
                 return View(vm);
             }
         }
-
+        [Authorize(Roles ="Admin")]
         public IActionResult Delete(string id)
         {
             var skill = _unitOfWork.Skills.GetById(id);

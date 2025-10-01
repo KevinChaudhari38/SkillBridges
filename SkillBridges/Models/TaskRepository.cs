@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SkillBridges.Data;
 
 namespace SkillBridges.Models
@@ -10,6 +11,7 @@ namespace SkillBridges.Models
         {
             _context = context;
         }
+        
         public Task GetById(string id)
         {
             return _context.Tasks.Include(t => t.ClientProfile).Include(t => t.TaskApplications).FirstOrDefault(t => t.TaskId == id);
@@ -28,6 +30,20 @@ namespace SkillBridges.Models
         public List<Task> GetByProfessionalId(string professionalId)
         {
             return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.ProfessionalProfileId == professionalId).ToList();
+        }
+        public List<Task> GetByType(TaskType type)
+        {
+            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.Type == type).ToList();
+        }
+        public IEnumerable<SelectListItem> GetCities()
+        {
+            return Enum.GetValues(typeof(City))
+                       .Cast<City>()
+                       .Select(r => new SelectListItem
+                       {
+                           Value = ((int)r).ToString(),
+                           Text = r.ToString()
+                       });
         }
         public void Insert(Task task)
         {

@@ -64,7 +64,13 @@ namespace SkillBridges.Controllers
                 ModelState.AddModelError("FilePath", "Please upload a PDF file.");
                 return View(workSubmission);
             }
-
+            var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx",".mp4" };
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedExtensions.Contains(extension))
+            {
+                ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
+                return View(workSubmission);
+            }
             
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             var filePath = Path.Combine("wwwroot/uploads/works", fileName);

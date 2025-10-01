@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SkillBridges.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkillBridges.ViewModels
 {
@@ -6,6 +8,9 @@ namespace SkillBridges.ViewModels
     {
         [Required]
         public string Name { get; set; }
-        public List<Task>? Tasks { get; set; }
+        [Required]
+        public TaskType type { get; set; }
+
+        public IEnumerable<SelectListItem>? Types = new List<SelectListItem>();
     }
 }

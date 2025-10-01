@@ -1,55 +1,43 @@
 ﻿@model SkillBridges.Models.WorkSubmission
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Work Submission Details";
 }
 
-<h1>Details</h1>
+<h1 class="mb-4">Work Submission Details</h1>
 
-<div>
-    <h4>WorkSubmission</h4>
-    <hr />
+<div class="card p-3 mb-3">
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkSubmissionId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorkSubmissionId)
+        <dt class="col-sm-3">Submission ID</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.WorkSubmissionId)</dd>
+
+        <dt class="col-sm-3">Task ID</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.TaskId)</dd>
+
+        <dt class="col-sm-3">Professional ID</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.ProfessionalProfileId)</dd>
+
+        <dt class="col-sm-3">Notes</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Notes)</dd>
+
+        <dt class="col-sm-3">File</dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.FilePath))
+            {
+                <a href="@Model.FilePath" target="_blank" class="btn btn-link">Download File</a>
+            }
+            else
+            {
+                <span class="text-muted">No File Uploaded</span>
+            }
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaskId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProfessionalProfileId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProfessionalProfileId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Notes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FilePath)
-        </dt>
-        <dd class="col-sm-10">
-              <a href="@Model.FilePath" target="_blank" class="btn btn-link">Download</a>
-            
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubmittedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubmittedAt)
-        </dd>
+
+        <dt class="col-sm-3">Submitted At</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.SubmittedAt)</dd>
     </dl>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new {  id = @Model.WorkSubmissionId  }) |
-    <a asp-action="Index" asp-route-TaskId="@Model.TaskId">Back to List</a>
+
+<div class="mb-3">
+    <a asp-action="Edit" asp-route-id="@Model.WorkSubmissionId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" asp-route-TaskId="@Model.TaskId" class="btn btn-secondary ms-2">Back to List</a>
 </div>

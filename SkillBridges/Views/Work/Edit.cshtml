@@ -1,46 +1,47 @@
 ﻿@model SkillBridges.Models.WorkSubmission
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Work Submission";
 }
 
-<h1>Edit</h1>
+<h1 class="mb-4">Edit Work Submission</h1>
 
-<h4>WorkSubmission</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="WorkSubmissionId"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="WorkSubmissionId" />
             <input type="hidden" asp-for="TaskId" />
             <input type="hidden" asp-for="ProfessionalProfileId" />
-            
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label"></label>
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label for="File">Upload Proof of Work (PDF)</label>
+
+            <div class="mb-3">
+                <label for="File" class="form-label">Upload Proof of Work (PDF)</label>
                 <input type="file" name="File" accept="application/pdf" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="SubmittedAt" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="SubmittedAt" class="form-label"></label>
                 <input asp-for="SubmittedAt" class="form-control" />
                 <span asp-validation-for="SubmittedAt" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="mb-3">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-TaskId="@Model.TaskId" class="btn btn-secondary ms-2">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" asp-route-TaskId="@Model.TaskId">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

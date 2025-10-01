@@ -7,16 +7,16 @@
 <h1>Assign</h1>
 <hr />
 
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-4">
         <form asp-action="Assign" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <input type="hidden" asp-for="ProfessionalProfileId" />
 
-            <div class="form-group">
-                <label for="skills">Select Skills</label>
-                <select asp-for="SelectedSkillIds" class="form-control" multiple="multiple"
+            <div class="mb-3">
+                <label for="skills" class="form-label">Select Skills</label>
+                <select asp-for="SelectedSkillIds" class="form-select" multiple="multiple"
                         asp-items='@(
                         new MultiSelectList(
                             Model.AvailableSkills,
@@ -24,18 +24,17 @@
                             "Name",
                             Model.SelectedSkillIds
                         )
-                                                )'>
+                        )'>
                 </select>
                 <span asp-validation-for="SelectedSkillIds" class="text-danger"></span>
             </div>
 
-            <div class="form-group mt-2">
+            <div class="d-grid mt-2">
                 <input type="submit" value="Assign" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
 
 @section Scripts {
     @{

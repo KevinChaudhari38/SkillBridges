@@ -5,44 +5,32 @@
 }
 
 <h1>IndexForProfessional</h1>
+
 <p>
-    Add A skill which is Not There in the List :
-    <a asp-action="CreateForProfessional" asp-route-professionalProfileId="@Model.First().ProfessionalProfileId">Create New</a>
+    Add a skill which is not there in the list:
+    <a asp-action="CreateForProfessional" asp-route-professionalProfileId="@Model.First().ProfessionalProfileId" class="btn btn-primary btn-sm ms-2">Create New</a>
 </p>
 <p>
-    Manage Skills(Add Or Remove Skills) :
-    <a asp-action="Assign" asp-route-professionalId="@Model.First().ProfessionalProfileId">Manage Skills</a>
+    Manage Skills (Add or Remove Skills):
+    <a asp-action="Assign" asp-route-professionalId="@Model.First().ProfessionalProfileId" class="btn btn-secondary btn-sm ms-2">Manage Skills</a>
 </p>
 
-<table class="table">
-    <thead>
+<table class="table table-bordered table-striped align-middle">
+    <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SkillId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
+            
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SkillId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-        
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+               
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+            </tr>
+        }
     </tbody>
 </table>

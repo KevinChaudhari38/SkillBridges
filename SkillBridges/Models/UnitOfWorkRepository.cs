@@ -16,6 +16,7 @@ namespace SkillBridges.Models
         private ICategoryRepository _categoryRepository;
         private IMessageRepository _messageRepository;
         private IWorkRepository _workRepository;
+        private IRatingRepository _ratingRepository;
         public UnitOfWorkRepository(SkillBridgeContext context)
         {
             _context = context;
@@ -84,6 +85,13 @@ namespace SkillBridges.Models
                 return _workRepository??=new WorkRepository(_context);
             }
         }
+        public IRatingRepository Ratings{
+            get
+            {
+                return _ratingRepository??= new RatingRepository(_context);
+            }
+        }
+
         public void Save()
         {
             _context.SaveChanges();

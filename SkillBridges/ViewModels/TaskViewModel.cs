@@ -13,6 +13,7 @@ namespace SkillBridges.ViewModels
         public string ClientName { get; set; }
         public string? ProfessionalProfileId { get; set; }
         public string? ProfessionalName { get; set; }
+        public string? City { get; set; }
         public string Status { get; set; }
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }

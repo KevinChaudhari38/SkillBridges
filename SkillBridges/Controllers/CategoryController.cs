@@ -16,6 +16,7 @@ namespace SkillBridges.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         public IActionResult Index()
         {
             var vm = _unitOfWork.Categories.GetAll();
@@ -24,7 +25,10 @@ namespace SkillBridges.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            var vm = new CategoryCreateViewModel{
+                Types = _unitOfWork.Categories.GetTypes()
+            };
+            return View(vm);
         }
         [HttpPost]
         public IActionResult Create(CategoryCreateViewModel vm)
@@ -40,7 +44,7 @@ namespace SkillBridges.Controllers
                 }
                 return View();
             }
-
+            Console.WriteLine("Typem:- " + vm.type.ToString());
             var model = _mapper.Map<Category>(vm);
             _unitOfWork.Categories.Insert(model);
             _unitOfWork.Save();

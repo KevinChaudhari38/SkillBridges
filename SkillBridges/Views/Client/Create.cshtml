@@ -4,41 +4,39 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ClientProfile</h4>
-<hr />
-<div class="row">
+<div class="container vh-100 d-flex justify-content-center align-items-center">
     <div class="col-md-4">
-        <form asp-action="Create">
-           
-            <div class="form-group">
-                <input type="hidden" asp-for="UserId" value="@Model.UserId" />
-            </div>
-            <div class="form-group">
-                <label asp-for="OrganizationName" class="control-label"></label>
-                <input asp-for="OrganizationName" class="form-control" />
-                <span asp-validation-for="OrganizationName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-            <div class="form-group">
-                <input type="hidden" asp-for="UserId" />
+        <div class="card shadow-lg border-0 rounded-4 p-4">
+            <h4 class="text-center fw-semibold mb-4">Create Client Profile</h4>
+            <form asp-action="Create">
+                @Html.AntiForgeryToken()
 
-            </div>
-        </form>
+                <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+
+                <div class="mb-3">
+                    <label asp-for="OrganizationName" class="form-label fw-semibold"></label>
+                    <input asp-for="OrganizationName" class="form-control" placeholder="Enter organization name" />
+                    <span asp-validation-for="OrganizationName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label fw-semibold"></label>
+                    <input asp-for="Address" class="form-control" placeholder="Enter address" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                        Create
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

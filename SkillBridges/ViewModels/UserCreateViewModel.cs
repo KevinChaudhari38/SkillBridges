@@ -8,7 +8,7 @@ namespace SkillBridges.ViewModels
     {
         Client = 1,
         Professional = 2,
-        Admin = 3
+       
     }
     public class UserCreateViewModel
     {

@@ -1,134 +1,93 @@
 ﻿@model IEnumerable<SkillBridges.ViewModels.TaskApplicationViewModel>
 
 @{
-    ViewData["Title"] = "ClientRequests";
+    ViewData["Title"] = "Client Requests";
 }
 
-<h1>ClientRequests</h1>
+<h1 class="mb-4">Client Requests</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskApplicationId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientProfileId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProfessionalProfileId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProfessionalName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Proposal)
-            </th>
-            <th>
-                Skills
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpectedBudjet)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AppliedAt)
-            </th>
-            <th>@Html.DisplayNameFor(model => model.File)</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskApplicationId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientProfileId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfessionalProfileId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfessionalName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Proposal)
-            </td>
-            <td>
-                    @if (item.Skills != null && item.Skills.Any())
-                    {
-                        foreach (var skill in item.Skills)
-                        {
-                            <span class="badge bg-primary">@skill</span>
-                        }
-                    }
-                    else
-                    {
-                        <span class="text-muted">No Skills</span>
-                    }
-            </td>
-                
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpectedBudjet)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppliedAt)
-            </td>
-            <td>
-                    @if (!string.IsNullOrEmpty(item.File))
-                    {
-                        <a href="~/uploads/@item.File" target="_blank" class="btn btn-link">
-                            Download
-                        </a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">No File</span>
-                    }
-            </td>
-            <td>
-                    @if (item.Status == "Pending")
-                    {
-                        <a asp-action="Accept" asp-route-id="@item.TaskApplicationId" class="btn btn-success">Accept</a>
-                        <a asp-action="Reject" asp-route-id="@item.TaskApplicationId" class="btn btn-success">Reject</a>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Status)
-                        <a asp-controller="Task" asp-action="Details" asp-route-id="@item.TaskId">View Task</a>
-                    }
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+              
+               
+                <th>@Html.DisplayNameFor(model => model.TaskTitle)</th>
+               
+                <th>@Html.DisplayNameFor(model => model.ClientName)</th>
+              
+                <th>@Html.DisplayNameFor(model => model.ProfessionalName)</th>
+                <th>@Html.DisplayNameFor(model => model.Proposal)</th>
+                <th>Skills</th>
+                <th>@Html.DisplayNameFor(model => model.ExpectedBudjet)</th>
+                <th>@Html.DisplayNameFor(model => model.AppliedAt)</th>
+                <th>@Html.DisplayNameFor(model => model.File)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
                     
-            </td>
-            <td>
-                <a asp-action="DeleteForClient" asp-route-id="@item.TaskApplicationId">Delete</a>
-            </td>
-            
-        </tr>
-}
-    </tbody>
-</table>
+                    <td>@Html.DisplayFor(modelItem => item.TaskTitle)</td>                   
+                    <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProfessionalName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Proposal)</td>
+                    <td>
+                        @if (item.Skills != null && item.Skills.Any())
+                        {
+                            foreach (var skill in item.Skills)
+                            {
+                                <span class="badge bg-primary">@skill</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Skills</span>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.ExpectedBudjet)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AppliedAt)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.File))
+                        {
+                            <a href="@item.File" target="_blank" class="btn btn-link">Download</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No File</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Status == "Pending")
+                        {
+                            <div class="d-grid gap-1">
+                                <a asp-action="Accept" asp-route-id="@item.TaskApplicationId" class="btn btn-success btn-sm">Accept</a>
+                                <a asp-action="Reject" asp-route-id="@item.TaskApplicationId" class="btn btn-danger btn-sm">Reject</a>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Status) <br />
+                            <a asp-controller="Task" asp-action="Details" asp-route-id="@item.TaskId" class="btn btn-info btn-sm">View Task</a>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-grid gap-0">
+                            <a asp-controller="Rating" asp-action="Index" asp-route-ProfessionalProfileId="@item.ProfessionalProfileId" class="btn btn-outline-dark">View Ratings</a><br />
+                        <a asp-action="DeleteForClient" asp-route-id="@item.TaskApplicationId" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </div>
+                        
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

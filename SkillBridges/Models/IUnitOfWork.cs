@@ -12,6 +12,7 @@
         ICategoryRepository Categories { get; }
         IMessageRepository Messages { get; }
         IWorkRepository WorkSubmissions { get; }
+        IRatingRepository Ratings { get; }
         void Save();
     }
 }

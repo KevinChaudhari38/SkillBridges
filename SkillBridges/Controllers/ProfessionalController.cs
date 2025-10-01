@@ -25,7 +25,8 @@ namespace SkillBridges.Controllers
         public IActionResult Details(string id)
         {
             var model = _unitOfWork.Professionals.GetById(id);
-            return View(model);
+            var vm = _mapper.Map<ProfessionalDetailsViewModel>(model);
+            return View(vm);
         }
 
         [HttpGet]

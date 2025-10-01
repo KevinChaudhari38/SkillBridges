@@ -24,29 +24,46 @@ namespace SkillBridges.Controllers
         }
         
         
-        public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId)
+        public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId,TaskType? Type)
         {
             var tasks= _unitOfWork.Tasks.GetAll();
-            Console.WriteLine("SelectedCategory :- " + SelectedCategoryId);
-            if (!string.IsNullOrEmpty(SelectedCategoryId))
+            var categories = _unitOfWork.Categories.GetAll();
+            if (Type.HasValue)
             {
-                Console.WriteLine("Not Null Hit");
-                tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId); ;
+                categories = _unitOfWork.Categories.GetByType(Type.Value);
+                if (!string.IsNullOrEmpty(SelectedCategoryId))
+                {
+                    tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
+                }
+                else
+                {
+                    tasks = _unitOfWork.Tasks.GetByType(Type.Value);
+                }
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(SelectedCategoryId))
+                {
+                    tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
+                }
+            }
+                Console.WriteLine("SelectedCategory :- " + SelectedCategoryId);
+           
            
             var result = _mapper.Map<List<TaskViewModel>>(tasks);
 
-            var categories = _unitOfWork.Categories.GetAll();
+           
             
             var taskApplications=_unitOfWork.TaskApplications.GetByProfessionalId(professionalProfileId);
-
+            
             var vm = new ProfessionalTasksViewModel
             {
                 ProfessionalProfileId = professionalProfileId,
                 Tasks = result,
                 Categories=categories,
                 SelectedCategoryId= SelectedCategoryId,
-                TaskApplications=taskApplications
+                TaskApplications=taskApplications,
+                Types=_unitOfWork.Categories.GetTypes().ToList(),
             };
             return View(vm);
         }
@@ -75,19 +92,28 @@ namespace SkillBridges.Controllers
             return RedirectToAction("IndexForProfessional", new {vm.ProfessionalProfileId});
         }
         
-        public IActionResult Create(string clientId)
+        public IActionResult Create(string clientId,TaskType? Type)
         {
-            var categories = _unitOfWork.Categories.GetAll().Select(c => new SelectListItem
-            {
-                Value = c.CategoryId.ToString(),
-                Text = c.Name
-            });
+            Console.WriteLine("Type " + Type.ToString());
+            var typeToUse = Type ?? TaskType.Local;
+            
+            var categories = _unitOfWork.Categories.GetByType(typeToUse)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId,
+                    Text = c.Name
+                }).ToList();
+
             var vm = new TaskCreateViewModel
             {
                 ClientProfileId = clientId,
-                Categories = categories
+                Categories = categories,
+                Types = _unitOfWork.Categories.GetTypes(),
+                Type = typeToUse,
+                Cities = _unitOfWork.Tasks.GetCities(),
             };
             Console.WriteLine("Client Id :- " + vm.ClientProfileId);
+            Console.WriteLine("Type Selected :- " + vm.Type);
             return View(vm);
         }
         [HttpPost]
@@ -101,6 +127,8 @@ namespace SkillBridges.Controllers
                     Text = c.Name
                 });
                 vm.Categories = categories;
+                vm.Types = _unitOfWork.Categories.GetTypes();
+                vm.Cities = _unitOfWork.Tasks.GetCities();
                 return View(vm);
             }
             var task=_mapper.Map<Models.Task>(vm);
