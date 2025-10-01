@@ -43,7 +43,7 @@ It allows seamless posting of tasks, proposals, skill management, messaging, and
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/SkillBridges.git
+   git clone https://github.com/KevinChaudhari38/SkillBridges.git
    cd SkillBridges
 
  2. **Build Solution**
