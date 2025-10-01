@@ -39,6 +39,52 @@ It allows seamless posting of tasks, proposals, skill management, messaging, and
 
 ---
 
+
+** Necessary Things to Do Before Running the project*
+
+1] Install MailKit
+
+In Visual Studio :
+Go to Tools -> NuGet Package Manager ->Manage NuGet Packages for solution
+- Search for MailKit package and install it according to suitable version
+
+
+  <img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/2a0b0c18-560b-4023-b51e-5f09a5ce8f13" />
+
+.NET CLI :
+dotnet add package MailKit
+
+
+In Your appsettings.json / appsettings.Development.json  Add following:
+  "EmailSettings": {
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "Username": "YOUR EMAIL ID",
+    "Password": "YOUR GOOGLE APP PASSWORD",
+    "EnableSsl": true,
+    "FromName": "SkillBridge",
+    "FromEmail": "bizzconnect2000@gmail.com"
+  },
+
+
+2] Install Razorpay
+
+In Visual Studio :
+Go to Tools -> NuGet Package Manager ->Manage NuGet Packages for solution
+- Search for Razorpay package and install it according to suitable version
+ <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e28fd73c-a727-4623-96c2-ee740f4159b4" />
+
+ .NET ClI :
+ dotnet add package razorpay
+
+ 
+In Your appsettings.json / appsettings.Development.json  Add following:
+"Razorpay": {
+  "Key": "YOUR_RAZORPAY_API_KEY",
+  "Secret": "YOUR_RAZORPAY_SECRET_ID"
+}
+
+
 ## ⚙️ Installation & Setup
 
 1. **Clone the repository**
@@ -74,3 +120,6 @@ CLick on Run Button
 dotnet run
 
 Get the localhost URL :- http://localhost:5145/
+
+
+
