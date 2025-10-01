@@ -99,6 +99,8 @@ In Your appsettings.json / appsettings.Development.json  Add following:
    cd SkillBridges
 
  2. **Build Solution**
+
+
     Go to SkillBriges.sln
 
     In Visual Studio :
@@ -108,6 +110,7 @@ In Your appsettings.json / appsettings.Development.json  Add following:
     dotnet build
 
 3. **Apply Migrations**
+
 
 PMC :
   Add-Migration init
