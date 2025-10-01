@@ -1,0 +1,16 @@
+﻿@model SkillBridges.ViewModels.PaymentCreateViewModel
+
+<h2>Pay Now</h2>
+
+<div class="container col-md-4">
+    <form method="post" asp-action="Pay" asp-controller="Payment">
+        <input type="hidden" asp-for="TaskId" />
+
+        <div class="mb-3">
+            <label asp-for="Amount" class="form-label">Enter Amount (₹)</label>
+            <input asp-for="Amount" class="form-control" step="0.01" min="1" value="@Model.Amount" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Proceed to Pay</button>
+    </form>
+</div>

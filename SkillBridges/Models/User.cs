@@ -16,7 +16,7 @@ namespace SkillBridges.Models
         [Key]
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
+        [Required]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
@@ -30,7 +30,6 @@ namespace SkillBridges.Models
 
         [Phone(ErrorMessage = "Invalid Phone Number")]
         [Required(ErrorMessage ="Phone number is required")]
-
         public string PhoneNumber { get; set; }
 
         public UserRole Role { get; set; }

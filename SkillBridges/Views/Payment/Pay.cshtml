@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SkillBridges.ViewModels.PaymentCreateViewModel
+@{
     ViewData["Title"] = "Payment";
 }
 <h2>Pay Now</h2>
@@ -6,21 +7,22 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <form id="paymentForm" method="post" asp-action="VerifyPayment" asp-controller="Payment">
-    <input type="hidden" name="taskId" value="@ViewBag.TaskId" />
-    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id" />
-    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id" />
-    <input type="hidden" name="razorpay_signature" id="razorpay_signature" />
-    <button type="button" id="rzp-button1" class="btn btn-primary">Pay ₹@ViewBag.ToDisplay</button>
+    <input asp-for="TaskId" type="hidden" />
+    <input asp-for="Amount" type="hidden" value="@Model.Amount" />
+    <input asp-for="RazorpayOrderId" type="hidden" id="razorpay_order_id" />
+    <input asp-for="RazorpayPaymentId" type="hidden" id="razorpay_payment_id" />
+    <input asp-for="RazorpaySignature" type="hidden" id="razorpay_signature" />
+    <button type="button" id="rzp-button1" class="btn btn-primary">Pay ₹@Model.Amount</button>
 </form>
 
 <script>
     var options = {
-        "key": "@ViewBag.Key",
-        "amount": "@ViewBag.Amount",
+        "key": "@Model.RazorpayKey",
+        "amount": "@((int)(Model.Amount*100))",
         "currency": "INR",
         "name": "SkillBridge",
         "description": "Task Payment",
-        "order_id": "@ViewBag.OrderId",
+        "order_id": "@Model.RazorpayOrderId",
         "handler": function (response){
             document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
             document.getElementById('razorpay_order_id').value = response.razorpay_order_id;

@@ -77,7 +77,6 @@ namespace SkillBridges.Controllers
                 return RedirectToAction("Details", new { id = user.Id });
             }
 
-
             ModelState.AddModelError(string.Empty, "Invalid Email or Password");
             return View(model);
         }

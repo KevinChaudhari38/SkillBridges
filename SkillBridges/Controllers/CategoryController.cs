@@ -35,6 +35,7 @@ namespace SkillBridges.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("ModelState is invalid"); ;
                 foreach (var entry in ModelState)
                 {
                     foreach (var error in entry.Value.Errors)
@@ -42,8 +43,9 @@ namespace SkillBridges.Controllers
                         Console.WriteLine($"Validation error in field '{entry.Key}': {error.ErrorMessage}");
                     }
                 }
-                return View();
+                return View(vm);
             }
+            Console.WriteLine("Model state is valid");
             Console.WriteLine("Typem:- " + vm.type.ToString());
             var model = _mapper.Map<Category>(vm);
             _unitOfWork.Categories.Insert(model);

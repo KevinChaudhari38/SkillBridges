@@ -55,15 +55,15 @@
                                 <a asp-controller="Message" asp-action="Index" asp-route-TaskId="@item.TaskId" asp-route-ViewerId="@item.ClientProfileId" class="btn btn-sm btn-outline-dark">View Messages</a>
                                 <a asp-controller="Professional" asp-action="Details" asp-route-id="@item.ProfessionalProfileId" class="btn btn-outline-secondary">Professional Profile</a>
                             }
-                            @if (item.Status != "Open" && item.PaymentStatus != "Paid")
+                            @if (item.Status != "Open")
                             {
-                                <a asp-controller="Payment" asp-action="Pay" asp-route-taskId="@item.TaskId" class="btn btn-success mb-1">
-                                    Pay ₹@item.Budjet
+                                <a asp-controller="Payment" asp-action="Pay" asp-route-taskId="@item.TaskId" class="btn btn-outline-success mb-1">
+                                    Pay
                                 </a>
                             }
                             @if(item.PaymentStatus == "Paid")
                             {
-                                <a asp-controller="Payment" asp-action="Index" asp-route-clientId="@item.ClientProfileId" class="btn btn-outline-info">
+                                <a asp-controller="Payment" asp-action="Index" asp-route-TaskId="@item.TaskId" class="btn btn-outline-info">
                                 View Payment History    
                                 </a>
                             }

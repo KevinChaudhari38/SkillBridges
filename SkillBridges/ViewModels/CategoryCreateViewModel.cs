@@ -6,9 +6,9 @@ namespace SkillBridges.ViewModels
 {
     public class CategoryCreateViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Please Enter Name")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Type is required")]
         public TaskType type { get; set; }
 
         public IEnumerable<SelectListItem>? Types = new List<SelectListItem>();

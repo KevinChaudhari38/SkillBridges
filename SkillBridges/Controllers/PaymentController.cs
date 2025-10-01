@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Services;
 using SkillBridges.ViewModels;
+using System.Threading.Tasks;
 
 namespace SkillBridges.Controllers
 {
@@ -25,42 +26,54 @@ namespace SkillBridges.Controllers
             var task = _unitOfWork.Tasks.GetById(taskId);
             if (task == null) return NotFound();
 
-            var orderId = _razorpayService.CreateOrder(task.TaskId, task.Budjet);
+            var vm = new PaymentCreateViewModel
+            {
+                TaskId = task.TaskId,
+                Amount = task.Budjet
+            };
+
+            return View("PaymentForm",vm);
+        }
+        [HttpPost]
+        public IActionResult Pay(PaymentCreateViewModel vm)
+        {
+            Console.WriteLine("Payment :- " + vm.Amount);
+            var task = _unitOfWork.Tasks.GetById(vm.TaskId);
+            if (task == null) return NotFound();
+
+            if (vm.Amount <= 0)
+                return BadRequest();
+
+            var orderId= _razorpayService.CreateOrder(task.TaskId, vm.Amount);
             task.RazorpayOrderId = orderId;
             _unitOfWork.Tasks.Update(task);
             _unitOfWork.Save();
 
-            ViewBag.Key = _razorpayService.Key;
-            ViewBag.Amount =(int)( task.Budjet * 100);
-            ViewBag.ToDisplay = task.Budjet;
-            ViewBag.OrderId = orderId;
-            ViewBag.TaskId = task.TaskId;
+            vm.RazorpayKey = _razorpayService.Key;
+            vm.RazorpayOrderId = orderId;
 
-            return View();
+            return View("Pay", vm);
         }
 
         [HttpPost]
-        public IActionResult VerifyPayment(string razorpay_payment_id,
-                                           string razorpay_order_id,
-                                           string razorpay_signature,
-                                           string taskId)
+        public IActionResult VerifyPayment(PaymentCreateViewModel vm)
         {
-            var task = _unitOfWork.Tasks.GetById(taskId);
+            var task = _unitOfWork.Tasks.GetById(vm.TaskId);
             if (task == null) return NotFound();
 
             bool isValid = _razorpayService.VerifyPayment(
-                                razorpay_payment_id,
-                                razorpay_order_id,
-                                razorpay_signature);
-
+                        vm.RazorpayPaymentId,
+                        vm.RazorpayOrderId,
+                        vm.RazorpaySignature);
+            Console.WriteLine("Payment :- " + vm.Amount);
             var paymentRecord = new Payment
             {
                 TaskId = task.TaskId,
                 ClientProfileId = task.ClientProfileId,
                 ProfessionalProfileId = task.ProfessionalProfileId,
-                Amount = task.Budjet,
-                RazorpayOrderId = razorpay_order_id,
-                RazorpayPaymentId = razorpay_payment_id,
+                Amount = vm.Amount,
+                RazorpayOrderId = vm.RazorpayOrderId,
+                RazorpayPaymentId = vm.RazorpayPaymentId,
                 PaymentStatus = isValid ? "Success" : "Failed"
             };
 
@@ -70,7 +83,6 @@ namespace SkillBridges.Controllers
             {
                 task.PaymentStatus = "Paid";
                 _unitOfWork.Tasks.Update(task);
-                //_unitOfWork.Save();
                 TempData["Message"] = "Payment Successful!";
             }
             else
@@ -86,10 +98,10 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string clientId)
+        public IActionResult Index(string TaskId)
         {
-            if (string.IsNullOrEmpty(clientId)) return BadRequest();
-            var payments = _unitOfWork.Payments.GetByClientId(clientId);
+            if (string.IsNullOrEmpty(TaskId)) return BadRequest();
+            var payments = _unitOfWork.Payments.GetByTaskId(TaskId);
             var vm = _mapper.Map<List<PaymentViewModel>>(payments);
             return View(vm);
         }
@@ -101,7 +113,13 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<PaymentViewModel>>(payments);
             return View("Index", vm);
         }
-
+        [HttpGet]
+        public IActionResult ClientHistory(string ClientId){
+            if (string.IsNullOrEmpty(ClientId)) return BadRequest();
+            var payments = _unitOfWork.Payments.GetByClientId(ClientId);
+            var vm = _mapper.Map<List<PaymentViewModel>>(payments);
+            return View("Index",vm);
+         }
 
     }
 }
