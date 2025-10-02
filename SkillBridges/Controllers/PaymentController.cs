@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
+using SkillBridges.Repositories;
 using SkillBridges.Services;
 using SkillBridges.ViewModels;
 using System.Threading.Tasks;

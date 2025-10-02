@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using SkillBridges.Services;
-using SkillBridges.Models;
+using SkillBridges.Repositories;
 
 namespace SkillBridges
 {
@@ -29,7 +29,7 @@ namespace SkillBridges
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Home/Login";
-                    options.AccessDeniedPath = "/Home/Login";
+                    options.AccessDeniedPath = "/Home/AccessDenied";
                 });
 
             builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));

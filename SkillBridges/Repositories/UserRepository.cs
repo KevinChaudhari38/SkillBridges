@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using SkillBridges.Data;
+using SkillBridges.Models;
 
-namespace SkillBridges.Models
+namespace SkillBridges.Repositories
 {
     public class UserRepository : IUserRepository
     {

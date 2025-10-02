@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SkillBridges.Models;
+using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers

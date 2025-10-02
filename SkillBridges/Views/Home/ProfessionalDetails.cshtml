@@ -72,7 +72,7 @@
     <a asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark professional-btn">Edit</a>
     <a asp-action="Delete" asp-route-id="@Model.User.Id" class="btn btn-dark professional-btn">Delete</a>
     <a asp-controller="Professional" asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark professional-btn">Edit Bio</a>
-    <a asp-controller="Skill" asp-action="Assign" asp-route-professionalId="@Model.ProfessionalProfileId" class="btn btn-dark professional-btn">Skill</a>
+    <a asp-controller="Skill" asp-action="Assign" asp-route-professionalId="@Model.ProfessionalProfileId" class="btn btn-dark professional-btn">Manage Skill</a>
     <a asp-controller="Skill" asp-action="IndexForProfessional" asp-route-professionalId="@Model.ProfessionalProfileId" class="btn btn-dark professional-btn">View Skill</a>
     <a asp-controller="Task" asp-action="IndexForProfessional" asp-route-ProfessionalProfileId="@Model.ProfessionalProfileId" class="btn btn-dark professional-btn">View Assigned Tasks</a>
     <a asp-controller="Task" asp-action="IndexByCategory" asp-route-professionalProfileId="@Model.ProfessionalProfileId" class="btn btn-dark professional-btn">View Tasks</a>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
+using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
 
 namespace SkillBridges.Controllers
@@ -31,6 +32,7 @@ namespace SkillBridges.Controllers
             return View(vm);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CategoryCreateViewModel vm)
         {
             if (!ModelState.IsValid)
@@ -60,6 +62,7 @@ namespace SkillBridges.Controllers
             return View(model);
         }
         [HttpPost, ActionName("Delete")]
+       
         public IActionResult DeleteConfirmed(string id)
         {
             var model = _unitOfWork.Categories.GetById(id);

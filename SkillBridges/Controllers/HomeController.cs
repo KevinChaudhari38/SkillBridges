@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
+using SkillBridges.Repositories;
 using SkillBridges.Services;
 using SkillBridges.ViewModels;
 using System.Diagnostics;
@@ -52,10 +53,11 @@ namespace SkillBridges.Controllers
                 um.Add(user);
             }
             var model = _mapper.Map<List<UserViewModel>>(um);
-            return View(model);
+            return View("Index",model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -201,7 +203,6 @@ namespace SkillBridges.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(UserEditViewModel vm)
         {
             if (!ModelState.IsValid)
@@ -227,7 +228,6 @@ namespace SkillBridges.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Delete(UserViewModel vm)
         {
             try
@@ -328,7 +328,11 @@ namespace SkillBridges.Controllers
         {
             return View();
         }
-
+        public IActionResult AccessDenied()
+        {
+            Response.StatusCode = 403;
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

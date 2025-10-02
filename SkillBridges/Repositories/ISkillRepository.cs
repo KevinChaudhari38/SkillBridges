@@ -1,4 +1,6 @@
-﻿namespace SkillBridges.Models
+﻿using SkillBridges.Models;
+
+namespace SkillBridges.Repositories
 {
     public interface ISkillRepository
     {

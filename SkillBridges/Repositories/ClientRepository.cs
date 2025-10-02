@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkillBridges.Data;
+using SkillBridges.Models;
 
-namespace SkillBridges.Models
+namespace SkillBridges.Repositories
 {
     public class ClientRepository : IClientRepository
     {

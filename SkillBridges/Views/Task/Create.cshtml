@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>TaskCreateViewModel</h4>
+<h4>Task Creation</h4>
 <hr />
 <div class="row justify-content-center">
     <div class="col-md-4">
@@ -71,12 +71,14 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <br />
+        <div class="d-grid">
+            <a asp-action="Index" asp-route-clientId="@Model.ClientProfileId" class="btn btn-secondary">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div class="mt-3">
-    <a asp-action="Index" asp-route-clientId="@Model.ClientProfileId" class="btn btn-secondary">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

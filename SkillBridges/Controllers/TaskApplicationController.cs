@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
+using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
 using System.Data;
 
@@ -57,6 +58,18 @@ namespace SkillBridges.Controllers
 
             if (file != null && file.Length > 0)
             {
+                var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx", ".mp4" };
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
+                    return View(vm);
+                }
+                var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var uploadsPath = Path.Combine(wwwRootPath, "uploads", "proofs");
+
+                if (!Directory.Exists(uploadsPath))
+                    Directory.CreateDirectory(uploadsPath);
                 var fileName=Guid.NewGuid().ToString()+Path.GetExtension(file.FileName);
                 var filePath=Path.Combine("wwwroot/uploads/proofs", fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))

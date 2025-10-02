@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
+using SkillBridges.Repositories;
 
 namespace SkillBridges.Controllers
 {
@@ -71,7 +72,12 @@ namespace SkillBridges.Controllers
                 ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
                 return View(workSubmission);
             }
-            
+            var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            var uploadsPath = Path.Combine(wwwRootPath, "uploads", "works");
+
+            if (!Directory.Exists(uploadsPath))
+                Directory.CreateDirectory(uploadsPath);
+
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             var filePath = Path.Combine("wwwroot/uploads/works", fileName);
             using (var stream = new FileStream(filePath, FileMode.Create))

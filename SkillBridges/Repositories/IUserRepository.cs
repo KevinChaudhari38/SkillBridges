@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SkillBridges.Models;
 
-namespace SkillBridges.Models
+namespace SkillBridges.Repositories
 {
     public interface IUserRepository
     {

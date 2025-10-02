@@ -10,7 +10,7 @@
             <h4 class="text-center fw-semibold mb-4">Create Rating</h4>
 
             <form asp-action="Create" method="post">
-                @Html.AntiForgeryToken()
+                
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
 
                 <input type="hidden" asp-for="TaskId" />

@@ -1,4 +1,4 @@
-﻿namespace SkillBridges.Models
+﻿namespace SkillBridges.Repositories
 {
     public interface IUnitOfWork
     {

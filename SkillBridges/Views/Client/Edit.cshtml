@@ -9,7 +9,7 @@
         <div class="card shadow-lg border-0 rounded-4 p-4">
             <h4 class="text-center fw-semibold mb-4">Edit Client Profile</h4>
             <form asp-action="Edit">
-                @Html.AntiForgeryToken()
+                
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3"></div>
 
                 <input type="hidden" asp-for="ClientProfileId" />
