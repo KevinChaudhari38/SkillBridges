@@ -78,6 +78,8 @@ namespace SkillBridges.Controllers
         }
         public IActionResult Create(string id,string senderId,string receiverId)
         {
+            Console.WriteLine("Sender Id :- " + senderId);
+            Console.WriteLine("Receiver Id :- " + receiverId);
             var professional=_unitOfWork.Professionals.GetById(senderId);
             TaskMessageCreateViewModel mes = new TaskMessageCreateViewModel
             {

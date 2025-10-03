@@ -17,7 +17,7 @@ namespace SkillBridges.Repositories
         }
         public List<WorkSubmission> GetByTaskId(string taskId)
         {
-            return _context.WorkSubmissions.Where(s => s.TaskId == taskId).ToList();
+            return _context.WorkSubmissions.Where(s => s.TaskId == taskId).OrderByDescending(t=>t.SubmittedAt).ToList();
         }
         public void insert(WorkSubmission workSubmission)
         {

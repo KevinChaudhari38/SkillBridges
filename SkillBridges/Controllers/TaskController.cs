@@ -35,10 +35,12 @@ namespace SkillBridges.Controllers
                 if (!string.IsNullOrEmpty(SelectedCategoryId))
                 {
                     tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
+                    Console.WriteLine("All tasks by category and type");
                 }
                 else
                 {
                     tasks = _unitOfWork.Tasks.GetByType(Type.Value);
+                    Console.WriteLine("All tasks by type");
                 }
             }
             else
@@ -46,6 +48,11 @@ namespace SkillBridges.Controllers
                 if (!string.IsNullOrEmpty(SelectedCategoryId))
                 {
                     tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
+                    Console.WriteLine("All tasks by category");
+                }
+                else
+                {
+                    Console.WriteLine("All tasks");
                 }
             }
                 Console.WriteLine("SelectedCategory :- " + SelectedCategoryId);

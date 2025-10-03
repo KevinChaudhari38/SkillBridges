@@ -34,7 +34,7 @@ namespace SkillBridges.Repositories
         }
         public List<Models.Task> GetByType(TaskType type)
         {
-            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.Type == type).ToList();
+            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.Type == type && t.Status==Models.TaskStatus.Open).ToList();
         }
         public IEnumerable<SelectListItem> GetCities()
         {

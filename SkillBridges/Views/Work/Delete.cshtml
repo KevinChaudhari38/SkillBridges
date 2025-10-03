@@ -42,6 +42,6 @@
     <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="WorkSubmissionId" />
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Index" asp-route-TaskId="@Model.TaskId" class="btn btn-secondary ms-2">Back to List</a>
+        <a asp-action="IndexForProfessional" asp-route-TaskId="@Model.TaskId" class="btn btn-secondary ms-2">Back to List</a>
     </form>
 </div>

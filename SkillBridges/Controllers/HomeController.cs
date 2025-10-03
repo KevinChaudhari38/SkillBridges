@@ -113,21 +113,20 @@ namespace SkillBridges.Controllers
             else
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    userId = id;
+                }
             }
-
+            Console.WriteLine("UserId :- " + userId);
             var vm = _unitOfWork.Clients.GetByUserId(userId);
 
             if (vm == null)
             {
-
                 return RedirectToAction("Create", "Client", new { userId = id });
-
             }
 
             var model = _mapper.Map<ClientDetailsViewModel>(vm);
-
-
-
             return View(model);
         }
 
@@ -141,6 +140,10 @@ namespace SkillBridges.Controllers
             else
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    userId = id;
+                }
             }
 
             var vm = _unitOfWork.Professionals.GetByUserId(userId);

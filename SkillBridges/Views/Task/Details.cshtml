@@ -43,7 +43,10 @@
         </dl>
 
         <div class="d-flex gap-2 mt-3">
-            <a asp-controller="Message" asp-action="Create" asp-route-id="@Model.TaskId" asp-route-clientId="@Model.ClientProfileId" asp-route-professionalId="@Model.ProfessionalProfileId" class="btn btn-primary">Create Message</a>
+            @if(@Model.Status!="Open"){
+            <a asp-controller="Message" asp-action="Create" asp-route-id="@Model.TaskId" asp-route-senderId="@Model.ClientProfileId" asp-route-receiverId="@Model.ProfessionalProfileId" class="btn btn-primary">Create Message</a>
+            }
+           
             <a asp-action="Edit" asp-route-id="@Model.TaskId" class="btn btn-warning">Edit</a>
             <a asp-action="Delete" asp-route-id="@Model.TaskId" class="btn btn-danger">Delete</a>
             <a asp-action="Index" asp-route-clientId="@Model.ClientProfileId" class="btn btn-secondary">Back to List</a>

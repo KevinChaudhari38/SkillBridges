@@ -76,6 +76,7 @@ namespace SkillBridges.Controllers
                 RazorpayOrderId = vm.RazorpayOrderId,
                 RazorpayPaymentId = vm.RazorpayPaymentId,
                 PaymentStatus = isValid ? "Success" : "Failed"
+               
             };
 
             _unitOfWork.Payments.insert( paymentRecord );

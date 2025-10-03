@@ -148,7 +148,6 @@ namespace SkillBridges.Controllers
         public IActionResult Assign(AssignSkillViewModel vm)
         {
             
-
             if (!ModelState.IsValid)
             {
                 return View(vm);
@@ -170,7 +169,6 @@ namespace SkillBridges.Controllers
                 var existingSkills = skills.Select(s=>s.SkillId).ToList();
                 
                 var toAdd = selectedSkills.Except(existingSkills).ToList();
-                
                 var toRemove = existingSkills.Except(selectedSkills).ToList();
                 
                 foreach (var skillId in toRemove)

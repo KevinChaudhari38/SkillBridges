@@ -13,11 +13,13 @@ namespace SkillBridges.Controllers
         }
         public IActionResult Index(string TaskId)
         {
+            ViewBag.TaskId = TaskId;
             var vm = _unitOfWork.WorkSubmissions.GetByTaskId(TaskId);
             return View(vm);
         }
         public IActionResult IndexForProfessional (string TaskId)
         {
+            ViewBag.TaskId = TaskId;
             var vm = _unitOfWork.WorkSubmissions.GetByTaskId(TaskId);
             return View(vm);
         }
@@ -48,6 +50,7 @@ namespace SkillBridges.Controllers
         }
         public IActionResult Create(string TaskId)
         {
+            if (TaskId == null) return NotFound();
             var task=_unitOfWork.Tasks.GetById(TaskId);
             Console.WriteLine("Prfessional Id :- " + task.ProfessionalProfileId);
             var vm = new WorkSubmission
@@ -91,7 +94,11 @@ namespace SkillBridges.Controllers
             var task=_unitOfWork.Tasks.GetById(workSubmission.TaskId);
             task.Status = Models.TaskStatus.Submitted;
             _unitOfWork.Save();
-            return RedirectToAction("IndexForProfessional", "Task", new {ProfessionalProfileId=workSubmission.ProfessionalProfileId});
+            if (User.IsInRole("Professional"))
+            {
+                return RedirectToAction("IndexForProfessional", "Task", new { ProfessionalProfileId = workSubmission.ProfessionalProfileId });
+            }
+            return RedirectToAction("Index", "Task", new { clientId = task.ClientProfileId });
         }
         [HttpGet]
         public IActionResult Edit(string id)
@@ -122,7 +129,7 @@ namespace SkillBridges.Controllers
             vm.SubmittedAt= DateTime.Now; 
             _unitOfWork.WorkSubmissions.update(vm);
             _unitOfWork.Save();
-            return RedirectToAction("Index", new {TaskId=workSubmission.TaskId});
+            return RedirectToAction("IndexForProfessional", new {TaskId=workSubmission.TaskId});
         }
         [HttpGet]
         public IActionResult Delete(string id)
@@ -138,7 +145,7 @@ namespace SkillBridges.Controllers
             if (vm == null) return NotFound();
             _unitOfWork.WorkSubmissions.delete(vm);
             _unitOfWork.Save();
-            return RedirectToAction("Index",new {TaskId=vm.TaskId});
+            return RedirectToAction("IndexForProfessional",new {TaskId=vm.TaskId});
         }
     }
 }

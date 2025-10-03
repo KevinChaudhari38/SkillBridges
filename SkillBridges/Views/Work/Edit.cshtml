@@ -25,13 +25,10 @@
             <div class="mb-3">
                 <label for="File" class="form-label">Upload Proof of Work (PDF)</label>
                 <input type="file" name="File" accept="application/pdf" class="form-control" />
+                <span asp-validation-for="FilePath" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="SubmittedAt" class="form-label"></label>
-                <input asp-for="SubmittedAt" class="form-control" />
-                <span asp-validation-for="SubmittedAt" class="text-danger"></span>
-            </div>
+            
 
             <div class="mb-3">
                 <input type="submit" value="Save Changes" class="btn btn-primary" />

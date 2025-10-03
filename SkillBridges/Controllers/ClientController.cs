@@ -39,7 +39,8 @@ namespace SkillBridges.Controllers
         public IActionResult Create(ClientProfile client)
         {
             _unitOfWork.Clients.insert(client);
-            _unitOfWork.Save(); 
+            _unitOfWork.Save();
+            Console.WriteLine("Client User Id :- " + client.UserId);
             return RedirectToAction("Details", "Home", new { id = client.UserId });
         }
 

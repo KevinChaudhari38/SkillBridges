@@ -21,7 +21,7 @@ namespace SkillBridges.Repositories
                 payment.PaymentId = Guid.NewGuid().ToString();
             }
 
-            payment.CreatedAt = DateTime.Now;
+            payment.CreatedAt = DateTime.UtcNow;
             _context.Payments.Add(payment);
         }
 

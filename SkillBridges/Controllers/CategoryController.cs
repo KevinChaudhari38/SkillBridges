@@ -48,7 +48,7 @@ namespace SkillBridges.Controllers
                 return View(vm);
             }
             Console.WriteLine("Model state is valid");
-            Console.WriteLine("Typem:- " + vm.type.ToString());
+            Console.WriteLine("Type:- " + vm.type.ToString());
             var model = _mapper.Map<Category>(vm);
             _unitOfWork.Categories.Insert(model);
             _unitOfWork.Save();
@@ -61,8 +61,8 @@ namespace SkillBridges.Controllers
             var model = _mapper.Map<CategoryViewModel>(vm);
             return View(model);
         }
-        [HttpPost, ActionName("Delete")]
-       
+
+        [HttpPost, ActionName("Delete")]       
         public IActionResult DeleteConfirmed(string id)
         {
             var model = _unitOfWork.Categories.GetById(id);
