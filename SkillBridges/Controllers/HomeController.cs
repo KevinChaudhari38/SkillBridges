@@ -72,7 +72,23 @@ namespace SkillBridges.Controllers
                     new Claim(ClaimTypes.Name,user.Name),
                     new Claim(ClaimTypes.Role,user.Role.ToString())
                 };
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                if (user.Role == Models.UserRole.Professional)
+                {
+                    var professional = _unitOfWork.Professionals.GetByUserId(user.Id);
+                    if (professional != null)
+                    {
+                        claims.Add(new Claim("ProfessionalProfileId", professional.ProfessionalProfileId));
+                    }
+                }
+                else if (user.Role == Models.UserRole.Client)
+                {
+                    var client = _unitOfWork.Clients.GetByUserId(user.Id);
+                    if (client != null)
+                    {
+                        claims.Add(new Claim("ClientProfileId", client.ClientProfileId));
+                    }
+                }
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal).Wait();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
+using System.Security.Claims;
 
 namespace SkillBridges.Controllers
 {
@@ -30,6 +31,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexForProfessional(string professionalId)
         {
+            if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
             var skills = _unitOfWork.Skills.GetByProfessionalId(professionalId);
             Console.WriteLine("Professional Id :- " + professionalId);
             Console.WriteLine("Skill count :- " + skills.ToList().Count);
@@ -131,6 +133,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Professional,Admin")]
         public IActionResult Assign(string professionalId)
         {
+            if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
             var allSkills = _unitOfWork.Skills.GetAll();
             Console.WriteLine(professionalId);
             foreach(var skill in allSkills)

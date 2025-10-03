@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
+using System.Security.Claims;
 
 namespace SkillBridges.Controllers
 {
@@ -17,7 +18,9 @@ namespace SkillBridges.Controllers
         }
         public IActionResult Index(string ProfessionalProfileId)
         {
+            if (string.IsNullOrEmpty(ProfessionalProfileId)) ProfessionalProfileId = User.FindFirstValue("ProfessionalProfileId");
             var vm=_unitOfWork.Ratings.GetByProfessionalId(ProfessionalProfileId);
+            if(vm == null) return NotFound();
             var model = _mapper.Map<List<RatingViewModel>>(vm);
             return View(model);
         }

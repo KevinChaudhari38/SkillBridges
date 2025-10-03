@@ -4,6 +4,7 @@ using SkillBridges.Models;
 using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
 using System.Data;
+using System.Security.Claims;
 
 namespace SkillBridges.Controllers
 {
@@ -18,6 +19,7 @@ namespace SkillBridges.Controllers
         }
         public IActionResult Index(string professionalProfileId)
         {
+            if (string.IsNullOrEmpty(professionalProfileId)) professionalProfileId = User.FindFirstValue("ProfessionalProfileId");
             var model=_unitOfWork.TaskApplications.GetByProfessionalId(professionalProfileId);
             var vm=_mapper.Map<List<TaskApplicationViewModel>>(model);
             return View(vm);

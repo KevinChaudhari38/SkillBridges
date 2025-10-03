@@ -4,6 +4,7 @@ using SkillBridges.Models;
 using SkillBridges.Repositories;
 using SkillBridges.Services;
 using SkillBridges.ViewModels;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SkillBridges.Controllers
@@ -110,6 +111,7 @@ namespace SkillBridges.Controllers
 
         [HttpGet]
         public IActionResult ProfessionalHistory(string professionalId) {
+            if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
             if (string.IsNullOrEmpty(professionalId)) return BadRequest();
             var payments = _unitOfWork.Payments.GetByProfProfileId(professionalId);
             var vm = _mapper.Map<List<PaymentViewModel>>(payments);
@@ -117,6 +119,7 @@ namespace SkillBridges.Controllers
         }
         [HttpGet]
         public IActionResult ClientHistory(string ClientId){
+            if (string.IsNullOrEmpty(ClientId)) ClientId = User.FindFirstValue("ClientProfileId");
             if (string.IsNullOrEmpty(ClientId)) return BadRequest();
             var payments = _unitOfWork.Payments.GetByClientId(ClientId);
             var vm = _mapper.Map<List<PaymentViewModel>>(payments);

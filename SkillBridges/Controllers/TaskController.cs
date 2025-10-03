@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
+using System.Security.Claims;
 
 namespace SkillBridges.Controllers
 {
@@ -19,6 +20,7 @@ namespace SkillBridges.Controllers
 
         public IActionResult Index(string clientId)
         {
+            if (string.IsNullOrEmpty(clientId)) clientId = User.FindFirstValue("ClientProfileId");
             var model = _unitOfWork.Tasks.GetByClientId(clientId);
             var vm = _mapper.Map<List<TaskViewModel>>(model);
             return View(vm);
@@ -27,6 +29,7 @@ namespace SkillBridges.Controllers
         
         public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId,TaskType? Type)
         {
+            if (string.IsNullOrEmpty(professionalProfileId)) professionalProfileId = User.FindFirstValue("ProfessionalProfileId");
             var tasks= _unitOfWork.Tasks.GetAll();
             var categories = _unitOfWork.Categories.GetAll();
             if (Type.HasValue)
@@ -78,6 +81,7 @@ namespace SkillBridges.Controllers
 
         public IActionResult IndexForProfessional(string ProfessionalProfileId)
         {
+            if (string.IsNullOrEmpty(ProfessionalProfileId)) ProfessionalProfileId = User.FindFirstValue("ProfessionalProfileId");
             var tasks=_unitOfWork.Tasks.GetByProfessionalId(ProfessionalProfileId);
             var vm=_mapper.Map<List<TaskViewModel>>(tasks);
             return View(vm);
@@ -102,6 +106,7 @@ namespace SkillBridges.Controllers
         
         public IActionResult Create(string clientId,TaskType? Type)
         {
+            if (string.IsNullOrEmpty(clientId)) clientId = User.FindFirstValue("ClientProfileId");
             Console.WriteLine("Type " + Type.ToString());
             var typeToUse = Type ?? TaskType.Local;
             

@@ -10,6 +10,19 @@ body {
     background-color: #FFFFFF;
     border: none;
 }
+/* Navbar link default */
+.navbar-nav .nav-link {
+    color: #ffffff; /* default text color */
+    padding: 0.5rem 1rem; /* make clickable area bigger */
+    border-radius: 0.25rem; /* rounded corners */
+    transition: all 0.3s ease;
+}
+
+    /* Hover effect: full button area turns white, text black */
+    .navbar-nav .nav-link:hover {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
 
 /* Card Header with Gradient in Teal → Orange */
 .card-header {
