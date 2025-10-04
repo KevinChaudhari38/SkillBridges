@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
@@ -46,6 +47,7 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Professional")]
         public IActionResult Edit(string id)
         {
             var user = _unitOfWork.Professionals.GetByUserId(id);

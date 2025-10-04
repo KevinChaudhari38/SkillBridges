@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SkillBridges.Controllers
 {
+    [Authorize]
     public class PaymentController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -101,6 +103,7 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Client,Admin")]
         public IActionResult Index(string TaskId)
         {
             if (string.IsNullOrEmpty(TaskId)) return BadRequest();
@@ -110,6 +113,7 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Admin,Professional")]
         public IActionResult ProfessionalHistory(string professionalId) {
             if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
             if (string.IsNullOrEmpty(professionalId)) return BadRequest();
@@ -118,6 +122,7 @@ namespace SkillBridges.Controllers
             return View("Index", vm);
         }
         [HttpGet]
+        [Authorize(Roles = "Client,Admin")]
         public IActionResult ClientHistory(string ClientId){
             if (string.IsNullOrEmpty(ClientId)) ClientId = User.FindFirstValue("ClientProfileId");
             if (string.IsNullOrEmpty(ClientId)) return BadRequest();

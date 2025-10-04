@@ -78,8 +78,9 @@
                         <span class="text-muted">No File</span>
                     }
             </td>
-            
-                    <td>
+                    @if (User.IsInRole("Client"))
+                    {
+                        <td>
                         @if (item.Status == "Pending")
                         {
                             <div class="d-grid gap-1">
@@ -100,7 +101,13 @@
                         </div>
                         
                         
-                    </td>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>No Actions To Take</td>
+                    }
+
                 </tr>
             }
         </tbody>

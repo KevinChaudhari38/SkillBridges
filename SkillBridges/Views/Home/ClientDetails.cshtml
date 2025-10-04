@@ -31,14 +31,21 @@
             <div class="d-flex flex-wrap gap-2 justify-content-center">
                 <a asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark">Edit</a>
                 <a asp-action="Delete" asp-route-id="@Model.User.Id" class="btn btn-dark">Delete</a>
-                <a asp-controller="Client" asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark">Edit Bio</a>
+                
+                
                 @if (User.IsInRole("Admin"))
                 {
-                    <a asp-controller="Task" asp-action="Create" asp-route-clientId="@Model.ClientProfileId" class="btn btn-dark">Create Task</a>
+                    
                     <a asp-controller="Task" asp-action="Index" asp-route-clientId="@Model.ClientProfileId" class="btn btn-dark">View Tasks</a>
                     <a asp-controller="Payment" asp-action="ClientHistory" asp-route-ClientId="@Model.ClientProfileId" class="btn btn-dark">Payment History</a>
                 }
-                
+                else
+                {
+                    <a asp-controller="Client" asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark">Edit Bio</a>
+                }
+
+             
+
             </div>
         </div>
     </div>

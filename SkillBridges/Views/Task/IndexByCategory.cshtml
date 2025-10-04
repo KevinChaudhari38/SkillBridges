@@ -61,24 +61,34 @@
                     
                     <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
                     <td>
-                        @{
-                            bool isRequested = Model.TaskApplications.Any(a => a.TaskId == item.TaskId);
-                        }
-                        @if (isRequested)
+                        @if (User.IsInRole("Professional"))
                         {
-                            <button class="btn btn-secondary btn-sm" disabled>Requested</button>
+                            
+                            bool isRequested = Model.TaskApplications.Any(a => a.TaskId == item.TaskId);
+                            
+                            @if (isRequested)
+                            {
+                                <button class="btn btn-secondary btn-sm" disabled>Requested</button>
+                            }
+                            else
+                            {
+                                <a asp-controller="TaskApplication"
+                                   asp-action="Create"
+                                   asp-route-taskId="@item.TaskId"
+                                   asp-route-clientId="@item.ClientProfileId"
+                                   asp-route-professionalId="@Model.ProfessionalProfileId"
+                                   class="btn btn-primary btn-sm">
+                                    Request
+                                </a>
+                            }
                         }
                         else
                         {
-                            <a asp-controller="TaskApplication"
-                               asp-action="Create"
-                               asp-route-taskId="@item.TaskId"
-                               asp-route-clientId="@item.ClientProfileId"
-                               asp-route-professionalId="@Model.ProfessionalProfileId"
-                               class="btn btn-primary btn-sm">
-                                Request
-                            </a>
+                            <td>You Have No Actions</td>
                         }
+
+                        
+                       
                     </td>
                 </tr>
             }

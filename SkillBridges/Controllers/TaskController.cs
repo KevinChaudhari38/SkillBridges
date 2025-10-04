@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SkillBridges.Models;
@@ -17,7 +18,7 @@ namespace SkillBridges.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
+        [Authorize(Roles ="Client,Admin")]
         public IActionResult Index(string clientId)
         {
             if (string.IsNullOrEmpty(clientId)) clientId = User.FindFirstValue("ClientProfileId");
@@ -25,8 +26,8 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<TaskViewModel>>(model);
             return View(vm);
         }
-        
-        
+
+        [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId,TaskType? Type)
         {
             if (string.IsNullOrEmpty(professionalProfileId)) professionalProfileId = User.FindFirstValue("ProfessionalProfileId");
@@ -78,7 +79,7 @@ namespace SkillBridges.Controllers
             };
             return View(vm);
         }
-
+        [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexForProfessional(string ProfessionalProfileId)
         {
             if (string.IsNullOrEmpty(ProfessionalProfileId)) ProfessionalProfileId = User.FindFirstValue("ProfessionalProfileId");
@@ -96,14 +97,16 @@ namespace SkillBridges.Controllers
             var model=_mapper.Map<TaskViewModel>(task);
             return View(model);
         }
+        [Authorize(Roles ="Professional")]
         public IActionResult InProgress(string TaskId)
         {
             var vm=_unitOfWork.Tasks.GetById(TaskId);
+            if (vm == null) return NotFound();
             vm.Status = Models.TaskStatus.InProgress;
             _unitOfWork.Save();
             return RedirectToAction("IndexForProfessional", new {vm.ProfessionalProfileId});
         }
-        
+        [Authorize(Roles = "Client")]
         public IActionResult Create(string clientId,TaskType? Type)
         {
             if (string.IsNullOrEmpty(clientId)) clientId = User.FindFirstValue("ClientProfileId");
@@ -150,6 +153,7 @@ namespace SkillBridges.Controllers
             return RedirectToAction("Details",new {id=task.TaskId});
         }
         [HttpGet]
+        [Authorize(Roles ="Client")]
         public IActionResult Edit(string id)
         {
             var task=_unitOfWork.Tasks.GetById(id);
@@ -189,7 +193,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Details", new { id = existingTask.TaskId });
         }
-
+        [Authorize(Roles ="Client")]
         public IActionResult Delete(string id)
         {
             var task = _unitOfWork.Tasks.GetById(id);

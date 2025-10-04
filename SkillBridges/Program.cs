@@ -1,13 +1,13 @@
 
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using SkillBridges.Data;
 using SkillBridges.Mappings;
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting.StaticWebAssets;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
-using SkillBridges.Services;
 using SkillBridges.Repositories;
+using SkillBridges.Services;
 
 namespace SkillBridges
 {
@@ -31,6 +31,7 @@ namespace SkillBridges
                     options.LoginPath = "/Home/Login";
                     options.AccessDeniedPath = "/Home/AccessDenied";
                 });
+           
 
             builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
             builder.Services.AddScoped<EmailService>();

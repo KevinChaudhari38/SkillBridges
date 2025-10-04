@@ -1,5 +1,4 @@
-﻿
-@model WorkSubmission
+﻿@model WorkSubmission
 
 @{
     ViewData["Title"] = "Submit Work";
@@ -9,7 +8,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" enctype="multipart/form-data" id="workForm">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <input type="hidden" asp-for="TaskId" />
@@ -22,8 +21,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="FileUpload" class="form-label">Upload Work (PDF,PPT or .MP4)</label>
-                <input type="file" id="FileUpload" name="file" accept="application/pdf" class="form-control" />
+                <label for="FileUpload" class="form-label">Upload Work (PDF,PPT,Zip or .MP4)</label>
+                <input type="file" id="FileUpload" name="file" accept=".pdf,.ppt,.pptx,.mp4,.zip" class="form-control" />
                 <span asp-validation-for="FilePath" class="text-danger"></span>
             </div>
 
@@ -36,7 +35,23 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("workForm");
+            if (form) {
+                form.addEventListener("submit", function (e) {
+                    var fileInput = document.getElementById("FileUpload");
+                    if (fileInput && fileInput.files.length > 0) {
+                        var maxSize = 30 * 1024 * 1024; 
+                        if (fileInput.files[0].size > maxSize) {
+                            alert("File is too large. Maximum allowed size is 30 MB.");
+                            e.preventDefault();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 }

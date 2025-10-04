@@ -45,6 +45,7 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Client")]
         public IActionResult Edit(string id)
         {
             var client = _unitOfWork.Clients.GetByUserId(id);

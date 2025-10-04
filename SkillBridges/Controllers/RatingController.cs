@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
@@ -24,6 +25,7 @@ namespace SkillBridges.Controllers
             var model = _mapper.Map<List<RatingViewModel>>(vm);
             return View(model);
         }
+        [Authorize(Roles ="Client")]
         public IActionResult Create(string TaskId)
         {
             var task=_unitOfWork.Tasks.GetById(TaskId);

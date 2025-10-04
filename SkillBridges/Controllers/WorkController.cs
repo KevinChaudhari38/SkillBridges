@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
+using System.Threading.Tasks;
 
 namespace SkillBridges.Controllers
 {
+    [Authorize(Roles ="Client,Professional")]
     public class WorkController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -63,42 +66,57 @@ namespace SkillBridges.Controllers
         [HttpPost]
         public IActionResult Create(WorkSubmission workSubmission,IFormFile file)
         {
+ 
             if (file == null || file.Length == 0)
-            {
-                ModelState.AddModelError("FilePath", "Please upload a PDF file.");
-                return View(workSubmission);
-            }
-            var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx",".mp4" };
-            var extension = Path.GetExtension(file.FileName).ToLower();
-            if (!allowedExtensions.Contains(extension))
-            {
-                ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
-                return View(workSubmission);
-            }
-            var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            var uploadsPath = Path.Combine(wwwRootPath, "uploads", "works");
-
-            if (!Directory.Exists(uploadsPath))
-                Directory.CreateDirectory(uploadsPath);
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine("wwwroot/uploads/works", fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-
-            workSubmission.FilePath = "/uploads/works/" + fileName;
+                {              
+                   ModelState.AddModelError("FilePath", "Please upload a PDF,PPT,.MP4 or Zip, go back and try again");
+                if (workSubmission != null)
+                {
+                    return View(workSubmission);
+                }
+                var vm = new WorkSubmission
+                {
+                    TaskId = null,
+                    ProfessionalProfileId = null
+                };
+                return View(vm);  
+             }
             
-            _unitOfWork.WorkSubmissions.insert(workSubmission);
-            var task=_unitOfWork.Tasks.GetById(workSubmission.TaskId);
-            task.Status = Models.TaskStatus.Submitted;
-            _unitOfWork.Save();
-            if (User.IsInRole("Professional"))
-            {
-                return RedirectToAction("IndexForProfessional", "Task", new { ProfessionalProfileId = workSubmission.ProfessionalProfileId });
-            }
-            return RedirectToAction("Index", "Task", new { clientId = task.ClientProfileId });
+                var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx", ".mp4", ".zip" };
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
+                    return View(workSubmission);
+                }
+                
+            var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var uploadsPath = Path.Combine(wwwRootPath, "uploads", "works");
+
+                if (!Directory.Exists(uploadsPath))
+                    Directory.CreateDirectory(uploadsPath);
+
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                var filePath = Path.Combine("wwwroot/uploads/works", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                workSubmission.FilePath = "/uploads/works/" + fileName;
+
+                _unitOfWork.WorkSubmissions.insert(workSubmission);
+                var task = _unitOfWork.Tasks.GetById(workSubmission.TaskId);
+                task.Status = Models.TaskStatus.Submitted;
+                _unitOfWork.Save();
+                if (User.IsInRole("Professional"))
+                {
+                    return RedirectToAction("IndexForProfessional", "Task", new { ProfessionalProfileId = workSubmission.ProfessionalProfileId });
+                }
+                return RedirectToAction("Index", "Task", new { clientId = task.ClientProfileId });
+            
+            
+            
         }
         [HttpGet]
         public IActionResult Edit(string id)
@@ -113,7 +131,23 @@ namespace SkillBridges.Controllers
             var vm=_unitOfWork.WorkSubmissions.GetById(workSubmission.WorkSubmissionId);
             if (file == null || file.Length == 0)
             {
-                ModelState.AddModelError("FilePath", "Please upload a PDF file.");
+                ModelState.AddModelError("FilePath", "Please upload a PDF,PPT,.MP4 or Zip, go back and try again");
+                if (workSubmission != null)
+                {
+                    return View(workSubmission);
+                }
+                var um = new WorkSubmission
+                {
+                    TaskId = null,
+                    ProfessionalProfileId = null
+                };
+                return View(um);
+            }
+            var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx", ".mp4", ".zip" };
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedExtensions.Contains(extension))
+            {
+                ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
                 return View(workSubmission);
             }
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
@@ -143,9 +177,20 @@ namespace SkillBridges.Controllers
         {
             var vm=_unitOfWork.WorkSubmissions.GetById(id);
             if (vm == null) return NotFound();
+            if (!string.IsNullOrEmpty(vm.FilePath))
+            {
+               
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", vm.FilePath.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
             _unitOfWork.WorkSubmissions.delete(vm);
             _unitOfWork.Save();
             return RedirectToAction("IndexForProfessional",new {TaskId=vm.TaskId});
         }
+        
+
     }
 }

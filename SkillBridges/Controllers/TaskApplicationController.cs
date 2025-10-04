@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridges.Models;
 using SkillBridges.Repositories;
 using SkillBridges.ViewModels;
 using System.Data;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SkillBridges.Controllers
 {
@@ -17,6 +19,7 @@ namespace SkillBridges.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+        [Authorize(Roles ="Admin,Professional")]
         public IActionResult Index(string professionalProfileId)
         {
             if (string.IsNullOrEmpty(professionalProfileId)) professionalProfileId = User.FindFirstValue("ProfessionalProfileId");
@@ -24,12 +27,14 @@ namespace SkillBridges.Controllers
             var vm=_mapper.Map<List<TaskApplicationViewModel>>(model);
             return View(vm);
         }
+        [Authorize(Roles ="Client,Admin")]
         public IActionResult ClientRequests(string taskId)
         {
             var model = _unitOfWork.TaskApplications.GetByTaskId(taskId);
             var vm = _mapper.Map<List<TaskApplicationViewModel>>(model);
             return View(vm);
         }
+        [Authorize(Roles ="Professional")]
         public IActionResult Create(string taskId,string clientId,string professionalId)
         {
             var vm = new TaskApplicationCreateViewModel
@@ -44,27 +49,29 @@ namespace SkillBridges.Controllers
         [HttpPost]
         public IActionResult Create(TaskApplicationCreateViewModel vm,IFormFile file)
         {
-            Console.WriteLine(vm.ProfessionalProfileId);
-            if (!ModelState.IsValid)
+
+            if (file == null || file.Length == 0)
             {
-                foreach(var state in ModelState)
+                ModelState.AddModelError("FilePath", "Please upload a PDF,PPT,.MP4 or Zip, go back and try again");
+                if (vm != null) return View(vm);
+                var um = new TaskApplicationCreateViewModel
                 {
-                    foreach(var error in state.Value.Errors)
-                    {
-                        Console.WriteLine($"ModelState Error :- Key: {state.Key},Error : {error.ErrorMessage}");
-                    }
-                }
-                return View(vm);
+                    TaskId = null,
+                    ProfessionalProfileId = null,
+                    ClientProfileId=null,
+                };
+                return View(um);
             }
+
             var model = _mapper.Map<TaskApplication>(vm);
 
             if (file != null && file.Length > 0)
             {
-                var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx", ".mp4" };
+                var allowedExtensions = new[] { ".pdf", ".ppt", ".pptx", ".mp4"};
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 if (!allowedExtensions.Contains(extension))
                 {
-                    ModelState.AddModelError("FilePath", "Only PDF or PPT files are allowed.");
+                    ModelState.AddModelError("File", "Only PDF,PPT and MP4 files are allowed.");
                     return View(vm);
                 }
                 var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
@@ -87,7 +94,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("IndexByCategory", "Task", new { professionalProfileId = vm.ProfessionalProfileId });
         }
-
+        [Authorize(Roles ="Client")]
         public IActionResult Accept(string id)
         {
             var model = _unitOfWork.TaskApplications.GetById(id);
@@ -105,6 +112,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("ClientRequests", new {taskId=model.TaskId});
         }
+        [Authorize(Roles = "Client")]
         public IActionResult Reject(string id)
         {
             var model = _unitOfWork.TaskApplications.GetById(id);
@@ -113,7 +121,7 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("ClientRequests", new { taskId = model.TaskId });
         }
-
+        [Authorize(Roles = "Professional")]
         public IActionResult Delete(string id) { 
             var model=_unitOfWork.TaskApplications.GetById(id);
             if (model==null) return NotFound();
@@ -127,6 +135,15 @@ namespace SkillBridges.Controllers
             {
                 var vm = _unitOfWork.TaskApplications.GetById(model.TaskApplicationId);
                 if (vm==null) return NotFound();
+                if (!string.IsNullOrEmpty(vm.File))
+                {
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", vm.File.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                }
                 _unitOfWork.TaskApplications.Delete(vm);
                 _unitOfWork.Save();
                 return RedirectToAction("IndexForProfessional", "Task", new { professionalProfileId = model.ProfessionalProfileId });
@@ -137,6 +154,7 @@ namespace SkillBridges.Controllers
                 return View(model);
             }
         }
+        [Authorize(Roles = "Client")]
         public IActionResult DeleteForClient(string id) {
             var model = _unitOfWork.TaskApplications.GetById(id);
             if (model == null) return NotFound();
@@ -150,6 +168,15 @@ namespace SkillBridges.Controllers
             {
                 var vm = _unitOfWork.TaskApplications.GetById(model.TaskApplicationId);
                 if (vm == null) return NotFound();
+                if (!string.IsNullOrEmpty(vm.File))
+                {
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", vm.File.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                }
                 _unitOfWork.TaskApplications.Delete(vm);
                 _unitOfWork.Save();
                 return RedirectToAction("Index", "Task", new { clientId = model.ClientProfileId });
