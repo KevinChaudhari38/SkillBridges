@@ -5,7 +5,7 @@
 # Ignore EF Core Migrations
 /SkillBridges/Migrations/
 /SkillBridges/wwwroot/uploads/
-/SkillBridges/appsettings.Development.json/
+/SkillBridges/appsettings.json/appsettings.Development.json/
 
 # User-specific files
 *.rsuser
