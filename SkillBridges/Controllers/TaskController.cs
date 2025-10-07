@@ -30,38 +30,27 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId,TaskType? Type)
         {
-            if (string.IsNullOrEmpty(professionalProfileId)) professionalProfileId = User.FindFirstValue("ProfessionalProfileId");
-            var tasks= _unitOfWork.Tasks.GetAll();
-            var categories = _unitOfWork.Categories.GetAll();
+            IEnumerable<Models.Task> tasks;
+            List<Category> categories=new List<Category>();
             if (Type.HasValue)
             {
                 categories = _unitOfWork.Categories.GetByType(Type.Value);
                 if (!string.IsNullOrEmpty(SelectedCategoryId))
-                {
                     tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
-                    Console.WriteLine("All tasks by category and type");
-                }
                 else
-                {
                     tasks = _unitOfWork.Tasks.GetByType(Type.Value);
-                    Console.WriteLine("All tasks by type");
-                }
             }
             else
             {
+                categories=_unitOfWork.Categories.GetAll();
                 if (!string.IsNullOrEmpty(SelectedCategoryId))
-                {
                     tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
-                    Console.WriteLine("All tasks by category");
-                }
                 else
-                {
-                    Console.WriteLine("All tasks");
-                }
+                    tasks = _unitOfWork.Tasks.GetAll();
             }
-                Console.WriteLine("SelectedCategory :- " + SelectedCategoryId);
-           
-           
+
+
+
             var result = _mapper.Map<List<TaskViewModel>>(tasks);
 
            
