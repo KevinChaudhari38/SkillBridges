@@ -1,7 +1,14 @@
 # SkillBridges
 
-SkillBridges is a freelancing platform that connects **Clients** and **Professionals** under the supervision of an **Admin**.  
-It allows seamless posting of tasks, proposals, skill management, messaging, and task approvals.
+SkillBridges is an innovative freelancing platform designed to seamlessly connect Clients with skilled Professionals, overseen by a trusted Admin for quality assurance and smooth operations.
+
+The platform caters to both Local and Global service needs:
+
+Local Services: Providing on-demand solutions for everyday tasks such as electricians, plumbers, building tenders, license renewals and other local services.
+
+Global Services: Enabling clients worldwide to post freelance projects that require specialized skills such as data analysis, full-stack web development, UI/UX design, video editing, graphic design, and other digital services.
+
+By integrating task posting, proposal submissions, skill management, messaging, and task approvals into one cohesive system, SkillBridges ensures a reliable, efficient, and transparent marketplace that bridges the gap between service providers and clients—locally and globally.
 
 ---
 
