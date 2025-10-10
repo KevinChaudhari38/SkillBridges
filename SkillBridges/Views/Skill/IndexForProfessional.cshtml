@@ -6,14 +6,26 @@
 
 <h1>IndexForProfessional</h1>
 
-<p>
-    Add a skill which is not there in the list:
-    <a asp-action="CreateForProfessional" asp-route-professionalProfileId="@Model.First().ProfessionalProfileId" class="btn btn-primary btn-sm ms-2">Create New</a>
-</p>
-<p>
-    Manage Skills (Add or Remove Skills):
-    <a asp-action="Assign" asp-route-professionalId="@Model.First().ProfessionalProfileId" class="btn btn-secondary btn-sm ms-2">Manage Skills</a>
-</p>
+
+@if (User.IsInRole("Professional"))
+{
+    <p>
+        Manage Skills (Add or Remove Skills):
+        <a asp-action="Assign" asp-route-professionalId="@Model.First().ProfessionalProfileId" class="btn btn-secondary btn-sm ms-2">Manage Skills</a>
+    </p>
+    <p>
+        Add a skill which is not there in the list:
+        <a asp-action="CreateForProfessional" asp-route-professionalProfileId="@Model.First().ProfessionalProfileId" class="btn btn-primary btn-sm ms-2">Create New</a>
+    </p>
+}
+else
+{
+    <p>
+        Add a skill which is not there in the list:
+        <a asp-action="Create"  class="btn btn-primary btn-sm ms-2">Create New</a>
+    </p>
+}
+
 
 <table class="table table-bordered table-striped align-middle">
     <thead class="table-dark">

@@ -41,6 +41,7 @@
                 <th>@Html.DisplayNameFor(model => model.Tasks.First().CreatedAt)</th>
                 <th>@Html.DisplayNameFor(model => model.Tasks.First().Deadline)</th>
                 <th>@Html.DisplayNameFor(model => model.Tasks.First().ClientName)</th>
+                <th>@Html.DisplayNameFor(model => model.Tasks.First().Email)</th>
                 <th>City</th>
                 <th>@Html.DisplayNameFor(model => model.Tasks.First().CategoryName)</th>
                 <th>Actions</th>
@@ -57,6 +58,7 @@
                     <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                     <td>@Html.DisplayFor(modelItem => item.Deadline)</td>
                     <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
                     <td>@(string.IsNullOrEmpty(item.City) ? "Global" : item.City.ToString())</td>
                     
                     <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>

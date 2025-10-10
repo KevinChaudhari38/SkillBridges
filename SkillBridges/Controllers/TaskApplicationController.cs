@@ -22,7 +22,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Admin,Professional")]
         public IActionResult Index(string professionalProfileId)
         {
-            if (string.IsNullOrEmpty(professionalProfileId)) professionalProfileId = User.FindFirstValue("ProfessionalProfileId");
+            professionalProfileId ??= User.FindFirstValue("ProfessionalProfileId");
             var model=_unitOfWork.TaskApplications.GetByProfessionalId(professionalProfileId);
             var vm=_mapper.Map<List<TaskApplicationViewModel>>(model);
             return View(vm);
@@ -37,6 +37,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Professional")]
         public IActionResult Create(string taskId,string clientId,string professionalId)
         {
+            professionalId ??=User.FindFirstValue("ProfessionalProfileId");
             var vm = new TaskApplicationCreateViewModel
             {
                 TaskId = taskId,

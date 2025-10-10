@@ -43,7 +43,7 @@ namespace SkillBridges.Controllers
         {
             _unitOfWork.Professionals.insert(profile);
             _unitOfWork.Save(); 
-            return RedirectToAction("Details", "Home", new { id = profile.UserId });
+            return RedirectToAction("Login", "Home");
         }
 
         [HttpGet]

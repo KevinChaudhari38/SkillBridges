@@ -61,6 +61,10 @@ namespace SkillBridges.Repositories
                 .OrderByDescending(p => p.CreatedAt)
                 .ToList();
         }
+        public void Delete(Payment payment)
+        {
+            _context.Payments.Remove(payment);
+        }
     }
 
 }

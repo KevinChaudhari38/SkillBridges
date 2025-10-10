@@ -10,7 +10,8 @@
     <div class="mb-3 text-center">
         <a asp-action="Create" class="btn btn-primary">Create New</a>
     </div>
-
+    
+   
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
             <thead class="table-light">
@@ -36,7 +37,10 @@
                         <td>@item.type.ToString()</td>
                         <td>
                             <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger btn-sm">Delete</a>
+                            <a asp-controller="Task" asp-action="CategoryIndex" asp-route-id="@item.CategoryId" class="btn btn-success btn-sm">View Tasks</a>
                         </td>
+                        
+                            
                     </tr>
                 }
             </tbody>

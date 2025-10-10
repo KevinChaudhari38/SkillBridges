@@ -9,6 +9,7 @@ namespace SkillBridges.Repositories
         Models.Task GetById(string id);
         List<Models.Task> GetAll();
         List<Models.Task> GetByCategoryId(string id);
+        List<Models.Task> GetByCategoryIdAll(string id);
         List<Models.Task> GetByClientId(string clientId);
         List<Models.Task> GetByProfessionalId(string professionalId);
         List<Models.Task> GetByType(TaskType type);

@@ -10,7 +10,7 @@ namespace SkillBridges.Repositories
         List<Payment> GetByTaskId(string TaskId);
 
         void insert(Payment payment);
-
+        void Delete(Payment payment);
        
  
 

@@ -28,6 +28,10 @@ namespace SkillBridges.Repositories
         {
             return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.CategoryId == id && t.Status==Models.TaskStatus.Open).ToList();
         }
+        public List<Models.Task> GetByCategoryIdAll(string id)
+        {
+            return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.CategoryId == id).ToList();
+        }
         public List<Models.Task> GetByProfessionalId(string professionalId)
         {
             return _context.Tasks.Include(c => c.ClientProfile).ThenInclude(c => c.User).Include(c => c.Category).Include(t => t.ProfessionalProfile).ThenInclude(p => p.User).Where(t => t.ProfessionalProfileId == professionalId).ToList();

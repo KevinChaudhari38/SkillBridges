@@ -8,5 +8,6 @@ namespace SkillBridges.Repositories
         void Insert(Rating rating);
         List<Rating> GetByProfessionalId(string  ProfessionalProfileId);
         Rating GetByTaskId(string TaskId);
+        void Delete(Rating rating); 
     }
 }

@@ -24,7 +24,14 @@
                         {
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.TaskName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                                @if (item.ClientName != null)
+                                {
+                                    <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                                }
+                                else
+                                {
+                                    <td>Null</td>
+                                }
                                 <td>@Html.DisplayFor(modelItem => item.Feedback)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Score)</td>
                             </tr>

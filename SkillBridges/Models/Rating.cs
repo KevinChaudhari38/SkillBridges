@@ -6,14 +6,14 @@ namespace SkillBridges.Models
     {
         [Key]
         public string RatingId { get; set; }
-        [Required]
-        public string TaskId { get; set; }
-        public Task Task { get; set; }
+        
+        public string? TaskId { get; set; }
+        public Task? Task { get; set; }
 
         [Required]
         public string ProfessionalProfileId { get; set; }
         public ProfessionalProfile ProfessionalProfile { get; set; }
-        [Required]
+        
         public string ClientProfileId { get; set; }
         public ClientProfile ClientProfile { get; set; }
 

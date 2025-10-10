@@ -25,6 +25,7 @@ namespace SkillBridges.Mappings
             CreateMap<Models.Task, TaskCreateViewModel>().ReverseMap();
             CreateMap<Models.Task, TaskViewModel>()
                 .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.ClientProfile.OrganizationName))
+                .ForMember(dest=>dest.Email,opt=>opt.MapFrom(src=>src.ClientProfile.User.Email))
                 .ForMember(dest=>dest.ProfessionalName,opt=>opt.MapFrom(src=>src.ProfessionalProfile.User.Name))
                 .ForMember(dest=>dest.CategoryName,opt=>opt.MapFrom(src=>src.Category.Name))
                 .ReverseMap();

@@ -21,42 +21,40 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Client,Admin")]
         public IActionResult Index(string clientId)
         {
-            if (string.IsNullOrEmpty(clientId)) clientId = User.FindFirstValue("ClientProfileId");
+            clientId ??= User.FindFirstValue("ClientProfileId");
             var model = _unitOfWork.Tasks.GetByClientId(clientId);
             var vm = _mapper.Map<List<TaskViewModel>>(model);
             return View(vm);
         }
+        [Authorize(Roles = "Client,Admin")]
+        public IActionResult CategoryIndex(string id)
+        {
+            var model = _unitOfWork.Tasks.GetByCategoryIdAll(id);
+            var vm = _mapper.Map<List<TaskViewModel>>(model);
+            return View("Index",vm);
+        }
+
 
         [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexByCategory(string professionalProfileId,string SelectedCategoryId,TaskType? Type)
         {
-            IEnumerable<Models.Task> tasks;
-            List<Category> categories=new List<Category>();
-            if (Type.HasValue)
-            {
-                categories = _unitOfWork.Categories.GetByType(Type.Value);
-                if (!string.IsNullOrEmpty(SelectedCategoryId))
-                    tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
-                else
-                    tasks = _unitOfWork.Tasks.GetByType(Type.Value);
-            }
-            else
-            {
-                categories=_unitOfWork.Categories.GetAll();
-                if (!string.IsNullOrEmpty(SelectedCategoryId))
-                    tasks = _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId);
-                else
-                    tasks = _unitOfWork.Tasks.GetAll();
-            }
+            professionalProfileId ??= User.FindFirstValue("ProfessionalProfileId");
+            var categories = Type.HasValue? _unitOfWork.Categories.GetByType(Type.Value): _unitOfWork.Categories.GetAll();
+            IEnumerable<Models.Task> tasks = !string.IsNullOrEmpty(SelectedCategoryId)
+                ? _unitOfWork.Tasks.GetByCategoryId(SelectedCategoryId)
+                : Type.HasValue
+                    ? _unitOfWork.Tasks.GetByType(Type.Value)
+                    : _unitOfWork.Tasks.GetAll();
 
-
-
-            var result = _mapper.Map<List<TaskViewModel>>(tasks);
-
-           
+            var result = _mapper.Map<List<TaskViewModel>>(tasks);       
             
             var taskApplications=_unitOfWork.TaskApplications.GetByProfessionalId(professionalProfileId);
-            
+            foreach (var t in result)
+            {
+                Console.WriteLine($"Mapped VM -> {t.Title}, ClientName: {t.ClientName}, Email: {t.Email}");
+            }
+
+
             var vm = new ProfessionalTasksViewModel
             {
                 ProfessionalProfileId = professionalProfileId,
@@ -71,7 +69,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexForProfessional(string ProfessionalProfileId)
         {
-            if (string.IsNullOrEmpty(ProfessionalProfileId)) ProfessionalProfileId = User.FindFirstValue("ProfessionalProfileId");
+            ProfessionalProfileId ??= User.FindFirstValue("ProfessionalProfileId");
             var tasks=_unitOfWork.Tasks.GetByProfessionalId(ProfessionalProfileId);
             var vm=_mapper.Map<List<TaskViewModel>>(tasks);
             return View(vm);
@@ -98,7 +96,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles = "Client")]
         public IActionResult Create(string clientId,TaskType? Type)
         {
-            if (string.IsNullOrEmpty(clientId)) clientId = User.FindFirstValue("ClientProfileId");
+            clientId ??= User.FindFirstValue("ClientProfileId");
             Console.WriteLine("Type " + Type.ToString());
             var typeToUse = Type ?? TaskType.Local;
             

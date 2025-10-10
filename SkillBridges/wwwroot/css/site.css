@@ -81,6 +81,7 @@ a.text-primary,
 
 h2.fw-bold {
     font-size: 2rem;
+    
 }
 
 h4.text-center {
@@ -91,6 +92,9 @@ h4.text-center {
 .card-footer {
     background-color: #E0E0E0;
     color: #36454F;
+}
+.card-header{
+    background-color:black;
 }
 
 /* Input-group icons */
@@ -105,3 +109,11 @@ h4.text-center {
         margin: 0 1rem;
     }
 }
+.privacy-header {
+    background-color: black !important; /* solid black background */
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 1.5rem;
+    color: white !important;
+}
+

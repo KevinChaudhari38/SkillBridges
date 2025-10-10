@@ -24,5 +24,9 @@ namespace SkillBridges.Repositories
         {
             return _context.Ratings.FirstOrDefault(t => t.TaskId == TaskId);
         }
+        public void Delete(Rating rating)
+        {
+            _context.Ratings.Remove(rating);
+        }
     }
 }

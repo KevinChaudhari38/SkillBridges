@@ -115,7 +115,7 @@ namespace SkillBridges.Controllers
         [HttpGet]
         [Authorize(Roles ="Admin,Professional")]
         public IActionResult ProfessionalHistory(string professionalId) {
-            if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
+            professionalId ??= User.FindFirstValue("ProfessionalProfileId");
             if (string.IsNullOrEmpty(professionalId)) return BadRequest();
             var payments = _unitOfWork.Payments.GetByProfProfileId(professionalId);
             var vm = _mapper.Map<List<PaymentViewModel>>(payments);
@@ -124,7 +124,7 @@ namespace SkillBridges.Controllers
         [HttpGet]
         [Authorize(Roles = "Client,Admin")]
         public IActionResult ClientHistory(string ClientId){
-            if (string.IsNullOrEmpty(ClientId)) ClientId = User.FindFirstValue("ClientProfileId");
+            ClientId ??=User.FindFirstValue("ClientProfileId");
             if (string.IsNullOrEmpty(ClientId)) return BadRequest();
             var payments = _unitOfWork.Payments.GetByClientId(ClientId);
             var vm = _mapper.Map<List<PaymentViewModel>>(payments);

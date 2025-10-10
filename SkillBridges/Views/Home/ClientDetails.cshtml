@@ -29,8 +29,7 @@
             </dl>
 
             <div class="d-flex flex-wrap gap-2 justify-content-center">
-                <a asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark">Edit</a>
-                <a asp-action="Delete" asp-route-id="@Model.User.Id" class="btn btn-dark">Delete</a>
+               
                 
                 
                 @if (User.IsInRole("Admin"))
@@ -41,6 +40,8 @@
                 }
                 else
                 {
+                    <a asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.User.Id" class="btn btn-dark">Delete</a>
                     <a asp-controller="Client" asp-action="Edit" asp-route-id="@Model.User.Id" class="btn btn-dark">Edit Bio</a>
                 }
 

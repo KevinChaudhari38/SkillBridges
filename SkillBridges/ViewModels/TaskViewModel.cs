@@ -17,6 +17,7 @@ namespace SkillBridges.ViewModels
         public string? ProfessionalName { get; set; }
         public string? City { get; set; }
         public string Status { get; set; }
+        public string Email { get; set; }
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
     }

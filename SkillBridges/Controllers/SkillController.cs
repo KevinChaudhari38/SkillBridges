@@ -31,7 +31,7 @@ namespace SkillBridges.Controllers
         [Authorize(Roles ="Professional,Admin")]
         public IActionResult IndexForProfessional(string professionalId)
         {
-            if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
+            professionalId ??= User.FindFirstValue("ProfessionalProfileId");
             var skills = _unitOfWork.Skills.GetByProfessionalId(professionalId);
             Console.WriteLine("Professional Id :- " + professionalId);
             Console.WriteLine("Skill count :- " + skills.ToList().Count);
@@ -130,10 +130,10 @@ namespace SkillBridges.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
-        [Authorize(Roles ="Professional,Admin")]
+        [Authorize(Roles ="Professional")]
         public IActionResult Assign(string professionalId)
         {
-            if (string.IsNullOrEmpty(professionalId)) professionalId = User.FindFirstValue("ProfessionalProfileId");
+            professionalId ??= User.FindFirstValue("ProfessionalProfileId");
             var allSkills = _unitOfWork.Skills.GetAll();
             Console.WriteLine(professionalId);
             foreach(var skill in allSkills)

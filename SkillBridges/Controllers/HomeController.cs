@@ -129,10 +129,6 @@ namespace SkillBridges.Controllers
             else
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId))
-                {
-                    userId = id;
-                }
             }
             Console.WriteLine("UserId :- " + userId);
             var vm = _unitOfWork.Clients.GetByUserId(userId);
@@ -156,10 +152,7 @@ namespace SkillBridges.Controllers
             else
             {
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId))
-                {
-                    userId = id;
-                }
+               
             }
 
             var vm = _unitOfWork.Professionals.GetByUserId(userId);
@@ -212,6 +205,7 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Edit(string id)
         {
             var user = _unitOfWork.Users.GetById(id);
@@ -237,11 +231,12 @@ namespace SkillBridges.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Delete(string id)
         {
             var model = _unitOfWork.Users.GetById(id);
             if (model == null) return NotFound();
-
+           
             var vm = _mapper.Map<UserViewModel>(model);
             return View(vm);
         }
@@ -249,19 +244,48 @@ namespace SkillBridges.Controllers
         [HttpPost]
         public IActionResult Delete(UserViewModel vm)
         {
-            try
+            
+            var model = _unitOfWork.Users.GetById(vm.Id);
+            if (model == null) return NotFound();
+            if (model.Role == Models.UserRole.Professional)
             {
-                var model = _unitOfWork.Users.GetById(vm.Id);
-                if (model == null) return NotFound();
+                var professional = _unitOfWork.Professionals.GetByUserId(vm.Id);
+                var taskApplications = _unitOfWork.TaskApplications.GetByProfessionalId(professional.ProfessionalProfileId);
+                foreach (var taskA in taskApplications)
+                {
+                    
+                    _unitOfWork.TaskApplications.Delete(taskA);
+                }
+                var payments = _unitOfWork.Payments.GetByProfProfileId(professional.ProfessionalProfileId);
+                foreach (var payment in payments)
+                {
+                    _unitOfWork.Payments.Delete(payment);
+                }
+                var ratings=_unitOfWork.Ratings.GetByProfessionalId(professional.ProfessionalProfileId);  
+                foreach(var rating in ratings)
+                {
+                    _unitOfWork.Ratings.Delete(rating);
+                }
 
-                _unitOfWork.Users.delete(model);
-                _unitOfWork.Save();
-                return RedirectToAction("Login");
             }
-            catch
+            else
             {
-                return View(vm);
+                var client = _unitOfWork.Clients.GetByUserId(vm.Id);
+                var tasks = _unitOfWork.Tasks.GetByClientId(client.ClientProfileId);
+                foreach (var task in tasks)
+                {      
+                    _unitOfWork.Tasks.Delete(task);
+                }
             }
+                _unitOfWork.Users.delete(model);
+            _unitOfWork.Save();
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index");
+            }
+                return RedirectToAction("Login");
+            
+           
         }
 
         [HttpGet]

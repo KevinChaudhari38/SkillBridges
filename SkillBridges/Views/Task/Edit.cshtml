@@ -39,13 +39,7 @@
                 <span asp-validation-for="Deadline" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="CategoryId" class="form-label"></label>
-                <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
-                    <option value="">-- Select Category --</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
+            
 
             <div class="d-grid mt-3">
                 <input type="submit" value="Save" class="btn btn-primary btn-lg" />
