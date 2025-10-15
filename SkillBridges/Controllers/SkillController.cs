@@ -28,7 +28,7 @@ namespace SkillBridges.Controllers
             var vm = _mapper.Map<List<SkillViewModel>>(skills);
             return View(vm);
         }
-        [Authorize(Roles ="Professional,Admin")]
+        [Authorize(Roles = "Professional,Admin")]
         public IActionResult IndexForProfessional(string professionalId)
         {
             professionalId ??= User.FindFirstValue("ProfessionalProfileId");
@@ -41,7 +41,7 @@ namespace SkillBridges.Controllers
             }
             var vm = _mapper.Map<List<SkillViewModel>>(skills);
             vm.First().ProfessionalProfileId = professionalId;
-            
+
             return View(vm);
         }
 
@@ -172,16 +172,7 @@ namespace SkillBridges.Controllers
                 var existingSkills = skills.Select(s=>s.SkillId).ToList();
                 
                 var toAdd = selectedSkills.Except(existingSkills).ToList();
-                var toRemove = existingSkills.Except(selectedSkills).ToList();
                 
-                foreach (var skillId in toRemove)
-                {
-                    var toDelete = professional.Skills.FirstOrDefault(ps => ps.SkillId == skillId);
-                    if (toDelete != null)
-                    {
-                        professional.Skills.Remove(toDelete);
-                    }
-                }
                 Console.WriteLine("Skills removed successfully");
 
                 foreach (var skillId in toAdd)
@@ -203,6 +194,17 @@ namespace SkillBridges.Controllers
                 Console.WriteLine($"Exception in Assign: {ex.Message}");
                 return View(vm);
             }
+        }
+        [Authorize]
+        public IActionResult Remove(string ProfessionalProfileId,string SkillId)
+        {
+            ProfessionalProfileId ??= User.FindFirstValue("ProfessionalProfileId");
+            var professional = _unitOfWork.Professionals.GetById(ProfessionalProfileId);
+            var skills = _unitOfWork.ProfessionalSkills.GetByProfessionalId(ProfessionalProfileId);
+            var skill = skills.FirstOrDefault(s=>s.SkillId == SkillId);
+            professional.Skills.Remove(skill);
+            _unitOfWork.Save();
+            return RedirectToAction("IndexForProfessional", new { professionalId = ProfessionalProfileId });
         }
         [Authorize(Roles ="Admin")]
         public IActionResult Delete(string id)
